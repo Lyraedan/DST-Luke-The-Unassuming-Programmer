@@ -2,7 +2,7 @@
 name = "Luke"
 description = "Stats\nHealth: 150\nHunger: 150\nSanity: 120\n\nPerks\n*Unintimidating to animals (especially birds)\n*Used to eating in a dark, moldy flat\n*Dislikes bugs, sleeping and the sea"
 author = "Matilde, ItsLuke"
-version = "1.0.12" -- This is the version of the template. Change it to your own number.
+version = "1.0.13" -- This is the version of the template. Change it to your own number.
 
 -- This is the URL name of the mod's thread on the forum; the part after the ? and before the first & in the url
 forumthread = "https://github.com/Lyraedan/DST-Luke-The-Unassuming-Programmer"

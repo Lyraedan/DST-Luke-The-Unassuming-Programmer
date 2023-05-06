@@ -21,6 +21,8 @@ Assets = {
     Asset( "ATLAS", "bigportraits/ms_luke_summervibes.xml" ),
     Asset( "IMAGE", "bigportraits/ms_luke_egg.tex" ),
     Asset( "ATLAS", "bigportraits/ms_luke_egg.xml" ),
+    Asset( "IMAGE", "bigportraits/ms_luke_hatless.tex" ),
+    Asset( "ATLAS", "bigportraits/ms_luke_hatless.xml" ),
 
 	Asset( "IMAGE", "images/map_icons/luke.tex" ),
 	Asset( "ATLAS", "images/map_icons/luke.xml" ),
@@ -119,13 +121,17 @@ STRINGS.SKIN_NAMES.luke_none = "Luke"
 STRINGS.SKIN_DESCRIPTIONS.luke_none = "Rocking a black hat, black top and fingerless gloves!"
 STRINGS.SKIN_QUOTES.luke_none = "It's my general attire."
 
-STRINGS.SKIN_NAMES.ms_luke_summervibes = "Luke"
-STRINGS.SKIN_DESCRIPTIONS.ms_luke_summervibes = "Summervibes!"
+STRINGS.SKIN_NAMES.ms_luke_summervibes = "Summervibes"
+STRINGS.SKIN_DESCRIPTIONS.ms_luke_summervibes = "Rocking the summer pallet!"
 STRINGS.SKIN_QUOTES.ms_luke_summervibes = "Lets go get sum!"
 
-STRINGS.SKIN_NAMES.ms_luke_egg = "Luke"
-STRINGS.SKIN_DESCRIPTIONS.ms_luke_egg = "Haha bald."
+STRINGS.SKIN_NAMES.ms_luke_egg = "Bald"
+STRINGS.SKIN_DESCRIPTIONS.ms_luke_egg = "A tragedy."
 STRINGS.SKIN_QUOTES.ms_luke_egg = "Egg."
+
+STRINGS.SKIN_NAMES.ms_luke_hatless = "Hatless"
+STRINGS.SKIN_DESCRIPTIONS.ms_luke_hatless = "I don't look like a pineapple... I just can't draw."
+STRINGS.SKIN_QUOTES.ms_luke_hatless = "I've lost my hat!"
 
 -- Add mod character to mod character list. Also specify a gender. Possible genders are MALE, FEMALE, ROBOT, NEUTRAL, and PLURAL.
 AddModCharacter("luke", "MALE")

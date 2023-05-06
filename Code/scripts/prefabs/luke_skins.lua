@@ -57,4 +57,23 @@ table.insert(prefabs, CreatePrefabSkin("ms_luke_egg", {
 	skin_tags = {"LUKE", "CHARACTER", "BASE", "EGG", "BALD"},
 }))
 
+table.insert(prefabs, CreatePrefabSkin("ms_luke_hatless", {
+	assets = {
+		Asset( "ANIM", "anim/ms_luke_hatless.zip" ),
+		Asset( "ANIM", "anim/ghost_luke_none.zip" ),
+	},
+	skins = {
+		normal_skin = "ms_luke_hatless",
+		ghost_skin = "ghost_luke_none",
+	},
+	
+	base_prefab = "luke",
+	build_name_override = "ms_luke_hatless",
+
+	type = "base",
+	rarity = "Character",
+
+	skin_tags = {"LUKE", "CHARACTER", "BASE", "HATLESS"},
+}))
+
 return unpack(prefabs);
