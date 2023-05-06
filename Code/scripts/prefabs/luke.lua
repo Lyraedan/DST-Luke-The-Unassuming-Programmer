@@ -312,7 +312,7 @@ local master_postinit = function(inst)
     end
 	
 	inst._update_boat_check = inst:DoPeriodicTask(0.5, BoatCheck)
-	inst:DoPeriodicTask(1, Mutter)
+	inst:DoPeriodicTask(10, Mutter)
 	inst:DoPeriodicTask(0.5, OnFireCheck)
 	inst:DoPeriodicTask(0.5, IsFrozenCheck)
 	inst:DoPeriodicTask(5, tagGiver)
