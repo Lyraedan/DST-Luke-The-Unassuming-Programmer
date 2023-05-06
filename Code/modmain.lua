@@ -14,10 +14,13 @@ Assets = {
     Asset( "IMAGE", "images/selectscreen_portraits/luke_silho.tex" ),
     Asset( "ATLAS", "images/selectscreen_portraits/luke_silho.xml" ),
 
+    -- Skin assets
     Asset( "IMAGE", "bigportraits/luke_none.tex" ),
     Asset( "ATLAS", "bigportraits/luke_none.xml" ),
 	Asset( "IMAGE", "bigportraits/ms_luke_summervibes.tex" ),
     Asset( "ATLAS", "bigportraits/ms_luke_summervibes.xml" ),
+    Asset( "IMAGE", "bigportraits/ms_luke_egg.tex" ),
+    Asset( "ATLAS", "bigportraits/ms_luke_egg.xml" ),
 
 	Asset( "IMAGE", "images/map_icons/luke.tex" ),
 	Asset( "ATLAS", "images/map_icons/luke.xml" ),
@@ -119,6 +122,10 @@ STRINGS.SKIN_QUOTES.luke_none = "It's my general attire."
 STRINGS.SKIN_NAMES.ms_luke_summervibes = "Luke"
 STRINGS.SKIN_DESCRIPTIONS.ms_luke_summervibes = "Summervibes!"
 STRINGS.SKIN_QUOTES.ms_luke_summervibes = "Lets go get sum!"
+
+STRINGS.SKIN_NAMES.ms_luke_egg = "Luke"
+STRINGS.SKIN_DESCRIPTIONS.ms_luke_egg = "Haha bald."
+STRINGS.SKIN_QUOTES.ms_luke_egg = "Egg."
 
 -- Add mod character to mod character list. Also specify a gender. Possible genders are MALE, FEMALE, ROBOT, NEUTRAL, and PLURAL.
 AddModCharacter("luke", "MALE")
