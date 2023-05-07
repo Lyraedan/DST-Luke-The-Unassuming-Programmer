@@ -86,64 +86,117 @@ local function tagGiver(inst)
 	inst:AddTag("notarget")
 end
 
+local bugsData = { 
+    bee = {
+        tag = "bee",
+        radius = 8,
+		sanityDrain = -TUNING.SANITYAURA_MED
+    },
+	killerbee = {
+		tag = "killerbee",
+		radius = 8,
+		sanityDrain = -TUNING.SANITYAURA_MED
+	},
+    butterfly = {
+        tag = "butterfly",
+        radius = 8,
+		sanityDrain = -TUNING.SANITYAURA_MED
+    },
+	beequeen = {
+		tag = "beequeen",
+		radius = 16,
+		sanityDrain = -TUNING.SANITYAURA_MED
+	},
+	dragonfly = {
+		tag = "dragonfly",
+		radius = 16,
+		sanityDrain = -TUNING.SANITYAURA_MED
+	},
+	fireflies = {
+		tag = "fireflies",
+		radius = 8,
+		sanityDrain = -TUNING.SANITYAURA_MED
+	},
+	friendlyfruitfly = {
+		tag = "friendlyfruitfly",
+		radius = 8,
+		sanityDrain = -TUNING.SANITYAURA_MED
+	},
+	glommer = {
+		tag = "glommer",
+		radius = 12,
+		sanityDrain = -TUNING.SANITYAURA_MED
+	},
+	lordfruitfly = {
+		tag = "lordfruitfly",
+		radius = 12,
+		sanityDrain = -TUNING.SANITYAURA_MED
+	},
+	fruitfly = {
+		tag = "fruitfly",
+		radius = 8,
+		sanityDrain = -TUNING.SANITYAURA_MED
+	},
+	mosquito = {
+		tag = "mosquito",
+		radius = 8,
+		sanityDrain = -TUNING.SANITYAURA_MED
+	},
+	beehive = {
+		tag = "beehive",
+		radius = 4,
+		sanityDrain = -TUNING.SANITYAURA_MED
+	},
+	wasphive = {
+		tag = "wasphive",
+		radius = 4,
+		sanityDrain = -TUNING.SANITYAURA_MED
+	},
+	beequeenhive = {
+		tag = "beequeenhivegrown",
+		radius = 25,
+		sanityDrain = -TUNING.SANITYAURA_MED
+	}
+}
+
+local bugs = { "bee", "killerbee", "butterfly", "beequeen", "dragonfly", "fireflies", "friendlyfruitfly", "glommer", "lordfruitfly", "fruitfly", "mosquito", "beehive", "wasphive", "beequeenhivegrown" }
+
+local function CalculateBugSanityDrainAt(inst, x, y, z)
+	local delta = 0
+	local radius = 0
+	local sanityDrain = -TUNING.SANITYAURA_MED;
+
+	local generalVicinity = 25
+	local ents = TheSim:FindEntities(x, y, z, generalVicinity, nil, nil, bugs)
+
+	for i, v in ipairs(ents) do
+		for key, value in pairs(bugsData) do
+			local hasTag = v:HasTag(value.tag);
+			if hasTag then
+				radius = value.radius
+				sanityDrain = value.sanityDrain
+			end
+		end
+
+		local distsq = inst:GetDistanceSqToInst(v)
+		local radiussq = radius * radius
+		if distsq < radiussq then
+			local sz = sanityDrain * radius / radius
+			-- shift the value so that a distance of 3 is the minimum
+			delta = delta + sz / math.max(1, distsq - 9)
+		end
+    end
+	return delta
+end
+
 local function sanityfn(inst)--, dt)
-	local x, y, z = inst.Transform:GetWorldPosition()
-	local delta = 0	
-	if BEEHAT == false then
-		local ents = TheSim:FindEntities(x, y, z, 8 ,{"bee"})
-		if table.getn(ents) > 0 then
-			delta = -TUNING.SANITYAURA_MED
-		end
-		local ents = TheSim:FindEntities(x, y, z, 8 ,{"killerbee"})
-		if table.getn(ents) > 0 then
-			delta = -TUNING.SANITYAURA_MED
-		end
-		ents = TheSim:FindEntities(x, y, z, 8 ,{"butterfly"})
-		if table.getn(ents) > 0 then
-			delta = -TUNING.SANITYAURA_MED
-		end
-		ents = TheSim:FindEntities(x, y, z, 16 ,{"beequeen"})
-		if table.getn(ents) > 0 then
-			delta = -TUNING.SANITYAURA_MED
-		end
-		ents = TheSim:FindEntities(x, y, z, 16 ,{"dragonfly"})
-		if table.getn(ents) > 0 then
-			delta = -TUNING.SANITYAURA_MED
-		end
-		ents = TheSim:FindEntities(x, y, z, 8 ,{"fireflies"})
-		if table.getn(ents) > 0 then
-			delta = -TUNING.SANITYAURA_MED
-		end
-		ents = TheSim:FindEntities(x, y, z, 8 ,{"friendlyfruitfly"})
-		if table.getn(ents) > 0 then
-			delta = -TUNING.SANITYAURA_MED
-		end
-		ents = TheSim:FindEntities(x, y, z, 12 ,{"glommer"})
-		if table.getn(ents) > 0 then
-			delta = -TUNING.SANITYAURA_MED
-		end
-		ents = TheSim:FindEntities(x, y, z, 12 ,{"lordfruitfly"})
-		if table.getn(ents) > 0 then
-			delta = -TUNING.SANITYAURA_MED
-		end
-		ents = TheSim:FindEntities(x, y, z, 8 ,{"fruitfly"})
-		if table.getn(ents) > 0 then
-			delta = -TUNING.SANITYAURA_MED
-		end
-		ents = TheSim:FindEntities(x, y, z, 8 ,{"mosquito"})
-		if table.getn(ents) > 0 then
-			delta = -TUNING.SANITYAURA_MED
-		end
-		ents = TheSim:FindEntities(x, y, z, 4 ,{"beehive"})
-		if table.getn(ents) > 0 then
-			delta = -TUNING.SANITYAURA_MED
-		end
-		ents = TheSim:FindEntities(x, y, z, 4 ,{"wasphive"})
-		if table.getn(ents) > 0 then
-			delta = -TUNING.SANITYAURA_MED
-		end
+	if BEEHAT == true then
+		return 0;
 	end
-    return delta
+
+    local delta = 0
+    local x, y, z = inst.Transform:GetWorldPosition()
+    return CalculateBugSanityDrainAt(inst, x, y, z)
 end
 
 local function BoatCheck(inst)

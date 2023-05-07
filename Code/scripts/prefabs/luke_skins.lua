@@ -33,7 +33,7 @@ table.insert(prefabs, CreatePrefabSkin("ms_luke_summervibes", {
 	build_name_override = "ms_luke_summervibes",
 
 	type = "base",
-	rarity = "Character",
+	rarity = "ModMade",
 
 	skin_tags = {"LUKE", "CHARACTER", "BASE", "SUMMERVIBES"},
 }))
@@ -52,7 +52,7 @@ table.insert(prefabs, CreatePrefabSkin("ms_luke_egg", {
 	build_name_override = "ms_luke_egg",
 
 	type = "base",
-	rarity = "Character",
+	rarity = "ModMade",
 
 	skin_tags = {"LUKE", "CHARACTER", "BASE", "EGG", "BALD"},
 }))
@@ -71,7 +71,7 @@ table.insert(prefabs, CreatePrefabSkin("ms_luke_hatless", {
 	build_name_override = "ms_luke_hatless",
 
 	type = "base",
-	rarity = "Character",
+	rarity = "ModMade",
 
 	skin_tags = {"LUKE", "CHARACTER", "BASE", "HATLESS"},
 }))

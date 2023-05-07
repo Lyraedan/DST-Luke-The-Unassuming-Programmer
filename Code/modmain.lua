@@ -2,6 +2,7 @@ PrefabFiles = {
 	"luke",
 	"luke_skins",
 	"charaworndagger",
+    "golden_knife"
 }
 
 Assets = {
@@ -46,6 +47,7 @@ Assets = {
 AddMinimapAtlas("images/map_icons/luke.xml")
 
 RegisterInventoryItemAtlas("images/inventoryimages/knife.xml", "knife.tex")
+RegisterInventoryItemAtlas("images/inventoryimages/golden_knife.xml", "golden_knife.tex")
 
 local require = GLOBAL.require
 local STRINGS = GLOBAL.STRINGS
@@ -86,6 +88,10 @@ local knife = AddRecipe("knifeLuke", {GLOBAL.Ingredient("flint", 1), GLOBAL.Ingr
 knife.product = "charaworndagger"
 knife.image = "knife.tex"
 
+local golden_knife = AddRecipe("goldenKnifeLuke", {GLOBAL.Ingredient("flint", 1), GLOBAL.Ingredient("butterflywings", 2), GLOBAL.Ingredient("twigs", 1)}, frisktab, TECH.SCIENCE_ONE, nil, nil, nil, nil, "frisk_builder", "images/inventoryimages/golden_knife.xml", "golden_knife.tex" )
+golden_knife.product = "golden_knife"
+golden_knife.image = "golden_knife.tex"
+
 local birdcage = AddRecipe("birdcageLuke", {GLOBAL.Ingredient("papyrus", 1), GLOBAL.Ingredient("goldnugget", 3), GLOBAL.Ingredient("seeds", 1)}, frisktab, TECH.SCIENCE_ONE, nil, nil, nil, nil, "frisk_builder", nil, nil )
 birdcage.product = "birdcage"
 birdcage.image = "birdcage.tex"
@@ -99,15 +105,19 @@ pirateHat.product = "polly_rogershat"
 pirateHat.image = "polly_rogershat.tex"
 
 STRINGS.RECIPE_DESC.CHARAWORNDAGGER = "A butterfly knife."
+STRINGS.RECIPE_DESC.GOLDEN_KNIFE = "A golden butterfly knife."
 
 -- The character select screen lines
 STRINGS.CHARACTER_TITLES.luke = "The Unassuming"
 STRINGS.CHARACTER_NAMES.luke = "Luke"
 STRINGS.CHARACTER_DESCRIPTIONS.luke = "*Unintimidating to animals (especially birds)\n*Used to eating in a dark, moldy flat\n*Dislikes bugs, sleeping and the sea" --"*Unintimidating to animals\n*Plays with knives\n*Not a picky eater\n*Scared of bugs\n*Has insomnia"
 STRINGS.CHARACTER_QUOTES.luke = "\"Urgh.\""
-STRINGS.CHARACTER_SURVIVABILITY.luke = "Guarenteed"
+STRINGS.CHARACTER_SURVIVABILITY.luke = "\"Guarenteed\""
 
-TUNING.STARTING_ITEM_IMAGE_OVERRIDE.charaworndagger = {atlas = "images/inventoryimages/knife.xml", image = "knife.tex" }
+TUNING.STARTING_ITEM_IMAGE_OVERRIDE.charaworndagger = {
+    atlas = "images/inventoryimages/knife.xml",
+    image = "knife.tex"
+ }
 
 -- Custom speech strings
 STRINGS.CHARACTERS.LUKE = require "speech_luke"
