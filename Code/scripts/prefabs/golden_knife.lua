@@ -16,11 +16,17 @@ local function OnEquip(inst, owner)
     owner.AnimState:OverrideSymbol("swap_object", "swap_golden_knife", "golden_knife")
     owner.AnimState:Show("ARM_carry")
     owner.AnimState:Hide("ARM_normal")
+	inst.components.fueled:StartConsuming()
 end
   
 local function OnUnequip(inst, owner)
     owner.AnimState:Hide("ARM_carry")
     owner.AnimState:Show("ARM_normal")
+	inst.components.fueled:StopConsuming()
+end
+ 
+ local function onperish(inst)
+    inst:Remove()
 end
  
 local function fn()
@@ -46,7 +52,7 @@ local function fn()
     inst.entity:SetPristine()
      
     inst:AddComponent("weapon")
-    inst.components.weapon:SetDamage(40)
+    inst.components.weapon:SetDamage(27)
 	  
     inst:AddComponent("inspectable")
       
@@ -56,12 +62,18 @@ local function fn()
 	inst.components.inventoryitem:SetSinks(true)
       
     inst:AddComponent("equippable")
-	inst.components.equippable.dapperness = TUNING.DAPPERNESS_MED_LARGE
+	inst.components.equippable.dapperness = TUNING.DAPPERNESS_SMALL
     inst.components.equippable.restrictedtag = "knifeowner"
     inst.components.equippable:SetOnEquip( OnEquip )
     inst.components.equippable:SetOnUnequip( OnUnequip )
+	
+	inst:AddComponent("fueled")
+    inst.components.fueled.fueltype = FUELTYPE.USAGE
+    inst.components.fueled.rate = (TUNING.BERNIE_FUEL_RATE / 3) * 2
+    inst.components.fueled:InitializeFuelLevel((TUNING.BERNIE_FUEL / 3) * 2)
+	inst.components.fueled:SetDepletedFn(onperish)
 		     
-	inst.components.equippable.walkspeedmult = 1.5;
+	inst.components.equippable.walkspeedmult = 1.4
 			 
     return inst
 end

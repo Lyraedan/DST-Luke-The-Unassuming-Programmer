@@ -2,7 +2,9 @@ PrefabFiles = {
 	"luke",
 	"luke_skins",
 	"knife",
-    "golden_knife"
+    "golden_knife",
+    "survival_knife",
+    "shadow_knife"
 }
 
 Assets = {
@@ -48,6 +50,8 @@ AddMinimapAtlas("images/map_icons/luke.xml")
 
 RegisterInventoryItemAtlas("images/inventoryimages/knife.xml", "knife.tex")
 RegisterInventoryItemAtlas("images/inventoryimages/golden_knife.xml", "golden_knife.tex")
+RegisterInventoryItemAtlas("images/inventoryimages/survival_knife.xml", "survival_knife.tex")
+RegisterInventoryItemAtlas("images/inventoryimages/shadow_knife.xml", "shadow_knife.tex")
 
 local require = GLOBAL.require
 local STRINGS = GLOBAL.STRINGS
@@ -84,13 +88,21 @@ local blowdartYellow = AddRecipe("blowdart_yellowLuke", {GLOBAL.Ingredient("gold
 blowdartYellow.product = "blowdart_yellow"
 blowdartYellow.image = "blowdart_yellow.tex"
 
-local knife = AddRecipe("knifeLuke", {GLOBAL.Ingredient("flint", 1), GLOBAL.Ingredient("butterflywings", 2), GLOBAL.Ingredient("twigs", 1)}, frisktab, TECH.SCIENCE_ONE, nil, nil, nil, nil, "frisk_builder", "images/inventoryimages/knife.xml", "knife.tex" )
+local knife = AddRecipe("knifeLuke", {GLOBAL.Ingredient("flint", 1), GLOBAL.Ingredient("butterflywings", 2), GLOBAL.Ingredient("twigs", 1)}, frisktab, TECH.NONE, nil, nil, nil, nil, "frisk_builder", "images/inventoryimages/knife.xml", "knife.tex" )
 knife.product = "knife"
 knife.image = "knife.tex"
 
-local golden_knife = AddRecipe("goldenKnifeLuke", {GLOBAL.Ingredient("knife", 1), GLOBAL.Ingredient("cane", 1), GLOBAL.Ingredient("purplegem", 1)}, frisktab, TECH.MAGIC_THREE, nil, nil, nil, nil, "frisk_builder", "images/inventoryimages/golden_knife.xml", "golden_knife.tex" )
+local golden_knife = AddRecipe("goldenKnifeLuke", {GLOBAL.Ingredient("knife", 1), GLOBAL.Ingredient("goldnugget", 2)}, frisktab, TECH.SCIENCE_ONE, nil, nil, nil, nil, "frisk_builder", "images/inventoryimages/golden_knife.xml", "golden_knife.tex" )
 golden_knife.product = "golden_knife"
 golden_knife.image = "golden_knife.tex"
+
+local survival_knife = AddRecipe("survivalKnifeLuke", {GLOBAL.Ingredient("golden_knife", 1), GLOBAL.Ingredient("marble", 2), GLOBAL.Ingredient("walrus_tusk", 1)}, frisktab, TECH.SCIENCE_TWO, nil, nil, nil, nil, "frisk_builder", "images/inventoryimages/survival_knife.xml", "survival_knife.tex" )
+survival_knife.product = "survival_knife"
+survival_knife.image = "survival_knife.tex"
+
+local shadow_knife = AddRecipe("shadowKnifeLuke", {GLOBAL.Ingredient("survival_knife", 1), GLOBAL.Ingredient("purplegem", 1), GLOBAL.Ingredient("thulecite", 2)}, frisktab, TECH.MAGIC_THREE, nil, nil, nil, nil, "frisk_builder", "images/inventoryimages/shadow_knife.xml", "shadow_knife.tex" )
+shadow_knife.product = "shadow_knife"
+shadow_knife.image = "shadow_knife.tex"
 
 local birdcage = AddRecipe("birdcageLuke", {GLOBAL.Ingredient("papyrus", 1), GLOBAL.Ingredient("goldnugget", 3), GLOBAL.Ingredient("seeds", 1)}, frisktab, TECH.SCIENCE_ONE, nil, nil, nil, nil, "frisk_builder", nil, nil )
 birdcage.product = "birdcage"
@@ -106,6 +118,8 @@ pirateHat.image = "polly_rogershat.tex"
 
 STRINGS.RECIPE_DESC.KNIFE = "A butterfly knife."
 STRINGS.RECIPE_DESC.GOLDEN_KNIFE = "A golden butterfly knife."
+STRINGS.RECIPE_DESC.SURVIVAL_KNIFE = "A sturdy survival butterfly knife."
+STRINGS.RECIPE_DESC.SHADOW_KNIFE = "A magical butterfly knife."
 
 -- The character select screen lines
 STRINGS.CHARACTER_TITLES.luke = "The Unassuming"

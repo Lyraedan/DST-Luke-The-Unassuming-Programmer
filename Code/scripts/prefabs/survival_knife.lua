@@ -1,10 +1,10 @@
 local assets=
 {
-    Asset("ANIM", "anim/knife.zip"),
-    Asset("ANIM", "anim/swap_knife.zip"),
+    Asset("ANIM", "anim/survival_knife.zip"),
+    Asset("ANIM", "anim/swap_survival_knife.zip"),
   
-    Asset("ATLAS", "images/inventoryimages/knife.xml"),
-    Asset("IMAGE", "images/inventoryimages/knife.tex"),
+    Asset("ATLAS", "images/inventoryimages/survival_knife.xml"),
+    Asset("IMAGE", "images/inventoryimages/survival_knife.tex"),
 }
 
 local prefabs = 
@@ -13,16 +13,14 @@ local prefabs =
 }
 
 local function OnEquip(inst, owner)
-    owner.AnimState:OverrideSymbol("swap_object", "swap_knife", "knife")
+    owner.AnimState:OverrideSymbol("swap_object", "swap_survival_knife", "survival_knife")
     owner.AnimState:Show("ARM_carry")
     owner.AnimState:Hide("ARM_normal")
-	inst.components.fueled:StartConsuming()
 end
   
 local function OnUnequip(inst, owner)
     owner.AnimState:Hide("ARM_carry")
     owner.AnimState:Show("ARM_normal")
-	inst.components.fueled:StopConsuming()
 end
  
  local function onperish(inst)
@@ -39,8 +37,8 @@ local function fn()
      
     MakeInventoryPhysics(inst)   
       
-    inst.AnimState:SetBank("knife")
-    inst.AnimState:SetBuild("knife")
+    inst.AnimState:SetBank("survival_knife")
+    inst.AnimState:SetBuild("survival_knife")
     inst.AnimState:PlayAnimation("idle")
  
     inst:AddTag("sharp")
@@ -52,13 +50,13 @@ local function fn()
     inst.entity:SetPristine()
      
     inst:AddComponent("weapon")
-    inst.components.weapon:SetDamage(17)
+    inst.components.weapon:SetDamage(34)
 	  
     inst:AddComponent("inspectable")
       
     inst:AddComponent("inventoryitem")
-    inst.components.inventoryitem.imagename = "knife"
-    inst.components.inventoryitem.atlasname = "images/inventoryimages/knife.xml"
+    inst.components.inventoryitem.imagename = "survival_knife"
+    inst.components.inventoryitem.atlasname = "images/inventoryimages/survival_knife.xml"
 	inst.components.inventoryitem:SetSinks(true)
       
     inst:AddComponent("equippable")
@@ -66,20 +64,14 @@ local function fn()
     inst.components.equippable.restrictedtag = "knifeowner"
     inst.components.equippable:SetOnEquip( OnEquip )
     inst.components.equippable:SetOnUnequip( OnUnequip )
-	
-	inst:AddComponent("fueled")
-    inst.components.fueled.fueltype = FUELTYPE.USAGE
-    inst.components.fueled.rate = TUNING.BERNIE_FUEL_RATE / 3
-    inst.components.fueled:InitializeFuelLevel(TUNING.BERNIE_FUEL / 3)
-	inst.components.fueled:SetDepletedFn(onperish)
 		     
-	inst.components.equippable.walkspeedmult = 1.3
+	inst.components.equippable.walkspeedmult = 1.5
 			 
     return inst
 end
 
-STRINGS.NAMES.KNIFE = "Butterfly Knife"
-STRINGS.CHARACTERS.GENERIC.DESCRIBE.KNIFE = "I'll run with it all I want."
-STRINGS.CHARACTERS.LUKE.DESCRIBE.KNIFE = "My trusty butterfly knife."
+STRINGS.NAMES.SURVIVAL_KNIFE = "Survival Butterfly Knife"
+STRINGS.CHARACTERS.GENERIC.DESCRIBE.SURVIVAL_KNIFE = "It's a well used blade."
+STRINGS.CHARACTERS.LUKE.DESCRIBE.SURVIVAL_KNIFE = "A trustworthy knife!"
 
-return  Prefab("common/inventory/knife", fn, assets, prefabs) 
+return  Prefab("common/inventory/survival_knife", fn, assets, prefabs) 
