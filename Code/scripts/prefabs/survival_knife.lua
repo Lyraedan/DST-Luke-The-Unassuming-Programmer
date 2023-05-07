@@ -60,7 +60,7 @@ local function fn()
 	inst.components.inventoryitem:SetSinks(true)
       
     inst:AddComponent("equippable")
-	inst.components.equippable.dapperness = TUNING.DAPPERNESS_SMALL
+	inst.components.equippable.dapperness = TUNING.DAPPERNESS_MED_LARGE
     inst.components.equippable.restrictedtag = "knifeowner"
     inst.components.equippable:SetOnEquip( OnEquip )
     inst.components.equippable:SetOnUnequip( OnUnequip )
