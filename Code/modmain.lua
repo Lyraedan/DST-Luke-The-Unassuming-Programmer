@@ -1,7 +1,7 @@
 PrefabFiles = {
 	"luke",
 	"luke_skins",
-	"charaworndagger",
+	"knife",
     "golden_knife"
 }
 
@@ -85,10 +85,10 @@ blowdartYellow.product = "blowdart_yellow"
 blowdartYellow.image = "blowdart_yellow.tex"
 
 local knife = AddRecipe("knifeLuke", {GLOBAL.Ingredient("flint", 1), GLOBAL.Ingredient("butterflywings", 2), GLOBAL.Ingredient("twigs", 1)}, frisktab, TECH.SCIENCE_ONE, nil, nil, nil, nil, "frisk_builder", "images/inventoryimages/knife.xml", "knife.tex" )
-knife.product = "charaworndagger"
+knife.product = "knife"
 knife.image = "knife.tex"
 
-local golden_knife = AddRecipe("goldenKnifeLuke", {GLOBAL.Ingredient("flint", 1), GLOBAL.Ingredient("butterflywings", 2), GLOBAL.Ingredient("twigs", 1)}, frisktab, TECH.SCIENCE_ONE, nil, nil, nil, nil, "frisk_builder", "images/inventoryimages/golden_knife.xml", "golden_knife.tex" )
+local golden_knife = AddRecipe("goldenKnifeLuke", {GLOBAL.Ingredient("knife", 1), GLOBAL.Ingredient("cane", 1), GLOBAL.Ingredient("purplegem", 1)}, frisktab, TECH.MAGIC_THREE, nil, nil, nil, nil, "frisk_builder", "images/inventoryimages/golden_knife.xml", "golden_knife.tex" )
 golden_knife.product = "golden_knife"
 golden_knife.image = "golden_knife.tex"
 
@@ -104,7 +104,7 @@ local pirateHat = AddRecipe("polly_rogershatLuke", {GLOBAL.Ingredient("strawhat"
 pirateHat.product = "polly_rogershat"
 pirateHat.image = "polly_rogershat.tex"
 
-STRINGS.RECIPE_DESC.CHARAWORNDAGGER = "A butterfly knife."
+STRINGS.RECIPE_DESC.KNIFE = "A butterfly knife."
 STRINGS.RECIPE_DESC.GOLDEN_KNIFE = "A golden butterfly knife."
 
 -- The character select screen lines
@@ -114,7 +114,7 @@ STRINGS.CHARACTER_DESCRIPTIONS.luke = "*Unintimidating to animals (especially bi
 STRINGS.CHARACTER_QUOTES.luke = "\"Urgh.\""
 STRINGS.CHARACTER_SURVIVABILITY.luke = "\"Guarenteed\""
 
-TUNING.STARTING_ITEM_IMAGE_OVERRIDE.charaworndagger = {
+TUNING.STARTING_ITEM_IMAGE_OVERRIDE.knife = {
     atlas = "images/inventoryimages/knife.xml",
     image = "knife.tex"
  }

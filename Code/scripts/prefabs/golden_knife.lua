@@ -1,7 +1,7 @@
 local assets=
 {
     Asset("ANIM", "anim/golden_knife.zip"),
-    Asset("ANIM", "anim/swap_knife.zip"),
+    Asset("ANIM", "anim/swap_golden_knife.zip"),
   
     Asset("ATLAS", "images/inventoryimages/golden_knife.xml"),
     Asset("IMAGE", "images/inventoryimages/golden_knife.tex"),
@@ -13,7 +13,7 @@ local prefabs =
 }
 
 local function OnEquip(inst, owner)
-    owner.AnimState:OverrideSymbol("swap_object", "swap_knife", "knife")
+    owner.AnimState:OverrideSymbol("swap_object", "swap_golden_knife", "golden_knife")
     owner.AnimState:Show("ARM_carry")
     owner.AnimState:Hide("ARM_normal")
 end
@@ -56,7 +56,7 @@ local function fn()
 	inst.components.inventoryitem:SetSinks(true)
       
     inst:AddComponent("equippable")
-	inst.components.equippable.dapperness = TUNING.DAPPERNESS_SMALL
+	inst.components.equippable.dapperness = TUNING.DAPPERNESS_MED_LARGE
     inst.components.equippable.restrictedtag = "knifeowner"
     inst.components.equippable:SetOnEquip( OnEquip )
     inst.components.equippable:SetOnUnequip( OnUnequip )

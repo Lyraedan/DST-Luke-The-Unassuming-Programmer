@@ -11,7 +11,7 @@ TUNING.LUKE_SANITY = 120
 
 -- Custom starting inventory
 TUNING.GAMEMODE_STARTING_ITEMS.DEFAULT.LUKE = {
-	"charaworndagger",
+	"knife",
 }
 
 local start_inv = {}
