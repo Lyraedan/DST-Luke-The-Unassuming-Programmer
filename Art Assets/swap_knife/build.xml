@@ -1,0 +1,5 @@
+<Build name="swap_knife.scml">
+ <Symbol name="knife">
+  <Frame framenum="0" duration="10" image="knife-0" w="100" h="100" x="0.990097" y="-38.613899"/>
+ </Symbol>
+</Build>
