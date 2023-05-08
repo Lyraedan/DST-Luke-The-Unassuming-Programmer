@@ -44,7 +44,19 @@ Assets = {
 	
 	Asset( "IMAGE", "images/names_gold_luke.tex" ),
     Asset( "ATLAS", "images/names_gold_luke.xml" ),
+
+    Asset("SOUNDPACKAGE", "sound/luke.fev"),
+    Asset("SOUND", "sound/luke.fsb")
 }
+
+RemapSoundEvent("dontstarve/characters/luke", "luke/luke")
+RemapSoundEvent("dontstarve/characters/luke/talk_LP", "luke/luke/talk_LP")
+RemapSoundEvent("dontstarve/characters/luke/ghost_LP", "luke/luke/ghost_LP")
+RemapSoundEvent("dontstarve/characters/luke/hurt", "luke/luke/hurt")
+RemapSoundEvent("dontstarve/characters/luke/death_voice", "luke/luke/death_voice")
+RemapSoundEvent("dontstarve/characters/luke/emote", "luke/luke/emote")
+RemapSoundEvent("dontstarve/characters/luke/pose", "luke/luke/pose")
+RemapSoundEvent("dontstarve/characters/luke/yawn", "luke/luke/yawn")
 
 AddMinimapAtlas("images/map_icons/luke.xml")
 

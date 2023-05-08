@@ -218,6 +218,7 @@ local function BoatCheck(inst)
 		else
 			inst.components.talker:Say(STRINGS.CHARACTERS.LUKE.SEA_SICKNESS_CURE[math.random(#STRINGS.CHARACTERS.LUKE.SEA_SICKNESS_CURE)])
 		end
+		inst.SoundEmitter:PlaySound("luke/luke/talk_LP")
 		SEASICK = ONBOAT
 	end
 end
@@ -282,6 +283,7 @@ local function Mutter(inst)
 			inst.components.talker:Say(STRINGS.CHARACTERS.LUKE.MUTTER_HUNGRY[math.random(#STRINGS.CHARACTERS.LUKE.MUTTER_HUNGRY)])
 			do return end
 		end
+		inst.SoundEmitter:PlaySound("luke/luke/talk_LP")
 	end
 end
 
@@ -290,6 +292,7 @@ local function OnFireCheck(inst)
 		local fireCheck = (math.random(8) == 1)
 		if fireCheck then
 			inst.components.talker:Say(STRINGS.CHARACTERS.LUKE.ONFIRE[math.random(#STRINGS.CHARACTERS.LUKE.ONFIRE)])
+			inst.SoundEmitter:PlaySound("luke/luke/talk_LP")
 		end
 		ONFIRE = false
 	end
@@ -298,6 +301,7 @@ end
 local function IsFrozenCheck(inst)
 	if ISFROZEN == true then
 		inst.components.talker:Say(STRINGS.CHARACTERS.LUKE.ISFROZEN[math.random(#STRINGS.CHARACTERS.LUKE.ISFROZEN)])
+		inst.SoundEmitter:PlaySound("luke/luke/talk_LP")
 		ISFROZEN = false
 	end
 end
@@ -326,7 +330,7 @@ end
 local master_postinit = function(inst)
     inst.starting_inventory = start_inv[TheNet:GetServerGameMode()] or start_inv.default
 	-- choose which sounds this character will play
-	inst.soundsname = "wilson"
+	inst.soundsname = "luke"
 	
 	inst.components.foodaffinity:AddPrefabAffinity("bonestew", TUNING.AFFINITY_15_CALORIES_MED)
 	inst.components.foodaffinity:AddPrefabAffinity("spoiled_food", -TUNING.AFFINITY_15_CALORIES_MED)
@@ -375,6 +379,7 @@ local master_postinit = function(inst)
 	local function WithHat(inst, data)
 		if data.item.prefab == "beehat" then
 			inst.components.talker:Say(STRINGS.CHARACTERS.LUKE.PROTECTED_FROM_INSECTS)
+			inst.SoundEmitter:PlaySound("luke/luke/talk_LP")
 			BEEHAT = true
 		end
 	end
@@ -382,6 +387,7 @@ local master_postinit = function(inst)
 	local function WithoutHat(inst, data)
 		if data.item.prefab == "beehat" then
 			inst.components.talker:Say(STRINGS.CHARACTERS.LUKE.UNPROTECTED_FROM_INSECTS)
+			inst.SoundEmitter:PlaySound("luke/luke/talk_LP")
 			BEEHAT = false
 		end
 	end
