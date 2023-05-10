@@ -1,8 +1,8 @@
 -- This information tells other players more about the mod
 name = "Luke"
-description = "Stats\nHealth: 150\nHunger: 150\nSanity: 120\n\nPerks\n*Unintimidating to animals (especially birds)\n*Used to eating in a dark, moldy flat\n*Dislikes bugs, sleeping and the sea"
+description = "Stats\nHealth: 150\nHunger: 150\nSanity: 120\nFear:100\n\nPerks\n*Unintimidating to animals (especially birds) unless feared\n*Used to eating in a dark, moldy flat\n*Dislikes bugs, sleeping and the sea"
 author = "Matilde, ItsLuke"
-version = "1.0.17" -- This is the version of the template. Change it to your own number.
+version = "1.1.0" -- This is the version of the template. Change it to your own number.
 
 -- This is the URL name of the mod's thread on the forum; the part after the ? and before the first & in the url
 forumthread = ""
@@ -31,4 +31,18 @@ server_filter_tags = {
 "character",
 }
 
---configuration_options = {}
+configuration_options =
+{	
+	{
+		name = "luke_playfeargainsfx",
+		label = "Play sound on fear gain",
+		options =	{
+						{description = "Off", data = "default"},
+						{description = "On", data = "on"},
+					},
+
+		default = "on",
+	
+	},
+
+}

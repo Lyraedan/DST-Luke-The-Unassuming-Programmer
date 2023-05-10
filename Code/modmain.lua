@@ -46,7 +46,10 @@ Assets = {
     Asset( "ATLAS", "images/names_gold_luke.xml" ),
 
     Asset("SOUNDPACKAGE", "sound/luke.fev"),
-    Asset("SOUND", "sound/luke.fsb")
+    Asset("SOUND", "sound/luke.fsb"),
+
+	Asset("ANIM", "anim/status_symbiosis.zip"),
+	Asset("ANIM", "anim/status_meter_symbiosis.zip")
 }
 
 RemapSoundEvent("dontstarve/characters/luke", "luke/luke")
@@ -74,6 +77,110 @@ local RECIPETABS = GLOBAL.RECIPETABS
 local Recipe = GLOBAL.Recipe
 local AllRecipes = GLOBAL.AllRecipes
 local TECH = GLOBAL.TECH
+
+local Badge = require("widgets/badge")
+local UIAnim = require("widgets/uianim")
+
+local function calcFearPosition(status)
+	local brainPos = status.brain:GetPosition()
+	local stomachPos = status.stomach:GetPosition()
+	local heartPos = status.heart:GetPosition()
+
+	local pos = GLOBAL.Vector3(stomachPos.x - 65, stomachPos.y, stomachPos.z)
+	return pos
+end
+
+local function OnFearUpdate(inst, data)
+	local maxVal = inst.components.fear.maxfear
+	local currentFear = inst.components.fear.fearfactor
+	--math.floor(percent * 100 + 0.5)
+	inst.symbiosis_percent:set(currentFear)
+	inst.symbiosis_maxval:set(maxVal)
+	inst.symbiosis_numstore:set(currentFear)
+	inst.symbiosis_pulse:set(
+		(currentFear >= inst.components.fear.scareplayers or
+		inst.components.fear.timesincelastkill == 0) and
+		not inst.components.health:IsDead()
+	)
+end
+
+local function StatusPostConstruct(self)
+	if self.owner.prefab == 'luke' then
+		self.symbiosis = self:AddChild((Badge(nil, self.owner, { 
+			-- Colour
+			127 / 255,
+			1 / 255,
+			1 / 255,
+			1
+		}, "status_symbiosis")))
+		self.symbiosis.backing:GetAnimState():SetBuild("status_meter_symbiosis")
+		self.symbiosis:Hide() -- Init the meter as hidden?
+		self.symbiosis.num:Show() -- Show the number on the meter
+		local oldOnLoseFocus = self.symbiosis.OnLoseFocus
+		self.symbiosis.OnLoseFocus = function(badge) -- Not sure?
+			oldOnLoseFocus(badge)
+			badge.num:Show()
+		end
+
+		self.owner.UpdateSymbiosisBadge = function()
+			local percent = self.owner.symbiosis_percent and self.owner.symbiosis_percent:value() or 0
+			local maxVal = self.owner.symbiosis_maxval and self.owner.symbiosis_maxval:value() or 0
+			local numstore = self.owner.symbiosis_numstore and self.owner.symbiosis_numstore:value() or 0
+			local pulse = self.owner.symbiosis_pulse and self.owner.symbiosis_pulse:value() or false
+			local isDead = false -- Todo implement hiding badge when dead
+			local pos = calcFearPosition(self)
+			if isDead then
+				self.symbiosis:Hide() -- Hide the meter icon
+			else
+				self.symbiosis:Show() -- Display the meter icon
+			end
+			self.symbiosis:SetPosition(pos:Get()) -- Set the position of the meter icon
+			self.symbiosis:SetScale(self.brain:GetLooseScale()) -- Set the scale of the meter icon
+			self.symbiosis:SetPercent(percent / maxVal, maxVal) -- Set the meter current percentage
+			self.symbiosis.num:SetString(GLOBAL.tostring(numstore)) -- Convert the numstore to a string and set the num display
+			if pulse then
+				self.symbiosis:PulseRed()
+			end
+		end
+	end
+end
+
+AddClassPostConstruct("widgets/statusdisplays", StatusPostConstruct)
+
+local function onsymbiosisdirty(inst)
+	if GLOBAL.ThePlayer and GLOBAL.ThePlayer.UpdateSymbiosisBadge then
+		GLOBAL.ThePlayer.UpdateSymbiosisBadge() -- If the value changes update the badge?
+	end
+end
+
+local function PlayerPostConstruct(inst)
+	-- If the prefab is not matilde the do not execute
+	if inst.prefab ~= 'luke' then
+		return
+	end
+	-- Setup the symbiosis values (networked) - Set the function that triggers on change to "matilde_symbiosisdirty"
+	inst.symbiosis_percent = GLOBAL.net_int(inst.GUID, "symbiosis.percent", "luke_symbiosisdirty")
+	inst.symbiosis_maxval = GLOBAL.net_int(inst.GUID, "symbiosis.maxval", "luke_symbiosisdirty")
+	inst.symbiosis_numstore = GLOBAL.net_int(inst.GUID, "symbiosis.numstore", "luke_symbiosisdirty")
+	inst.symbiosis_pulse = GLOBAL.net_bool(inst.GUID, "symbiosis.pulse", "luke_symbiosisdirty")
+
+	-- If is server
+	if GLOBAL.TheWorld.ismastersim then
+		inst:ListenForEvent("luke_fearupdate", OnFearUpdate)
+
+		inst:DoTaskInTime(0, function() inst:PushEvent("luke_fearupdate",
+		{
+			currenttick = 0
+		}) 
+		end)
+	end
+
+	if not GLOBAL.TheNet:IsDedicated() then
+		inst:ListenForEvent("luke_symbiosisdirty", onsymbiosisdirty)
+	end
+end
+
+AddPlayerPostInit(PlayerPostConstruct)
 
 -- Setup rest of character
 local frisktab = AddRecipeTab( "Luke's Tab", 997, "images/saveslot_portraits/luke_silho.xml", "luke_silho.tex", "frisk_builder")
@@ -147,6 +254,7 @@ TUNING.STARTING_ITEM_IMAGE_OVERRIDE.knife = {
 
 -- Custom speech strings
 STRINGS.CHARACTERS.LUKE = require "speech_luke"
+STRINGS.CHARACTERS.LUKE.playFearGainSfx = GetModConfigData("luke_playfeargainsfx")
 
 -- Skins
 -- The character's name as appears in-game 
