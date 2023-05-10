@@ -48,8 +48,8 @@ Assets = {
     Asset("SOUNDPACKAGE", "sound/luke.fev"),
     Asset("SOUND", "sound/luke.fsb"),
 
-	Asset("ANIM", "anim/status_symbiosis.zip"),
-	Asset("ANIM", "anim/status_meter_symbiosis.zip")
+	Asset("ANIM", "anim/status_fear.zip"),
+	Asset("ANIM", "anim/status_meter_fear.zip")
 }
 
 RemapSoundEvent("dontstarve/characters/luke", "luke/luke")
@@ -94,10 +94,10 @@ local function OnFearUpdate(inst, data)
 	local maxVal = inst.components.fear.maxfear
 	local currentFear = inst.components.fear.fearfactor
 	--math.floor(percent * 100 + 0.5)
-	inst.symbiosis_percent:set(currentFear)
-	inst.symbiosis_maxval:set(maxVal)
-	inst.symbiosis_numstore:set(currentFear)
-	inst.symbiosis_pulse:set(
+	inst.fear_percent:set(currentFear)
+	inst.fear_maxval:set(maxVal)
+	inst.fear_numstore:set(currentFear)
+	inst.fear_pulse:set(
 		(currentFear >= inst.components.fear.scareplayers or
 		inst.components.fear.timesincelastkill == 0) and
 		not inst.components.health:IsDead()
@@ -106,40 +106,40 @@ end
 
 local function StatusPostConstruct(self)
 	if self.owner.prefab == 'luke' then
-		self.symbiosis = self:AddChild((Badge(nil, self.owner, { 
+		self.fear = self:AddChild((Badge(nil, self.owner, { 
 			-- Colour
 			127 / 255,
 			1 / 255,
 			1 / 255,
 			1
-		}, "status_symbiosis")))
-		self.symbiosis.backing:GetAnimState():SetBuild("status_meter_symbiosis")
-		self.symbiosis:Hide() -- Init the meter as hidden?
-		self.symbiosis.num:Show() -- Show the number on the meter
-		local oldOnLoseFocus = self.symbiosis.OnLoseFocus
-		self.symbiosis.OnLoseFocus = function(badge) -- Not sure?
+		}, "status_fear")))
+		self.fear.backing:GetAnimState():SetBuild("status_meter_fear")
+		self.fear:Hide() -- Init the meter as hidden?
+		self.fear.num:Show() -- Show the number on the meter
+		local oldOnLoseFocus = self.fear.OnLoseFocus
+		self.fear.OnLoseFocus = function(badge) -- Not sure?
 			oldOnLoseFocus(badge)
 			badge.num:Show()
 		end
 
-		self.owner.UpdateSymbiosisBadge = function()
-			local percent = self.owner.symbiosis_percent and self.owner.symbiosis_percent:value() or 0
-			local maxVal = self.owner.symbiosis_maxval and self.owner.symbiosis_maxval:value() or 0
-			local numstore = self.owner.symbiosis_numstore and self.owner.symbiosis_numstore:value() or 0
-			local pulse = self.owner.symbiosis_pulse and self.owner.symbiosis_pulse:value() or false
+		self.owner.UpdateFearBadge = function()
+			local percent = self.owner.fear_percent and self.owner.fear_percent:value() or 0
+			local maxVal = self.owner.fear_maxval and self.owner.fear_maxval:value() or 0
+			local numstore = self.owner.fear_numstore and self.owner.fear_numstore:value() or 0
+			local pulse = self.owner.fear_pulse and self.owner.fear_pulse:value() or false
 			local isDead = false -- Todo implement hiding badge when dead
 			local pos = calcFearPosition(self)
 			if isDead then
-				self.symbiosis:Hide() -- Hide the meter icon
+				self.fear:Hide() -- Hide the meter icon
 			else
-				self.symbiosis:Show() -- Display the meter icon
+				self.fear:Show() -- Display the meter icon
 			end
-			self.symbiosis:SetPosition(pos:Get()) -- Set the position of the meter icon
-			self.symbiosis:SetScale(self.brain:GetLooseScale()) -- Set the scale of the meter icon
-			self.symbiosis:SetPercent(percent / maxVal, maxVal) -- Set the meter current percentage
-			self.symbiosis.num:SetString(GLOBAL.tostring(numstore)) -- Convert the numstore to a string and set the num display
+			self.fear:SetPosition(pos:Get()) -- Set the position of the meter icon
+			self.fear:SetScale(self.brain:GetLooseScale()) -- Set the scale of the meter icon
+			self.fear:SetPercent(percent / maxVal, maxVal) -- Set the meter current percentage
+			self.fear.num:SetString(GLOBAL.tostring(numstore)) -- Convert the numstore to a string and set the num display
 			if pulse then
-				self.symbiosis:PulseRed()
+				self.fear:PulseRed()
 			end
 		end
 	end
@@ -147,9 +147,9 @@ end
 
 AddClassPostConstruct("widgets/statusdisplays", StatusPostConstruct)
 
-local function onsymbiosisdirty(inst)
-	if GLOBAL.ThePlayer and GLOBAL.ThePlayer.UpdateSymbiosisBadge then
-		GLOBAL.ThePlayer.UpdateSymbiosisBadge() -- If the value changes update the badge?
+local function onfearisdirty(inst)
+	if GLOBAL.ThePlayer and GLOBAL.ThePlayer.UpdateFearBadge then
+		GLOBAL.ThePlayer.UpdateFearBadge() -- If the value changes update the badge?
 	end
 end
 
@@ -159,10 +159,10 @@ local function PlayerPostConstruct(inst)
 		return
 	end
 	-- Setup the symbiosis values (networked) - Set the function that triggers on change to "matilde_symbiosisdirty"
-	inst.symbiosis_percent = GLOBAL.net_int(inst.GUID, "symbiosis.percent", "luke_symbiosisdirty")
-	inst.symbiosis_maxval = GLOBAL.net_int(inst.GUID, "symbiosis.maxval", "luke_symbiosisdirty")
-	inst.symbiosis_numstore = GLOBAL.net_int(inst.GUID, "symbiosis.numstore", "luke_symbiosisdirty")
-	inst.symbiosis_pulse = GLOBAL.net_bool(inst.GUID, "symbiosis.pulse", "luke_symbiosisdirty")
+	inst.fear_percent = GLOBAL.net_int(inst.GUID, "fear.percent", "luke_fearisdirty")
+	inst.fear_maxval = GLOBAL.net_int(inst.GUID, "fear.maxval", "luke_fearisdirty")
+	inst.fear_numstore = GLOBAL.net_int(inst.GUID, "fear.numstore", "luke_fearisdirty")
+	inst.fear_pulse = GLOBAL.net_bool(inst.GUID, "fear.pulse", "luke_fearisdirty")
 
 	-- If is server
 	if GLOBAL.TheWorld.ismastersim then
@@ -176,7 +176,7 @@ local function PlayerPostConstruct(inst)
 	end
 
 	if not GLOBAL.TheNet:IsDedicated() then
-		inst:ListenForEvent("luke_symbiosisdirty", onsymbiosisdirty)
+		inst:ListenForEvent("luke_fearisdirty", onfearisdirty)
 	end
 end
 
