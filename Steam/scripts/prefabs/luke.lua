@@ -504,6 +504,9 @@ local function UpdateFearFactor(inst, amt)
 	inst.components.fear.fearfactor = inst.components.fear.fearfactor + amt
 	local wasZeroOrMaxAtUpdate = inst.components.fear.fearfactor == 0 or inst.components.fear.fearfactor == inst.components.fear.maxfear;
 
+	local fearNormalized = (inst.components.fear.fearfactor * 1) / inst.components.fear.maxfear -- Fear factor in a value of 0 - 1
+    inst.components.combat.damagemultiplier = 0.75 + (fearNormalized * 0.75)
+
 	-- Cap fear factor
 	if inst.components.fear.fearfactor < 0 then
 		inst.components.fear.fearfactor = 0
@@ -647,7 +650,7 @@ local function Mutter(inst)
 			inst.components.talker:Say(STRINGS.CHARACTERS.LUKE.MUTTER_HUNGRY[math.random(#STRINGS.CHARACTERS.LUKE.MUTTER_HUNGRY)])
 			do return end
 		end
-		inst.SoundEmitter:PlaySound("luke/luke/talk_LP")
+		--inst.SoundEmitter:PlaySound("luke/luke/talk_LP")
 	end
 end
 
@@ -656,7 +659,6 @@ local function OnFireCheck(inst)
 		local fireCheck = (math.random(8) == 1)
 		if fireCheck then
 			inst.components.talker:Say(STRINGS.CHARACTERS.LUKE.ONFIRE[math.random(#STRINGS.CHARACTERS.LUKE.ONFIRE)])
-			inst.SoundEmitter:PlaySound("luke/luke/talk_LP")
 		end
 		ONFIRE = false
 	end
@@ -665,7 +667,6 @@ end
 local function IsFrozenCheck(inst)
 	if ISFROZEN == true then
 		inst.components.talker:Say(STRINGS.CHARACTERS.LUKE.ISFROZEN[math.random(#STRINGS.CHARACTERS.LUKE.ISFROZEN)])
-		inst.SoundEmitter:PlaySound("luke/luke/talk_LP")
 		ISFROZEN = false
 	end
 end
@@ -716,7 +717,8 @@ local master_postinit = function(inst)
 	inst.components.sanity.night_drain_mult = 0.5
 	
 	-- Damage multiplier (optional)
-    inst.components.combat.damagemultiplier = 1
+	local fearNormalized = (inst.components.fear.fearfactor * 1) / inst.components.fear.maxfear -- Fear factor in a value of 0 - 1
+    inst.components.combat.damagemultiplier = 0.75 + (fearNormalized * 0.75)
 	
 	-- Hunger rate (optional)
 	inst.components.hunger.hungerrate = 1 * TUNING.WILSON_HUNGER_RATE
@@ -751,7 +753,6 @@ local master_postinit = function(inst)
 	local function WithHat(inst, data)
 		if data.item.prefab == "beehat" then
 			inst.components.talker:Say(STRINGS.CHARACTERS.LUKE.PROTECTED_FROM_INSECTS)
-			inst.SoundEmitter:PlaySound("luke/luke/talk_LP")
 			BEEHAT = true
 		end
 	end
@@ -759,7 +760,6 @@ local master_postinit = function(inst)
 	local function WithoutHat(inst, data)
 		if data.item.prefab == "beehat" then
 			inst.components.talker:Say(STRINGS.CHARACTERS.LUKE.UNPROTECTED_FROM_INSECTS)
-			inst.SoundEmitter:PlaySound("luke/luke/talk_LP")
 			BEEHAT = false
 		end
 	end
