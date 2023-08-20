@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Atlas>
+	<Texture filename="luke_skilltree.tex" />
+	<Elements>
+		<Element name="background.tex" u1="0.001" u2="0.4120859375" v2="0.999" v1="0.2754140625" variant="" />
+		<Element name="luke_background.tex" u1="0.4140859375" u2="0.82761328125" v2="0.999" v1="0.2636953125" variant="b" />
+		<Element name="overlay_left.tex" u1="0.82961328125" u2="0.85886328125" v2="0.999" v1="0.2754140625" variant="l" />
+		<Element name="overlay_right.tex" u1="0.86086328125" u2="0.889625" v2="0.999" v1="0.2754140625" variant="r" />
+	</Elements>
+</Atlas>

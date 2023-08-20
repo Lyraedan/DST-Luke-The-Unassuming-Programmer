@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Atlas>
+	<Texture filename="skilltree_icons.tex" />
+	<Elements>
+		<Element name="skill_intimidating_1.tex" u1="0.001" u2="0.124" v2="0.999" v1="0.751" variant="i" />
+		<Element name="skill_intimidating_10.tex" u1="0.001" u2="0.124" v2="0.249" v1="0.001" variant="i" />
+		<Element name="skill_intimidating_11.tex" u1="0.126" u2="0.249" v2="0.499" v1="0.251" variant="i" />
+		<Element name="skill_intimidating_12.tex" u1="0.251" u2="0.374" v2="0.499" v1="0.251" variant="i" />
+		<Element name="skill_intimidating_2.tex" u1="0.126" u2="0.249" v2="0.999" v1="0.751" variant="i" />
+		<Element name="skill_intimidating_3.tex" u1="0.001" u2="0.124" v2="0.749" v1="0.501" variant="i" />
+		<Element name="skill_intimidating_4.tex" u1="0.126" u2="0.249" v2="0.749" v1="0.501" variant="i" />
+		<Element name="skill_intimidating_5.tex" u1="0.251" u2="0.374" v2="0.999" v1="0.751" variant="i" />
+		<Element name="skill_intimidating_6.tex" u1="0.251" u2="0.374" v2="0.749" v1="0.501" variant="i" />
+		<Element name="skill_intimidating_7.tex" u1="0.376" u2="0.499" v2="0.999" v1="0.751" variant="i" />
+		<Element name="skill_intimidating_8.tex" u1="0.376" u2="0.499" v2="0.749" v1="0.501" variant="i" />
+		<Element name="skill_intimidating_9.tex" u1="0.001" u2="0.124" v2="0.499" v1="0.251" variant="i" />
+		<Element name="skill_unintimidating_1.tex" u1="0.126" u2="0.249" v2="0.249" v1="0.001" variant="u" />
+		<Element name="skill_unintimidating_10.tex" u1="0.501" u2="0.624" v2="0.499" v1="0.251" variant="u" />
+		<Element name="skill_unintimidating_11.tex" u1="0.626" u2="0.749" v2="0.499" v1="0.251" variant="u" />
+		<Element name="skill_unintimidating_12.tex" u1="0.501" u2="0.624" v2="0.249" v1="0.001" variant="u" />
+		<Element name="skill_unintimidating_2.tex" u1="0.251" u2="0.374" v2="0.249" v1="0.001" variant="u" />
+		<Element name="skill_unintimidating_3.tex" u1="0.376" u2="0.499" v2="0.499" v1="0.251" variant="u" />
+		<Element name="skill_unintimidating_4.tex" u1="0.376" u2="0.499" v2="0.249" v1="0.001" variant="u" />
+		<Element name="skill_unintimidating_5.tex" u1="0.501" u2="0.624" v2="0.999" v1="0.751" variant="u" />
+		<Element name="skill_unintimidating_6.tex" u1="0.626" u2="0.749" v2="0.999" v1="0.751" variant="u" />
+		<Element name="skill_unintimidating_7.tex" u1="0.501" u2="0.624" v2="0.749" v1="0.501" variant="u" />
+		<Element name="skill_unintimidating_8.tex" u1="0.751" u2="0.874" v2="0.999" v1="0.751" variant="u" />
+		<Element name="skill_unintimidating_9.tex" u1="0.626" u2="0.749" v2="0.749" v1="0.501" variant="u" />
+	</Elements>
+</Atlas>
