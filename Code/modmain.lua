@@ -4,7 +4,8 @@ PrefabFiles = {
 	"knife",
     "golden_knife",
     "survival_knife",
-    "shadow_knife"
+    "shadow_knife",
+	"pigeon",
 }
 
 Assets = {
