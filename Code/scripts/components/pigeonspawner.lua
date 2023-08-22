@@ -141,6 +141,7 @@ function PigeonSpawner:GetSpawnRate(pos)
     local rate=self.spawn_rate
     local ent = TheSim:FindEntities(pos.x, 0, pos.z, self.search_radius)
     for k, v in pairs(ent) do
+        --[[
         if TestFood(v,diettable) and not v:IsInLimbo() then
             rate=math.sqrt(rate)
         end
@@ -150,13 +151,16 @@ function PigeonSpawner:GetSpawnRate(pos)
         if v.prefab=="cookpot" then
             rate=math.sqrt(rate)
         end
+        ]]
         if v.prefab=="luke" then
             rate=math.sqrt(rate)
         end
     end
+    --[[
     if _map:GetTileAtPoint(pos.x, 0, pos.z) == GROUND.ROAD then
         rate=math.sqrt(rate)
     end
+    ]]
     return rate
 end
 

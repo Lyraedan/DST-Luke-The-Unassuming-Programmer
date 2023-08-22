@@ -378,6 +378,10 @@ local entityFearData = {
 	clockworkknight = {
 		name = "knight",
 		fearGain = 4
+	},
+	pigeon = {
+		name = "pigeon",
+		fearGain = 2
 	}
 }
 
@@ -586,7 +590,7 @@ local function BoatCheck(inst)
 		else
 			inst.components.talker:Say(STRINGS.CHARACTERS.LUKE.SEA_SICKNESS_CURE[math.random(#STRINGS.CHARACTERS.LUKE.SEA_SICKNESS_CURE)])
 		end
-		inst.SoundEmitter:PlaySound("luke/luke/talk_LP")
+		--inst.SoundEmitter:PlaySound("luke/luke/talk_LP")
 		SEASICK = ONBOAT
 	end
 end

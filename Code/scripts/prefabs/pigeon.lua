@@ -1,8 +1,8 @@
 
 local UPDATE_INTERVAL=0.20
-local RANDOM_POOP_CHANCE=0.01
-local RANDOM_FLYPOOP_CHANCE=0.05
-local RANDOM_CHAINPOOP_CHANCE=0.01
+local RANDOM_POOP_CHANCE=16
+local RANDOM_FLYPOOP_CHANCE=24
+local RANDOM_CHAINPOOP_CHANCE=32
 local DAMAGE_SANITY=5
 local POOP_SPOIL_RATE=0.1
 
@@ -235,17 +235,17 @@ local function DoUpdate(inst)
 	    local pos = inst:GetPosition()
 	    local vx, vy, vz = inst.Physics:GetVelocity()
 	    if vy < 0.1 then
-	        if math.random() < RANDOM_POOP_CHANCE then 
+	        if math.random(RANDOM_POOP_CHANCE) == 1 then 
 	            inst.haspoop=true
                 DoPoop(inst, inst)
 	        end
 	    else
-	        if math.random() < RANDOM_FLYPOOP_CHANCE and pos.y > 3 then
+	        if math.random(RANDOM_FLYPOOP_CHANCE) == 1 and pos.y > 3 then
         		local players = TheSim:FindEntities(pos.x,pos.y,pos.z, 25, {"player"})
         		if #players > 0 then
         			local player = players[math.random(#players)]
         			inst.haspoop=true
-        			if math.random() < RANDOM_CHAINPOOP_CHANCE then
+        			if math.random(RANDOM_CHAINPOOP_CHANCE) == 1 then
         			    for ii=0,6 do
         			        inst:DoTaskInTime(ii/10, function()
                 			    DoPoop(inst, player)
