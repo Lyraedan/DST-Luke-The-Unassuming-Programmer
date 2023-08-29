@@ -55,8 +55,8 @@ Assets = {
 	Asset( "IMAGE", "images/luke_skilltree.tex" ),
     Asset( "ATLAS", "images/luke_skilltree.xml" ),
 
-	Asset( "IMAGE", "images/skilltree_icons.tex" ),
-    Asset( "ATLAS", "images/skilltree_icons.xml" ),
+	Asset( "IMAGE", "images/skilltree_icons2.tex" ),
+    Asset( "ATLAS", "images/skilltree_icons2.xml" ),
 }
 
 RemapSoundEvent("dontstarve/characters/luke", "luke/luke")
@@ -94,6 +94,7 @@ function GLOBAL.GetSkilltreeBG(imagename, ...)
     if imagename == "luke_background.tex" then
         return "images/luke_skilltree.xml"
     else
+		GLOBAL.ATLAS_ICONS = OldSkillTreeIcons
         return OldGetSkilltreeBG(imagename, ...)
     end
 end
