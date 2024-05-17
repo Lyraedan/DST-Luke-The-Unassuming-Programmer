@@ -211,6 +211,7 @@ local function DoPoop(inst, target)
         target=inst
     end
     local tpos=target:GetPosition()
+    --[[
     local poop = SpawnPrefab("guano")
     poop.Transform:SetPosition(pos:Get())
     poop.Transform:SetScale(.33, .33, .33)
@@ -224,6 +225,7 @@ local function DoPoop(inst, target)
             poop:Remove()
         end
     end)
+    ]]
 end
 
 local function DoUpdate(inst)
