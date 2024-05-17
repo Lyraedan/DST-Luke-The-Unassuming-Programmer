@@ -2,6 +2,7 @@ local MakePlayerCharacter = require "prefabs/player_common"
 
 local assets = {
     Asset("SCRIPT", "scripts/prefabs/player_common.lua"),
+	Asset("SCRIPT", "scripts/prefabs/skilltree_luke.lua")
 }
 local prefabs = {}
 
@@ -377,6 +378,10 @@ local entityFearData = {
 	clockworkknight = {
 		name = "knight",
 		fearGain = 4
+	},
+	pigeon = {
+		name = "pigeon",
+		fearGain = 2
 	}
 }
 
@@ -585,7 +590,7 @@ local function BoatCheck(inst)
 		else
 			inst.components.talker:Say(STRINGS.CHARACTERS.LUKE.SEA_SICKNESS_CURE[math.random(#STRINGS.CHARACTERS.LUKE.SEA_SICKNESS_CURE)])
 		end
-		inst.SoundEmitter:PlaySound("luke/luke/talk_LP")
+		--inst.SoundEmitter:PlaySound("luke/luke/talk_LP")
 		SEASICK = ONBOAT
 	end
 end
@@ -697,6 +702,11 @@ local master_postinit = function(inst)
 
 	inst:AddComponent("fear")
 	inst.components.fear:Setup()
+
+	inst:AddComponent("pigeonspawner")
+	inst.components.pigeonspawner:SetRadius(15)
+	inst.components.pigeonspawner:SetRate(0.0333333333333333, 0.01)
+
 	-- choose which sounds this character will play
 	inst.soundsname = "luke"
 	
@@ -727,6 +737,7 @@ local master_postinit = function(inst)
         inst.components.eater:SetIgnoresSpoilage(true)
     end
 	
+	--[[
     local attractor = inst.components.birdattractor
     if attractor then
         attractor.spawnmodifier:SetModifier(inst, 24, "maxbirds")
@@ -738,6 +749,7 @@ local master_postinit = function(inst)
             birdspawner:ToggleUpdate(true)
         end
     end
+	]]
 	
 	inst._update_boat_check = inst:DoPeriodicTask(0.5, BoatCheck)
 	inst._update_fear_check = inst:DoPeriodicTask(1, FearCheck)

@@ -89,6 +89,7 @@ local TECH = GLOBAL.TECH
 local SkillTreeDefs = require("prefabs/skilltree_defs")
 
 -- Replace "luke" with your character prefab name
+/*
 local OldGetSkilltreeBG = GLOBAL.GetSkilltreeBG
 function GLOBAL.GetSkilltreeBG(imagename, ...)
     if imagename == "luke_background.tex" then
@@ -115,6 +116,7 @@ local CreateSkillTree = function()
 end
 CreateSkillTree();
 -- Skilltree end
+*/
 
 local Badge = require("widgets/badge")
 local UIAnim = require("widgets/uianim")

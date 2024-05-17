@@ -4,7 +4,8 @@ PrefabFiles = {
 	"knife",
     "golden_knife",
     "survival_knife",
-    "shadow_knife"
+    "shadow_knife",
+	"pigeon",
 }
 
 Assets = {
@@ -49,7 +50,13 @@ Assets = {
     Asset("SOUND", "sound/luke.fsb"),
 
 	Asset("ANIM", "anim/status_fear.zip"),
-	Asset("ANIM", "anim/status_meter_fear.zip")
+	Asset("ANIM", "anim/status_meter_fear.zip"),
+
+	Asset( "IMAGE", "images/luke_skilltree.tex" ),
+    Asset( "ATLAS", "images/luke_skilltree.xml" ),
+
+	Asset( "IMAGE", "images/skilltree_icons2.tex" ),
+    Asset( "ATLAS", "images/skilltree_icons2.xml" ),
 }
 
 RemapSoundEvent("dontstarve/characters/luke", "luke/luke")
@@ -77,6 +84,38 @@ local RECIPETABS = GLOBAL.RECIPETABS
 local Recipe = GLOBAL.Recipe
 local AllRecipes = GLOBAL.AllRecipes
 local TECH = GLOBAL.TECH
+
+-- Skilltree
+local SkillTreeDefs = require("prefabs/skilltree_defs")
+
+-- Replace "luke" with your character prefab name
+
+local OldGetSkilltreeBG = GLOBAL.GetSkilltreeBG
+function GLOBAL.GetSkilltreeBG(imagename, ...)
+    if imagename == "luke_background.tex" then
+        return "images/luke_skilltree.xml"
+    else
+		GLOBAL.ATLAS_ICONS = OldSkillTreeIcons
+        return OldGetSkilltreeBG(imagename, ...)
+    end
+end
+
+local CreateSkillTree = function()
+	print("Creating a skilltree for Luke")
+	local BuildSkillsData = require("prefabs/skilltree_luke") -- Load in the skilltree
+
+    if BuildSkillsData then
+        local data = BuildSkillsData(SkillTreeDefs.FN)
+
+        if data then
+            SkillTreeDefs.CreateSkillTreeFor("luke", data.SKILLS)
+            SkillTreeDefs.SKILLTREE_ORDERS["luke"] = data.ORDERS
+			print("Created Lukes skilltree")
+        end
+    end
+end
+--CreateSkillTree();
+-- Skilltree end
 
 local Badge = require("widgets/badge")
 local UIAnim = require("widgets/uianim")
