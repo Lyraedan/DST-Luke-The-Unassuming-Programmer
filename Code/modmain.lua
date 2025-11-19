@@ -6,7 +6,8 @@ PrefabFiles = {
     "survival_knife",
     "shadow_knife",
 	"pigeon",
-	"cassette_player"
+	"cassette_player",
+	"cassette"
 }
 
 Assets = {
@@ -77,6 +78,7 @@ RegisterInventoryItemAtlas("images/inventoryimages/survival_knife.xml", "surviva
 RegisterInventoryItemAtlas("images/inventoryimages/shadow_knife.xml", "shadow_knife.tex")
 
 RegisterInventoryItemAtlas("images/inventoryimages/cassette_player.xml", "cassette_player.tex")
+RegisterInventoryItemAtlas("images/inventoryimages/cassette.xml", "cassette.tex")
 
 local require = GLOBAL.require
 local STRINGS = GLOBAL.STRINGS
@@ -275,11 +277,12 @@ local beehat = AddRecipe("beehatLuke", {GLOBAL.Ingredient("silk", 2), GLOBAL.Ing
 beehat.product = "beehat"
 beehat.image = "beehat.tex"
 
-local pirateHat = AddRecipe("polly_rogershatLuke", {GLOBAL.Ingredient("strawhat", 1), GLOBAL.Ingredient("feather_crow", 1), GLOBAL.Ingredient("pigskin", 1)}, frisktab, TECH.SCIENCE_TWO, nil, nil, nil, nil, "frisk_builder", "images/inventoryimages/cassette_player.xml", "cassette_player.tex")
+local pirateHat = AddRecipe("polly_rogershatLuke", {GLOBAL.Ingredient("strawhat", 1), GLOBAL.Ingredient("feather_crow", 1), GLOBAL.Ingredient("pigskin", 1)}, frisktab, TECH.SCIENCE_TWO, nil, nil, nil, nil, "frisk_builder", nil, nil)
 pirateHat.product = "polly_rogershat"
 pirateHat.image = "polly_rogershat.tex"
 
 local cassette_player = AddRecipe("cassette_player", {GLOBAL.Ingredient("silk", 2)}, frisktab, TECH.NONE, nil, nil, nil, nil, "frisk_builder", nil, nil)
+local cassette = AddRecipe("cassette", {GLOBAL.Ingredient("silk", 1)}, frisktab, TECH.NONE, nil, nil, nil, nil, "frisk_builder", nil, nil)
 
 STRINGS.RECIPE_DESC.KNIFE = "A butterfly knife."
 STRINGS.RECIPE_DESC.GOLDEN_KNIFE = "A golden butterfly knife."

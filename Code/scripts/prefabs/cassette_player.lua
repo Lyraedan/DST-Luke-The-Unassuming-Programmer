@@ -10,8 +10,20 @@ local prefabs =
 
 }
 
-local function OnPlayerUseCassette(inst, data)
-    
+local function PlayCassette(emitter, tape)
+    emitter.SoundEmitter:PlaySound(tape, "cassette")
+end
+
+local function StopCassette(emitter)
+    emitter.SoundEmitter:KillSound("cassette")
+end
+
+local function OnPlayerUsedCassette(inst, data)
+    if data.useage_mode == "stop" then
+        StopCassette(data.using_player)
+    else
+        PlayCassette(data.using_player, data.selected_tape)
+    end
 end
  
 local function fn()
@@ -49,9 +61,11 @@ local function fn()
 	inst.components.inventoryitem:SetSinks(true)
 
     inst:AddComponent("container")
-    inst.components.container:WidgetSetup("cassette_player") -- Make our own cassette_player soon
+    inst.components.container:WidgetSetup("cassette_player")
     inst.components.container.skipclosesnd = true
     inst.components.container.skipopensnd = true
+
+    inst:ListenForEvent("ms_playerusedcassette", function(world, data) OnPlayerUsedCassette(inst, data) end, TheWorld)
 			 
     return inst
 end
