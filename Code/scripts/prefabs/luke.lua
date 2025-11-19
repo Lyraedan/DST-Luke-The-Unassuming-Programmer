@@ -566,6 +566,7 @@ local function ApplyFear(inst, data)
 			if(STRINGS.CHARACTERS.LUKE.playFearGainSfx == "on") then
 				inst.SoundEmitter:PlaySound("dontstarve/characters/wortox/soul/spawn")
 			end
+			--inst.SoundEmitter:PlaySound("dontstarve/sanity/gonecrazy_stinger")
 			UpdateFearFactor(inst, amt)
 		end
 	end
@@ -795,7 +796,8 @@ local master_postinit = function(inst)
 	inst:ListenForEvent("disembarkboat", IA_OnDisembarked)
 
 	inst:AddTag("spoiler")
-	
+
+
 	inst.OnLoad = onload
     inst.OnNewSpawn = onload
 end

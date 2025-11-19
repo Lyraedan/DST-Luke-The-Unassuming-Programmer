@@ -6,6 +6,7 @@ PrefabFiles = {
     "survival_knife",
     "shadow_knife",
 	"pigeon",
+	"cassette_player"
 }
 
 Assets = {
@@ -75,6 +76,8 @@ RegisterInventoryItemAtlas("images/inventoryimages/golden_knife.xml", "golden_kn
 RegisterInventoryItemAtlas("images/inventoryimages/survival_knife.xml", "survival_knife.tex")
 RegisterInventoryItemAtlas("images/inventoryimages/shadow_knife.xml", "shadow_knife.tex")
 
+RegisterInventoryItemAtlas("images/inventoryimages/cassette_player.xml", "cassette_player.tex")
+
 local require = GLOBAL.require
 local STRINGS = GLOBAL.STRINGS
 local ModIndex = GLOBAL.KnownModIndex
@@ -86,10 +89,11 @@ local AllRecipes = GLOBAL.AllRecipes
 local TECH = GLOBAL.TECH
 
 -- Skilltree
-local SkillTreeDefs = require("prefabs/skilltree_defs")
+--local SkillTreeDefs = require("prefabs/skilltree_defs")
 
 -- Replace "luke" with your character prefab name
-/*
+
+--[[
 local OldGetSkilltreeBG = GLOBAL.GetSkilltreeBG
 function GLOBAL.GetSkilltreeBG(imagename, ...)
     if imagename == "luke_background.tex" then
@@ -115,8 +119,8 @@ local CreateSkillTree = function()
     end
 end
 CreateSkillTree();
+]]
 -- Skilltree end
-*/
 
 local Badge = require("widgets/badge")
 local UIAnim = require("widgets/uianim")
@@ -271,9 +275,11 @@ local beehat = AddRecipe("beehatLuke", {GLOBAL.Ingredient("silk", 2), GLOBAL.Ing
 beehat.product = "beehat"
 beehat.image = "beehat.tex"
 
-local pirateHat = AddRecipe("polly_rogershatLuke", {GLOBAL.Ingredient("strawhat", 1), GLOBAL.Ingredient("feather_crow", 1), GLOBAL.Ingredient("pigskin", 1)}, frisktab, TECH.SCIENCE_TWO, nil, nil, nil, nil, "frisk_builder", nil, nil )
+local pirateHat = AddRecipe("polly_rogershatLuke", {GLOBAL.Ingredient("strawhat", 1), GLOBAL.Ingredient("feather_crow", 1), GLOBAL.Ingredient("pigskin", 1)}, frisktab, TECH.SCIENCE_TWO, nil, nil, nil, nil, "frisk_builder", "images/inventoryimages/cassette_player.xml", "cassette_player.tex")
 pirateHat.product = "polly_rogershat"
 pirateHat.image = "polly_rogershat.tex"
+
+local cassette_player = AddRecipe("cassette_player", {GLOBAL.Ingredient("silk", 2)}, frisktab, TECH.NONE, nil, nil, nil, nil, "frisk_builder", nil, nil)
 
 STRINGS.RECIPE_DESC.KNIFE = "A butterfly knife."
 STRINGS.RECIPE_DESC.GOLDEN_KNIFE = "A golden butterfly knife."
@@ -316,6 +322,8 @@ STRINGS.SKIN_QUOTES.ms_luke_egg = "Egg."
 STRINGS.SKIN_NAMES.ms_luke_hatless = "Hatless"
 STRINGS.SKIN_DESCRIPTIONS.ms_luke_hatless = "I don't look like a pineapple... I just can't draw."
 STRINGS.SKIN_QUOTES.ms_luke_hatless = "I've lost my hat!"
+
+modimport "main/containers"
 
 -- Add mod character to mod character list. Also specify a gender. Possible genders are MALE, FEMALE, ROBOT, NEUTRAL, and PLURAL.
 AddModCharacter("luke", "MALE")
