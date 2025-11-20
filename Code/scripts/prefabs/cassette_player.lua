@@ -10,19 +10,53 @@ local prefabs =
 
 }
 
-local function PlayCassette(emitter, tape)
-    emitter.SoundEmitter:PlaySound(tape, "cassette")
+local function HasItem(container, prefab)
+  for _, item in pairs(container.slots) do
+    if item and item == prefab then
+      return true
+    end
+  end
+  return false
 end
 
-local function StopCassette(emitter)
+local function PlayCassette(cassette, emitter, tape)
+    if emitter:HasTag("playingCassette") then
+        StopCassette(emitter.currentCassette, emitter)
+    end
+    
+    if cassette ~= nil then
+        cassette:AddTag("isPlaying")
+    end
+
+    emitter.SoundEmitter:PlaySound(tape, "cassette")
+    emitter.currentCassette = cassette
+    emitter:AddTag("playingCassette")
+end
+
+local function StopCassette(cassette, emitter)
     emitter.SoundEmitter:KillSound("cassette")
+
+    if cassette ~= nil then
+        cassette:RemoveTag("isPlaying")
+    end
+    
+    emitter:RemoveTag("playingCassette")
 end
 
 local function OnPlayerUsedCassette(inst, data)
-    if data.useage_mode == "stop" then
-        StopCassette(data.using_player)
+    if not data or not data.cassette then
+        return
+    end
+
+    -- Only react if THIS cassette player contains the used cassette
+    if not HasItem(inst.components.container, data.cassette) then
+        return  -- cassette not inside this player, ignore event
+    end
+
+    if data.mode == "stop" then
+        StopCassette(data.cassette, data.player)
     else
-        PlayCassette(data.using_player, data.selected_tape)
+        PlayCassette(data.cassette, data.player, data.selected_tape)
     end
 end
  

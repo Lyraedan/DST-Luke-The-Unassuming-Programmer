@@ -42,7 +42,7 @@ AddAction(
         --if not IsMadMita(act.doer) then return end
         local cassette = act.target or act.invobject
         if cassette and cassette:HasTag("cassette") and cassette:HasTag("enabled") then
-            cassette:UseCassette(cassette, "play")
+            cassette.components.cassette:UseCassette(act.doer, "play")
             return true
         end
     end
@@ -51,12 +51,12 @@ AddAction(
 AddAction(
     {instant = true, invalid_hold_action = true},
     "STOPCASSETTE",
-    STRINGS.ACTIONS.REMOVERECORD,
+    STRINGS.ACTIONS.STOPCASSETTE,
     function(act)
         --if not IsMadMita(act.doer) then return end
         local cassette = act.target or act.invobject
-        if cassette and cassette:HasTag("cassette") and cassette:HasTag("enabled") then
-            cassette:UseCassette(cassette, "stop")
+        if cassette and cassette:HasTag("cassette") and cassette:HasTag("enabled") and cassette:HasTag("isPlaying") then
+            cassette.components.cassette:UseCassette(act.doer, "stop")
             return true
         end
     end
