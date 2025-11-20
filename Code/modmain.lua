@@ -326,7 +326,12 @@ STRINGS.SKIN_NAMES.ms_luke_hatless = "Hatless"
 STRINGS.SKIN_DESCRIPTIONS.ms_luke_hatless = "I don't look like a pineapple... I just can't draw."
 STRINGS.SKIN_QUOTES.ms_luke_hatless = "I've lost my hat!"
 
+STRINGS.ACTIONS.PLAYCASSETTE = "Play Cassette"
+STRINGS.ACTIONS.STOPCASSETTE = "Stop Playing"
+
 modimport "main/containers"
+modimport "main/actions"
+modimport "main/componentactions"
 
 -- Add mod character to mod character list. Also specify a gender. Possible genders are MALE, FEMALE, ROBOT, NEUTRAL, and PLURAL.
 AddModCharacter("luke", "MALE")

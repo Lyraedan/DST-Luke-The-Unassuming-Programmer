@@ -27,6 +27,12 @@ end
 -- UseCassette(inst, "play"), UseCassette(inst, "stop")
 
 local function UseCassette(inst, useage_mode)
+    if useage_mode == "stop" then
+        inst:RemoveTag("isPlaying")
+    else
+        inst:AddTag("isPlaying")
+    end
+    
     local tape = GetRandomTape(useage_mode == "stop")
     local using_player = ThePlayer
     if using_player == nil then
@@ -56,6 +62,7 @@ local function fn()
     inst.AnimState:SetScale(2, 2)
 
     inst:AddTag("cassette")
+    inst:AddTag("enabled")
 
     MakeInventoryFloatable(inst, "med", 0.07, 0.72)
 
