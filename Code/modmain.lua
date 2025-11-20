@@ -1,3 +1,23 @@
+local MIXTAPE_FILES = {
+    "mixtapes/mycoolmixtape",
+	"mixtapes/spookymixtape"
+}
+
+TUNING.LUKE = {}
+TUNING.LUKE.Mixtapes = {}
+
+local function ImportMixtapes()
+    for _, path in ipairs(MIXTAPE_FILES) do
+        modimport(path)
+    end
+end
+
+local function GenerateMixTapeRecipes(tab)
+	for i, tape in ipairs(TUNING.LUKE.Mixtapes) do
+		local rec = AddRecipe("cassette_" .. i, tape.recipe.ingredients, tab, tape.recipe.tech_type, nil, nil, nil, nil, "frisk_builder", tape.recipe.inventory.xml, tape.recipe.inventory.tex)
+	end
+end
+
 PrefabFiles = {
 	"luke",
 	"luke_skins",
@@ -7,8 +27,10 @@ PrefabFiles = {
     "shadow_knife",
 	"pigeon",
 	"cassette_player",
-	"cassette"
 }
+
+ImportMixtapes()
+table.insert(PrefabFiles, "cassette")
 
 Assets = {
     Asset( "IMAGE", "images/saveslot_portraits/luke.tex" ),
@@ -282,7 +304,8 @@ pirateHat.product = "polly_rogershat"
 pirateHat.image = "polly_rogershat.tex"
 
 local cassette_player = AddRecipe("cassette_player", {GLOBAL.Ingredient("silk", 2)}, frisktab, TECH.NONE, nil, nil, nil, nil, "frisk_builder", nil, nil)
-local cassette = AddRecipe("cassette", {GLOBAL.Ingredient("silk", 1)}, frisktab, TECH.NONE, nil, nil, nil, nil, "frisk_builder", nil, nil)
+
+GenerateMixTapeRecipes(frisktab)
 
 STRINGS.RECIPE_DESC.KNIFE = "A butterfly knife."
 STRINGS.RECIPE_DESC.GOLDEN_KNIFE = "A golden butterfly knife."
@@ -329,9 +352,9 @@ STRINGS.SKIN_QUOTES.ms_luke_hatless = "I've lost my hat!"
 STRINGS.ACTIONS.PLAYCASSETTE = "Play Cassette"
 STRINGS.ACTIONS.STOPCASSETTE = "Stop Playing"
 
-modimport "main/containers"
-modimport "main/actions"
-modimport "main/componentactions"
+modimport("main/containers")
+modimport("main/actions")
+modimport("main/componentactions")
 
 -- Add mod character to mod character list. Also specify a gender. Possible genders are MALE, FEMALE, ROBOT, NEUTRAL, and PLURAL.
 AddModCharacter("luke", "MALE")

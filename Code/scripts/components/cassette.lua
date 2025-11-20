@@ -1,19 +1,20 @@
 local Cassette = Class(function(self, inst)
     self.inst = inst
+    self.mixtape_id = nil
+    self.mixtape_data = nil
 end)
 
-local mixtape = 
-{
-    "dontstarve/music/gramaphone_ragtime"
-}
-
 function Cassette:GetRandomTape(useNone)
-    if useNone == true then
-        return "none"
+    if useNone then 
+        return "none" 
     end
 
-    -- Eventually make this query a json
-    return mixtape[1]
+    local mixtape = self.mixtape_data
+    if mixtape and mixtape.songs then
+        return mixtape.songs[math.random(#mixtape.songs)]
+    end
+
+    return "none"
 end
 
 function Cassette:UseCassette(doer, mode)
@@ -25,16 +26,22 @@ function Cassette:UseCassette(doer, mode)
         player = doer,
         mode = mode
     })
-
     return true
 end
 
 function Cassette:OnSave()
-    
+    local data = {}
+    data.mixtape_id = self.mixtape_id
+    return data
 end
 
 function Cassette:OnLoad(data)
-    
+    if data and data.mixtape_id then
+        self.mixtape_id = data.mixtape_id
+        self.mixtape_data = GLOBAL.LUKE.Mixtapes[self.mixtape_id]
+        self.inst.mixtape_id = data.mixtape_id
+        self.inst.mixtape_data = self.mixtape_data
+    end
 end
 
 return Cassette
