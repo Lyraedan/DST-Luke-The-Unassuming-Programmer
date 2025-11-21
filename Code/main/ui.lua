@@ -10,38 +10,61 @@ local function calcFearPosition(status)
 end
 
 local function StatusPostConstruct(self)
-	if self.owner.prefab == 'luke' then
-		self.fear = self:AddChild(FearBadge(self.owner))
-		self.fear.backing:GetAnimState():SetBuild("status_meter_fear")
-		self.fear:Hide() -- Init the meter as hidden?
-		self.fear.num:Show() -- Show the number on the meter
-		local oldOnLoseFocus = self.fear.OnLoseFocus
-		self.fear.OnLoseFocus = function(badge) -- Not sure?
+    if self.owner.prefab ~= "luke" then
+        return
+    end
+
+    self.fear = self:AddChild(FearBadge(self.owner))
+    self.fear.backing:GetAnimState():SetBuild("status_meter_fear")
+    self.fear:Hide()          -- Start hidden
+    self.fear.num:Show()      -- Always show the number
+
+    local oldOnLoseFocus = self.fear.OnLoseFocus
+    self.fear.OnLoseFocus = function(badge)
+        if oldOnLoseFocus then
+            oldOnLoseFocus(badge)
+        end
+        badge.num:Show()
+    end
+
+	--[[ Updated version to check if combined status is enabled (WIP)
+	local oldOnLoseFocus = self.fear.OnLoseFocus
+	self.fear.OnLoseFocus = function(badge)
+		if oldOnLoseFocus then
 			oldOnLoseFocus(badge)
-			badge.num:Show()
 		end
 
-		self.owner.UpdateFearBadge = function()
-			local percent = self.owner.fear_percent and self.owner.fear_percent:value() or 0
-			local maxVal = self.owner.fear_maxval and self.owner.fear_maxval:value() or 0
-			local numstore = self.owner.fear_numstore and self.owner.fear_numstore:value() or 0
-			local pulse = self.owner.fear_pulse and self.owner.fear_pulse:value() or false
-			local isDead = false -- Todo implement hiding badge when dead
-			local pos = calcFearPosition(self)
-			if isDead then
-				self.fear:Hide() -- Hide the meter icon
-			else
-				self.fear:Show() -- Display the meter icon
-			end
-			self.fear:SetPosition(pos:Get()) -- Set the position of the meter icon
-			self.fear:SetScale(self.brain:GetLooseScale()) -- Set the scale of the meter icon
-			self.fear:SetPercent(percent / maxVal, maxVal) -- Set the meter current percentage
-			self.fear.num:SetString(tostring(numstore)) -- Convert the numstore to a string and set the num display
-			if pulse then
-				--self.fear:PulseRed()
-			end
+		-- Check if the "combined status" mod is enabled
+		if GLOBAL.KnownModIndex:IsModEnabled("376333686") then
+			badge.num:Show()
+		else
+			badge.num:Hide()
 		end
 	end
+	]]
+
+    -- Function to update the FearBadge
+    self.owner.UpdateFearBadge = function()
+        local percent = self.owner.fear_percent and self.owner.fear_percent:value() or 0
+        local maxVal = self.owner.fear_maxval and self.owner.fear_maxval:value() or 1
+        local numstore = self.owner.fear_numstore and self.owner.fear_numstore:value() or 0
+        local isDead = self.owner.components.health and self.owner.components.health:IsDead()
+
+        -- Update visibility
+        if isDead then
+            self.fear:Hide()
+        else
+            self.fear:Show()
+        end
+
+        -- Update position, scale, and values
+        local pos = calcFearPosition(self)
+        self.fear:SetPosition(pos:Get())
+        self.fear:SetScale(self.brain:GetLooseScale())
+        self.fear:SetPercent(percent / maxVal, maxVal)
+        self.fear.num:SetString(tostring(numstore))
+    end
 end
+
 
 AddClassPostConstruct("widgets/statusdisplays", StatusPostConstruct)
