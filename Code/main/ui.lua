@@ -17,31 +17,21 @@ local function StatusPostConstruct(self)
     self.fear = self:AddChild(FearBadge(self.owner))
     self.fear.backing:GetAnimState():SetBuild("status_meter_fear")
     self.fear:Hide()          -- Start hidden
-    self.fear.num:Show()      -- Always show the number
 
+	-- Check if Combined Status is enabled
+	if GLOBAL.KnownModIndex:IsModEnabled("376333686") then
+		self.fear.num:Show()      -- Always show the number
+	else
+		self.fear.num:Show()      -- Hide the number (TEMP FORCED SHOW)
+	end
+    
     local oldOnLoseFocus = self.fear.OnLoseFocus
     self.fear.OnLoseFocus = function(badge)
         if oldOnLoseFocus then
             oldOnLoseFocus(badge)
         end
-        badge.num:Show()
+        --badge.num:Show()
     end
-
-	--[[ Updated version to check if combined status is enabled (WIP)
-	local oldOnLoseFocus = self.fear.OnLoseFocus
-	self.fear.OnLoseFocus = function(badge)
-		if oldOnLoseFocus then
-			oldOnLoseFocus(badge)
-		end
-
-		-- Check if the "combined status" mod is enabled
-		if GLOBAL.KnownModIndex:IsModEnabled("376333686") then
-			badge.num:Show()
-		else
-			badge.num:Hide()
-		end
-	end
-	]]
 
     -- Function to update the FearBadge
     self.owner.UpdateFearBadge = function()
