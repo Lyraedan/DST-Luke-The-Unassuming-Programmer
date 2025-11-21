@@ -282,7 +282,7 @@ local Fear = Class(function(self, inst)
 
     -- Timers
     self.timesincelastkill = 0
-    self.cooldownPeriod = 10
+    self.cooldownPeriod = 10 -- 30
     self.cooldowntick = 1
 
     -- Thresholds

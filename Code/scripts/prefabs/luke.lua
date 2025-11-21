@@ -35,81 +35,6 @@ local ISFROZEN = false
 
 local INCAVE = false
 
-local bugs = { "bee", "killerbee", "butterfly", "beequeen", "dragonfly", "fireflies", "friendlyfruitfly", "glommer", "lordfruitfly", "fruitfly", "mosquito", "beehive", "wasphive", "beequeenhivegrown" }
-
-local bugsData = { 
-    bee = {
-        tag = "bee",
-        radius = 8,
-		sanityDrain = -TUNING.SANITYAURA_MED
-    },
-	killerbee = {
-		tag = "killerbee",
-		radius = 8,
-		sanityDrain = -TUNING.SANITYAURA_MED
-	},
-    butterfly = {
-        tag = "butterfly",
-        radius = 8,
-		sanityDrain = -TUNING.SANITYAURA_MED
-    },
-	beequeen = {
-		tag = "beequeen",
-		radius = 16,
-		sanityDrain = -TUNING.SANITYAURA_MED
-	},
-	dragonfly = {
-		tag = "dragonfly",
-		radius = 16,
-		sanityDrain = -TUNING.SANITYAURA_MED
-	},
-	fireflies = {
-		tag = "fireflies",
-		radius = 8,
-		sanityDrain = -TUNING.SANITYAURA_MED
-	},
-	friendlyfruitfly = {
-		tag = "friendlyfruitfly",
-		radius = 8,
-		sanityDrain = -TUNING.SANITYAURA_MED
-	},
-	glommer = {
-		tag = "glommer",
-		radius = 12,
-		sanityDrain = -TUNING.SANITYAURA_MED
-	},
-	lordfruitfly = {
-		tag = "lordfruitfly",
-		radius = 12,
-		sanityDrain = -TUNING.SANITYAURA_MED
-	},
-	fruitfly = {
-		tag = "fruitfly",
-		radius = 8,
-		sanityDrain = -TUNING.SANITYAURA_MED
-	},
-	mosquito = {
-		tag = "mosquito",
-		radius = 8,
-		sanityDrain = -TUNING.SANITYAURA_MED
-	},
-	beehive = {
-		tag = "beehive",
-		radius = 4,
-		sanityDrain = -TUNING.SANITYAURA_MED
-	},
-	wasphive = {
-		tag = "wasphive",
-		radius = 4,
-		sanityDrain = -TUNING.SANITYAURA_MED
-	},
-	beequeenhive = {
-		tag = "beequeenhivegrown",
-		radius = 25,
-		sanityDrain = -TUNING.SANITYAURA_MED
-	}
-}
-
 local function Ternary(condition, whenTrue, whenFalse)
 	if condition == true then
 		return whenTrue
@@ -162,42 +87,12 @@ local function tagGiver(inst)
 	inst.components.fear:ApplyFearTags()
 end
 
-local function CalculateBugSanityDrainAt(inst, x, y, z)
-	local delta = 0
-	local radius = 0
-	local sanityDrain = -TUNING.SANITYAURA_MED;
-
-	local generalVicinity = 25
-	local ents = TheSim:FindEntities(x, y, z, generalVicinity, nil, nil, bugs)
-
-	for i, v in ipairs(ents) do
-		for key, value in pairs(bugsData) do
-			local hasTag = v:HasTag(value.tag);
-			if hasTag then
-				radius = value.radius
-				sanityDrain = value.sanityDrain
-				break
-			end
-		end
-
-		local distsq = inst:GetDistanceSqToInst(v)
-		local radiussq = radius * radius
-		if distsq < radiussq then
-			local sz = sanityDrain * radius / radius
-			-- shift the value so that a distance of 3 is the minimum
-			delta = delta + sz / math.max(1, distsq - 9)
-		end
+local function entomophobia_sanityfn(inst)
+    local comp = inst.components.entomophobia
+    if comp ~= nil then
+        return comp:GetSanityPenalty()
     end
-	return delta
-end
-
-local function sanityfn(inst)--, dt)
-	if BEEHAT == true then
-		return 0;
-	end
-
-    local x, y, z = inst.Transform:GetWorldPosition()
-    return CalculateBugSanityDrainAt(inst, x, y, z)
+    return 0
 end
 
 local function OnEntityKilledFearGained(inst)
@@ -386,8 +281,10 @@ local master_postinit = function(inst)
 	inst.components.health:SetMaxHealth(TUNING.LUKE_HEALTH)
 	inst.components.hunger:SetMax(TUNING.LUKE_HUNGER)
 	inst.components.sanity:SetMax(TUNING.LUKE_SANITY)
-	inst.components.sanity.custom_rate_fn = sanityfn
 	inst.components.sanity.night_drain_mult = 0.5
+
+	inst:AddComponent("entomophobia")
+	inst.components.sanity.custom_rate_fn = entomophobia_sanityfn
 	
 	-- Damage multiplier (optional)
 	local fearNormalized = (inst.components.fear.fearfactor * 1) / inst.components.fear.maxfear -- Fear factor in a value of 0 - 1
@@ -422,19 +319,18 @@ local master_postinit = function(inst)
 
 	local function WithHat(inst, data)
 		if data.item.prefab == "beehat" then
+			inst.components.entomophobia:SetBeehatBlock(true)
 			inst.components.talker:Say(STRINGS.CHARACTERS.LUKE.PROTECTED_FROM_INSECTS)
-			BEEHAT = true
 		end
 	end
 
 	local function WithoutHat(inst, data)
 		if data.item.prefab == "beehat" then
+			inst.components.entomophobia:SetBeehatBlock(false)
 			inst.components.talker:Say(STRINGS.CHARACTERS.LUKE.UNPROTECTED_FROM_INSECTS)
-			BEEHAT = false
 		end
 	end
 
-	
 	inst:ListenForEvent("equip", WithHat)
 	inst:ListenForEvent("unequip", WithoutHat)
 	inst:ListenForEvent("firedamage", OnFire)
