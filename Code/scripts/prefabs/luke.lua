@@ -21,27 +21,8 @@ for k, v in pairs(TUNING.GAMEMODE_STARTING_ITEMS) do
 end
 local prefabs = FlattenTree(start_inv, true)
 
-local BEEHAT = false
-local MUTTER_RATE = 16; --16
-
-local ONBOAT = false
-local SEASICK = false
-
-local IA_ENABLED = false;
-local IA_ONBOAT = false
-
 local ONFIRE = false
 local ISFROZEN = false
-
-local INCAVE = false
-
-local function Ternary(condition, whenTrue, whenFalse)
-	if condition == true then
-		return whenTrue
-	else
-		return whenFalse
-	end
-end
 
 -- When the character is revived from human
 local function onbecamehuman(inst)
@@ -56,13 +37,6 @@ local function onbecameghost(inst)
 	inst:AddTag("notarget")
 end
 
-local function CaveCheck(inst)
-	INCAVE = TheWorld:HasTag("cave")
-	if INCAVE == nil then
-		INCAVE = false
-	end
-end
-
 -- When loading or spawning the character
 local function onload(inst)
     inst:ListenForEvent("ms_respawnedfromghost", onbecamehuman)
@@ -74,13 +48,6 @@ local function onload(inst)
     else
         onbecamehuman(inst)
     end
-
-	inst:DoPeriodicTask(0.5, CaveCheck)
-
-	IA_ENABLED = KnownModIndex:IsModEnabled("workshop-1467214795"); -- Island Adventures : Shipwrecked
-	if (IA_ENABLED == nil) then -- When a workshop item can't be found it returns nil instead of false
-		IA_ENABLED = false
-	end
 end
 
 local function tagGiver(inst)
@@ -126,92 +93,12 @@ local function OnCassetteStopped(inst)
     end
 end
 
-local function BoatCheck(inst)
-	if IA_ONBOAT then
-		ONBOAT = IA_ONBOAT
-	else
-		ONBOAT = inst:GetCurrentPlatform() ~= nil
-	end
-
-	if ONBOAT then
-		if inst.components.grogginess ~= nil and inst.components.grogginess.grog_amount < 0.5 then
-			inst.components.grogginess:AddGrogginess(0.5, 1)
-		end
-	end
-	-- Sea sickness quotes
-	if SEASICK ~= ONBOAT then
-		if ONBOAT == true then
-			inst.components.talker:Say(STRINGS.CHARACTERS.LUKE.SEA_SICKNESS[math.random(#STRINGS.CHARACTERS.LUKE.SEA_SICKNESS)])
-		else
-			inst.components.talker:Say(STRINGS.CHARACTERS.LUKE.SEA_SICKNESS_CURE[math.random(#STRINGS.CHARACTERS.LUKE.SEA_SICKNESS_CURE)])
-		end
-		--inst.SoundEmitter:PlaySound("luke/luke/talk_LP")
-		SEASICK = ONBOAT
-	end
+local function OnBecomeSeasick(inst)
+	inst.components.talker:Say(STRINGS.CHARACTERS.LUKE.SEA_SICKNESS[math.random(#STRINGS.CHARACTERS.LUKE.SEA_SICKNESS)])
 end
 
-local function IA_OnEmbarked(inst)
-	IA_ONBOAT = true
-end
-
-local function IA_OnDisembarked(inst)
-	IA_ONBOAT = false
-end
-
-local function Mutter(inst)
-	local mutterCheck = (math.random(MUTTER_RATE) == 1)
-	if mutterCheck then
-		local season = TheWorld.state.season
-		local isSain = (inst.components.sanity:GetPercent() > 0.25)
-		local isNotHungry = (inst.components.hunger:GetPercent() > 0.25)
-
-		if isSain and isNotHungry and (INCAVE == false) then
-			if season == "spring" then
-				if SEASICK  then
-					inst.components.talker:Say(Ternary(IA_ENABLED == false, STRINGS.CHARACTERS.LUKE.MUTTER_SEA_SPRING[math.random(#STRINGS.CHARACTERS.LUKE.MUTTER_SEA_SPRING)], 
-																			STRINGS.CHARACTERS.LUKE.MUTTER_SEA_MONSOON[math.random(#STRINGS.CHARACTERS.LUKE.MUTTER_SEA_MONSOON)]))
-				else
-					inst.components.talker:Say(Ternary(IA_ENABLED == false, STRINGS.CHARACTERS.LUKE.MUTTER_LAND_SPRING[math.random(#STRINGS.CHARACTERS.LUKE.MUTTER_LAND_SPRING)],
-																		    STRINGS.CHARACTERS.LUKE.MUTTER_LAND_MONSOON[math.random(#STRINGS.CHARACTERS.LUKE.MUTTER_LAND_MONSOON)]))
-				end
-			elseif season == "summer" then
-				if SEASICK then
-					inst.components.talker:Say(Ternary(IA_ENABLED == false, STRINGS.CHARACTERS.LUKE.MUTTER_SEA_SUMMER[math.random(#STRINGS.CHARACTERS.LUKE.MUTTER_SEA_SUMMER)],
-																		    STRINGS.CHARACTERS.LUKE.MUTTER_SEA_DRY[math.random(#STRINGS.CHARACTERS.LUKE.MUTTER_SEA_DRY)]))
-				else
-					inst.components.talker:Say(Ternary(IA_ENABLED == false, STRINGS.CHARACTERS.LUKE.MUTTER_LAND_SUMMER[math.random(#STRINGS.CHARACTERS.LUKE.MUTTER_LAND_SUMMER)],
-																			STRINGS.CHARACTERS.LUKE.MUTTER_LAND_DRY[math.random(#STRINGS.CHARACTERS.LUKE.MUTTER_LAND_DRY)]))
-				end
-			elseif season == "autumn" then
-				if SEASICK then
-					inst.components.talker:Say(Ternary(IA_ENABLED == false, STRINGS.CHARACTERS.LUKE.MUTTER_SEA_AUTUMN[math.random(#STRINGS.CHARACTERS.LUKE.MUTTER_SEA_AUTUMN)],
-																			STRINGS.CHARACTERS.LUKE.MUTTER_SEA_MILD[math.random(#STRINGS.CHARACTERS.LUKE.MUTTER_SEA_MILD)]))
-				else
-					inst.components.talker:Say(Ternary(IA_ENABLED == false, STRINGS.CHARACTERS.LUKE.MUTTER_LAND_AUTUMN[math.random(#STRINGS.CHARACTERS.LUKE.MUTTER_LAND_AUTUMN)],
-																			STRINGS.CHARACTERS.LUKE.MUTTER_LAND_MILD[math.random(#STRINGS.CHARACTERS.LUKE.MUTTER_LAND_MILD)]))
-				end
-			elseif season == "winter" then
-				if SEASICK then
-					inst.components.talker:Say(Ternary(IA_ENABLED == false, STRINGS.CHARACTERS.LUKE.MUTTER_SEA_WINTER[math.random(#STRINGS.CHARACTERS.LUKE.MUTTER_SEA_WINTER)],
-																			STRINGS.CHARACTERS.LUKE.MUTTER_SEA_HURRICANE[math.random(#STRINGS.CHARACTERS.LUKE.MUTTER_SEA_HURRICANE)]))
-				else
-					inst.components.talker:Say(Ternary(IA_ENABLED == false, STRINGS.CHARACTERS.LUKE.MUTTER_LAND_WINTER[math.random(#STRINGS.CHARACTERS.LUKE.MUTTER_LAND_WINTER)],
-																			STRINGS.CHARACTERS.LUKE.MUTTER_LAND_HURRICANE[math.random(#STRINGS.CHARACTERS.LUKE.MUTTER_LAND_HURRICANE)]))
-				end
-			end
-			do return end
-		elseif isSain and isNotHungry and (INCAVE == true) then
-			inst.components.talker:Say(STRINGS.CHARACTERS.LUKE.MUTTER_CAVE[math.random(#STRINGS.CHARACTERS.LUKE.MUTTER_CAVE)])
-			do return end
-		elseif isSain == false then
-			inst.components.talker:Say(STRINGS.CHARACTERS.LUKE.MUTTER_INSANITY[math.random(#STRINGS.CHARACTERS.LUKE.MUTTER_INSANITY)])
-			do return end
-		elseif isNotHungry == false then
-			inst.components.talker:Say(STRINGS.CHARACTERS.LUKE.MUTTER_HUNGRY[math.random(#STRINGS.CHARACTERS.LUKE.MUTTER_HUNGRY)])
-			do return end
-		end
-		--inst.SoundEmitter:PlaySound("luke/luke/talk_LP")
-	end
+local function OnCuredSeasick(inst)
+	inst.components.talker:Say(STRINGS.CHARACTERS.LUKE.SEA_SICKNESS_CURE[math.random(#STRINGS.CHARACTERS.LUKE.SEA_SICKNESS_CURE)])
 end
 
 local function OnFireCheck(inst)
@@ -311,11 +198,9 @@ local master_postinit = function(inst)
     end
 	]]
 	
-	inst._update_boat_check = inst:DoPeriodicTask(0.5, BoatCheck)
-	inst:DoPeriodicTask(10, Mutter)
 	inst:DoPeriodicTask(0.5, OnFireCheck)
 	inst:DoPeriodicTask(0.5, IsFrozenCheck)
-	inst:DoPeriodicTask(5, tagGiver)
+	inst:DoPeriodicTask(5, tagGiver) -- Not sure if this is needed, just in case
 
 	local function WithHat(inst, data)
 		if data.item.prefab == "beehat" then
@@ -346,9 +231,20 @@ local master_postinit = function(inst)
 	end
 	inst:ListenForEvent("respawnfromghost", inst._onrespawnfromghost)
 
-	-- Shipwrecked listeners
-	inst:ListenForEvent("embarkboat", IA_OnEmbarked)
-	inst:ListenForEvent("disembarkboat", IA_OnDisembarked)
+	inst:AddComponent("seasick")
+	inst:ListenForEvent("become_seasick", function() return OnBecomeSeasick(inst) end)
+	inst:ListenForEvent("cure_seasick", function() return OnCuredSeasick(inst) end)
+	inst.components.seasick:Start()
+
+	inst:AddComponent("luke_mutterer")
+
+	inst.components.luke_mutterer.seasick_comp = inst.components.seasick
+
+	inst.components.luke_mutterer:Start()
+
+	-- Shipwrecked / IA event hooks
+	inst:ListenForEvent("embarkboat", function() inst.components.seasick:OnEmbarked() end)
+	inst:ListenForEvent("disembarkboat", function() inst.components.seasick:OnDisembarked() end)
 
 	inst:AddTag("spoiler")
 
