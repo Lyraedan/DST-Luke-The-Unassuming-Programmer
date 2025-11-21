@@ -275,8 +275,6 @@ TUNING.ENTITY_FEAR = {
 
 local Fear = Class(function(self, inst)
     self.inst = inst
-
-    -- Core values
     self.fearfactor = 0
     self.maxfear = 100
 

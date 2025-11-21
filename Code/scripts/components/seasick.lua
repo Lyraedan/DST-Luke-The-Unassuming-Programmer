@@ -6,7 +6,6 @@ local Seasick = Class(function(self, inst)
     self.ia_enabled = false
     self.ia_onboat = false
 
-    -- Internal
     self._updatetask = nil
 end)
 

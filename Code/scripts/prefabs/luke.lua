@@ -237,9 +237,7 @@ local master_postinit = function(inst)
 	inst.components.seasick:Start()
 
 	inst:AddComponent("luke_mutterer")
-
 	inst.components.luke_mutterer.seasick_comp = inst.components.seasick
-
 	inst.components.luke_mutterer:Start()
 
 	-- Shipwrecked / IA event hooks
