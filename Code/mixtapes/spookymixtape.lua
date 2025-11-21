@@ -47,8 +47,10 @@ local function GetMixtape()
         strings = {
             name = "Cassette: \"Spooky mixtape\"",
             recipe_description = "A spooky mixtape made by Luke.",
-            generic_describe = "This cassette makes me feel uneasy.", -- Generic character description
-            luke_describe = "One of my more spookier tapes." -- Lukes unique description
+            describe = {
+                generic = "This cassette makes me feel uneasy.",
+                luke = "One of my more spookier tapes."
+            }
         }
     }
 end

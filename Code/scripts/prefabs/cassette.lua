@@ -55,8 +55,13 @@ for i, tape in ipairs(TUNING.LUKE.Mixtapes) do
     local key = string.upper(name)
     STRINGS.NAMES[key] = tape.strings.name
     STRINGS.RECIPE_DESC[key] = tape.strings.recipe_description
-    STRINGS.CHARACTERS.GENERIC.DESCRIBE[key] = tape.strings.generic_describe
-    STRINGS.CHARACTERS.LUKE.DESCRIBE[key] = tape.strings.luke_describe
+
+    for character_name, description in pairs(tape.strings.describe) do
+        local character_key = string.upper(character_name)
+        if STRINGS.CHARACTERS[character_key] then
+            STRINGS.CHARACTERS[character_key].DESCRIBE[key] = description
+        end
+    end
 end
 
 -- Create prefabs for each mixtape
