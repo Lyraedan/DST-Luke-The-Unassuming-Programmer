@@ -4,20 +4,20 @@ local function GetMixtape()
 
         prefab = {
             asset = {
-                anim = "anim/cassette.zip",
-                atlas = "images/inventoryimages/cassette.xml",
-                image = "images/inventoryimages/cassette.tex",
+                anim = "anim/cassette_spooky.zip",
+                atlas = "images/inventoryimages/cassette_spooky.xml",
+                image = "images/inventoryimages/cassette_spooky.tex",
             },
 
             inventoryitem = {
-                imagename = "cassette",
-                atlasname = "images/inventoryimages/cassette.xml",
+                imagename = "cassette_spooky",
+                atlasname = "images/inventoryimages/cassette_spooky.xml",
                 sinks = true
             },
 
             animstate = {
-                bank = "cassette",
-                build = "cassette",
+                bank = "cassette_spooky",
+                build = "cassette_spooky",
                 animation = "idle",
                 scale = {
                     x = 2,
@@ -32,12 +32,12 @@ local function GetMixtape()
                 ingredients = {
                     GLOBAL.Ingredient("cassette_blank", 1),
                     GLOBAL.Ingredient("nightmarefuel", 1),
-                    GLOBAL.Ingredient("silk", 3)
+                    GLOBAL.Ingredient("silk", 1)
                 },
                 tech_type = GLOBAL.TECH.NONE,
                 crafting_icon = {
-                    atlas = "images/inventoryimages/cassette.xml",
-                    image = "cassette.tex",
+                    atlas = "images/inventoryimages/cassette_spooky.xml",
+                    image = "cassette_spooky.tex",
                 },
             }
         },
