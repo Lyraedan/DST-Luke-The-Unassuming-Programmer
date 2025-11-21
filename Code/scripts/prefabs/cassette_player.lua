@@ -13,6 +13,16 @@ local prefabs =
 local CASSETTE_PLAYER_ISPLAYING_TAG = "playingCassette"
 local CASSETTE_ISPLAYING_TAG = "isPlaying"
 local AUDIO_CHANNEL = "cassette"
+local CURRENT_CASSETTE = nil
+
+local FARM_PLANT_TAGS = {"tendable_farmplant"}
+local function song_tend_update(inst)
+    local ix, iy, iz = inst.Transform:GetWorldPosition()
+    local nearby_tendable_plants = TheSim:FindEntities(ix, iy, iz, CURRENT_CASSETTE.mixtape_data.effects.farming.tend_radius, FARM_PLANT_TAGS)
+    for _, tendable_plant in pairs(nearby_tendable_plants) do
+        tendable_plant.components.farmplanttendable:TendTo()
+    end
+end
 
 local function HasItem(container, prefab)
   for _, item in pairs(container.slots) do
@@ -23,29 +33,60 @@ local function HasItem(container, prefab)
   return false
 end
 
-local function StopCassette(cassette, emitter)
-    emitter.SoundEmitter:KillSound(AUDIO_CHANNEL)
+local function StopCassette(inst, cassette, emitter)
+    if not emitter then
+        return
+    end
+
+    emitter.SoundEmitter:KillSound(AUDIO_CHANNEL) -- Apparently this can be null sometimes?
 
     if cassette ~= nil then
         cassette:RemoveTag(CASSETTE_ISPLAYING_TAG)
     end
     
-    emitter:RemoveTag(CASSETTE_PLAYER_ISPLAYING_TAG)
-end
-
-local function PlayCassette(cassette, emitter, tape)
-    if emitter:HasTag(CASSETTE_PLAYER_ISPLAYING_TAG) then
-        -- Stop previous cassette
-        StopCassette(emitter.currentCassette, emitter)
+    if inst._tend_update_task then
+        inst._tend_update_task:Cancel()
+        inst._tend_update_task = nil
     end
     
+    emitter:PushEvent("on_cassette_stopped", { })
+    emitter.currentCassette = nil
+    CURRENT_CASSETTE = nil
+
+    emitter:RemoveTag(CASSETTE_PLAYER_ISPLAYING_TAG)
+    
+end
+
+local function PlayCassette(inst, cassette, emitter, tape)
+    if not emitter then
+        return
+    end
+
+    if emitter:HasTag(CASSETTE_PLAYER_ISPLAYING_TAG) then
+        -- Stop previous cassette
+        StopCassette(inst, emitter.currentCassette, emitter)
+    end
+    
+    -- Check if we still have the tag
+    if emitter:HasTag(CASSETTE_PLAYER_ISPLAYING_TAG) then
+        -- Stopping previous failed
+        return
+    end
+
     if cassette ~= nil then
         cassette:AddTag(CASSETTE_ISPLAYING_TAG)
     end
 
     emitter.SoundEmitter:PlaySound(tape, AUDIO_CHANNEL)
     emitter.currentCassette = cassette
+    CURRENT_CASSETTE = cassette
+
+    if CURRENT_CASSETTE.mixtape_data.effects.farming.tends_to_plants then
+        inst._tend_update_task = inst:DoPeriodicTask(1, song_tend_update, 1)
+    end
+
     emitter:AddTag(CASSETTE_PLAYER_ISPLAYING_TAG)
+    emitter:PushEvent("on_cassette_played", { })
 end
 
 local function OnPlayerUsedCassette(inst, data)
@@ -58,9 +99,9 @@ local function OnPlayerUsedCassette(inst, data)
     end
 
     if data.mode == "stop" then
-        StopCassette(data.cassette, data.player)
+        StopCassette(inst, data.cassette, data.player)
     else
-        PlayCassette(data.cassette, data.player, data.selected_tape)
+        PlayCassette(inst, data.cassette, data.player, data.selected_tape)
     end
 end
  

@@ -34,16 +34,23 @@ local function GetMixtape()
                     GLOBAL.Ingredient("nightmarefuel", 1),
                     GLOBAL.Ingredient("silk", 1)
                 },
-                tech_type = GLOBAL.TECH.NONE,
-                crafting_icon = {
-                    atlas = "images/inventoryimages/cassette_spooky.xml",
-                    image = "cassette_spooky.tex",
-                },
+                tech_type = GLOBAL.TECH.NONE
+            },
+            crafting_icon = {
+                atlas = "images/inventoryimages/cassette_spooky.xml",
+                image = "cassette_spooky.tex",
             }
         },
 
         songs = {
             "dontstarve/music/gramaphone_hallowednights"
+        },
+
+        effects = {
+            farming = {
+                tends_to_plants = true,
+                tend_radius = 8
+            }
         },
 
         strings = {

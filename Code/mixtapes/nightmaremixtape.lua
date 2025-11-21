@@ -35,11 +35,11 @@ local function GetMixtape()
                     GLOBAL.Ingredient("phonograph", 1),
                     GLOBAL.Ingredient("silk", 1)
                 },
-                tech_type = GLOBAL.TECH.NONE,
-                crafting_icon = {
-                    atlas = "images/inventoryimages/cassette_nightmare.xml",
-                    image = "cassette_nightmare.tex",
-                },
+                tech_type = GLOBAL.TECH.NONE
+            },
+            crafting_icon = {
+                atlas = "images/inventoryimages/cassette_nightmare.xml",
+                image = "cassette_nightmare.tex",
             }
         },
 
@@ -48,6 +48,13 @@ local function GetMixtape()
             "dontstarve/music/gramaphone_drstyle",
             "dontstarve/music/gramaphone_efs",
             "dontstarve/music/gramaphone_creepyforest"
+        },
+
+        effects = {
+            farming = {
+                tends_to_plants = true,
+                tend_radius = 8
+            }
         },
 
         strings = {

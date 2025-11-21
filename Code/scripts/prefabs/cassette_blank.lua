@@ -18,8 +18,8 @@ local function fn()
     inst.entity:AddNetwork()
     MakeInventoryPhysics(inst)
 
-    inst.AnimState:SetBank("cassette")
-    inst.AnimState:SetBuild("cassette")
+    inst.AnimState:SetBank("cassette_blank")
+    inst.AnimState:SetBuild("cassette_blank")
     inst.AnimState:PlayAnimation("idle")
     inst.AnimState:SetScale(2, 2)
 
@@ -33,8 +33,8 @@ local function fn()
 
     inst:AddComponent("inspectable")
     inst:AddComponent("inventoryitem")
-    inst.components.inventoryitem.imagename = "cassette"
-    inst.components.inventoryitem.atlasname = "images/inventoryimages/cassette.xml"
+    inst.components.inventoryitem.imagename = "cassette_blank"
+    inst.components.inventoryitem.atlasname = "images/inventoryimages/cassette_blank.xml"
 	inst.components.inventoryitem:SetSinks(true)
 	 
     return inst

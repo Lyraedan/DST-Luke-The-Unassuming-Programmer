@@ -14,8 +14,9 @@ end
 
 local function GenerateMixTapeRecipes(tab)
 	for i, tape in ipairs(TUNING.LUKE.Mixtapes) do
+		RegisterInventoryItemAtlas(tape.crafting.crafting_icon.atlas, tape.crafting.crafting_icon.image)
 		if tape.crafting.craftable then
-			local cassette = AddRecipe("cassette_" .. i, tape.crafting.recipe.ingredients, tab, tape.crafting.recipe.tech_type, nil, nil, nil, nil, "frisk_builder", tape.crafting.recipe.crafting_icon.atlas, tape.crafting.recipe.crafting_icon.image)
+			local cassette = AddRecipe("cassette_" .. i, tape.crafting.recipe.ingredients, tab, tape.crafting.recipe.tech_type, nil, nil, nil, nil, "frisk_builder", tape.crafting.crafting_icon.atlas, tape.crafting.crafting_icon.image)
 		end
 	end
 end
@@ -103,7 +104,7 @@ RegisterInventoryItemAtlas("images/inventoryimages/survival_knife.xml", "surviva
 RegisterInventoryItemAtlas("images/inventoryimages/shadow_knife.xml", "shadow_knife.tex")
 
 RegisterInventoryItemAtlas("images/inventoryimages/cassette_player.xml", "cassette_player.tex")
-RegisterInventoryItemAtlas("images/inventoryimages/cassette.xml", "cassette.tex")
+RegisterInventoryItemAtlas("images/inventoryimages/cassette_blank.xml", "cassette_blank.tex")
 
 local require = GLOBAL.require
 local STRINGS = GLOBAL.STRINGS

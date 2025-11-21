@@ -535,16 +535,26 @@ local function FearCheck(inst)
 end
 
 local function DrivePlayersInsane(inst)
-	if inst.components.fear.fearfactor >= inst.components.fear.scareplayers then
-		local x, y, z = inst.Transform:GetWorldPosition()
-		local generalVicinity = 25
-		local players = TheSim:FindEntities(x, y, z, generalVicinity, nil, nil, { "character" }) --TheSim:FindPlayersInRange(x, y, z, generalVicinity, true) -- (x, y, z, range, isalive)
-		for k, player in pairs(players) do
-			if(player ~= inst) then
-				player.components.sanity:DoDelta(-0.1, true) -- drain other players sanity
-			end
-		end
-	end
+	if inst.components.fear
+    and inst.components.fear.fearfactor >= inst.components.fear.scareplayers
+    and inst.Transform ~= nil then
+
+        local x, y, z = inst.Transform:GetWorldPosition()
+        local generalVicinity = 25
+
+        local players = TheSim:FindEntities(
+            x, y, z,
+            generalVicinity,
+            { "player" },                -- must HAVE tag: real players only
+            { "playerghost", "INLIMBO" }    -- must NOT have
+        )
+
+        for _, player in ipairs(players) do
+            if player ~= inst and player.components.sanity then
+                player.components.sanity:DoDelta(-0.1, true)
+            end
+        end
+    end
 end
 
 local function ApplyFear(inst, data)
@@ -570,6 +580,31 @@ local function ApplyFear(inst, data)
 			UpdateFearFactor(inst, amt)
 		end
 	end
+end
+
+local function CassetteFearUpdate(inst)
+	if inst.currentCassette then
+		if inst.currentCassette.mixtape_data.title == "Nightmare mixtape" then
+			-- reduce fear
+			UpdateFearFactor(inst, -1)
+		elseif inst.currentCassette.mixtape_data.title == "Spooky mixtape" then
+			-- increase fear
+			UpdateFearFactor(inst, 1)
+		end
+	end
+end
+
+local function OnCassettePlayed(inst)
+	--inst.components.talker:Say(inst.currentCassette.mixtape_data.title .. " Played")
+	inst._cassette_fear_update_task = inst:DoPeriodicTask(1, CassetteFearUpdate, 1)
+end
+
+local function OnCassetteStopped(inst)
+	--inst.components.talker:Say(inst.currentCassette.mixtape_data.title .. " Stopped")
+	if inst._cassette_fear_update_task then
+        inst._cassette_fear_update_task:Cancel()
+        inst._cassette_fear_update_task = nil
+    end
 end
 
 local function BoatCheck(inst)
@@ -709,7 +744,7 @@ local master_postinit = function(inst)
 	inst.components.pigeonspawner:SetRate(0.0333333333333333, 0.01)
 
 	-- choose which sounds this character will play
-	inst.soundsname = "luke"
+	inst.soundsname = "Warly" -- "luke" (pigeons)
 	
 	inst.components.foodaffinity:AddPrefabAffinity("bonestew", TUNING.AFFINITY_15_CALORIES_MED)
 	inst.components.foodaffinity:AddPrefabAffinity("spoiled_food", -TUNING.AFFINITY_15_CALORIES_MED)
@@ -784,6 +819,9 @@ local master_postinit = function(inst)
 	inst:ListenForEvent("unequip", WithoutHat)
 	inst:ListenForEvent("firedamage", OnFire)
 	inst:ListenForEvent("freeze", OnFrozen)
+
+	inst:ListenForEvent("on_cassette_played", function() return OnCassettePlayed(inst) end)
+	inst:ListenForEvent("on_cassette_stopped", function() return OnCassetteStopped(inst) end)
 
 	inst._onrespawnfromghost = function(inst, data)
 		inst.components.fear.timesincelastkill = 0
