@@ -20,7 +20,7 @@ TUNING.ENTITY_FEAR = {
 
     tallbird = { name="tallbird", fearGain=5 },
 
-    treeguard = { name="leif", fearGain=8 },          -- more boss‑tier
+    treeguard = { name="leif", fearGain=8 },
     treeguardsparce = { name="leif_sparse", fearGain=6 },
 
     tentacle = { name="tentacle", fearGain=4 },
@@ -32,9 +32,9 @@ TUNING.ENTITY_FEAR = {
     crawlinghorror = { name="crawlinghorror", fearGain=6 },
     terrorbeak = { name="terrorbeak", fearGain=8 },
 
-    deerclops = { name="deepclops", fearGain=12 },     -- very dangerous boss
-    dragonfly = { name="dragonfly", fearGain=15 },     -- raid boss 
-    moose = { name="moose", fearGain=10 },
+    deerclops = { name="deepclops", fearGain=12 },
+    dragonfly = { name="dragonfly", fearGain=15 },
+    moose = { name="moose", fearGain=10 }, 
     bearger = { name="bearger", fearGain=12 },
     reanimatedskeleton = { name="stalker", fearGain=10 },
     antlion = { name="antlion", fearGain=12 },
