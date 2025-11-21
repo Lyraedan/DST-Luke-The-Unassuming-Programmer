@@ -1,6 +1,6 @@
 local function GetMixtape()
     return {
-        title = "Luke's cool mixtape",
+        title = "Nightmare mixtape",
 
         prefab = {
             asset = {
@@ -30,7 +30,9 @@ local function GetMixtape()
             craftable = true,
             recipe = {
                 ingredients = {
-                    GLOBAL.Ingredient("silk", 3),
+                    GLOBAL.Ingredient("cassette_blank", 1),
+                    GLOBAL.Ingredient("nightmarefuel", 4),
+                    GLOBAL.Ingredient("gramaphone", 1)
                 },
                 tech_type = GLOBAL.TECH.NONE,
                 crafting_icon = {
@@ -41,15 +43,18 @@ local function GetMixtape()
         },
 
         songs = {
-            "dontstarve/music/gramaphone_ragtime"
+            "dontstarve/music/gramaphone_ragtime",
+            "dontstarve/music/gramaphone_drstyle",
+            "dontstarve/music/gramaphone_efs",
+            "dontstarve/music/gramaphone_creepyforest"
         },
 
         strings = {
-            name = "Cassette: \"Luke's cool mixtape\"",
-            recipe_description = "A cool mixtape made by Luke.",
+            name = "Cassette: \"Nightmare mixtape\"",
+            recipe_description = "A mixtape of nightmares!",
             describe = {
-                generic = "It doesn't look all too fancy.",
-                luke = "This is one of my cool mixtapes."
+                generic = "It has a picture of a Gramophone on it.",
+                luke = "Ahhh the mixtape of nightmares."
             }
         }
     }

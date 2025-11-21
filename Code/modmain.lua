@@ -1,5 +1,5 @@
 local MIXTAPE_FILES = {
-    "mixtapes/mycoolmixtape",
+    "mixtapes/nightmaremixtape",
 	"mixtapes/spookymixtape"
 }
 
@@ -29,6 +29,7 @@ PrefabFiles = {
     "shadow_knife",
 	"pigeon",
 	"cassette_player",
+	"cassette_blank"
 }
 
 ImportMixtapes()
@@ -306,6 +307,7 @@ pirateHat.product = "polly_rogershat"
 pirateHat.image = "polly_rogershat.tex"
 
 local cassette_player = AddRecipe("cassette_player", {GLOBAL.Ingredient("silk", 2)}, frisktab, TECH.NONE, nil, nil, nil, nil, "frisk_builder", nil, nil)
+local cassette_blank = AddRecipe("cassette_blank", {GLOBAL.Ingredient("silk", 2)}, frisktab, TECH.NONE, nil, nil, nil, nil, "frisk_builder", "images/inventoryimages/cassette_blank.xml", "cassette_blank.tex")
 
 GenerateMixTapeRecipes(frisktab)
 

@@ -30,7 +30,9 @@ local function GetMixtape()
             craftable = true,
             recipe = {
                 ingredients = {
-                    GLOBAL.Ingredient("silk", 3),
+                    GLOBAL.Ingredient("cassette_blank", 1),
+                    GLOBAL.Ingredient("nightmarefuel", 1),
+                    GLOBAL.Ingredient("silk", 3)
                 },
                 tech_type = GLOBAL.TECH.NONE,
                 crafting_icon = {

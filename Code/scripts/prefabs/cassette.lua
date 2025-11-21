@@ -9,7 +9,6 @@ local function MakeCassettePrefab(mixtape_id)
         inst.entity:AddNetwork()
         MakeInventoryPhysics(inst)
 
-
         inst.AnimState:SetBank(cassette_data.prefab.animstate.bank)
         inst.AnimState:SetBuild(cassette_data.prefab.animstate.build)
         inst.AnimState:PlayAnimation(cassette_data.prefab.animstate.animation)
@@ -29,7 +28,6 @@ local function MakeCassettePrefab(mixtape_id)
         inst.components.inventoryitem.imagename = cassette_data.prefab.inventoryitem.imagename
         inst.components.inventoryitem.atlasname = cassette_data.prefab.inventoryitem.atlasname
         inst.components.inventoryitem:SetSinks(cassette_data.prefab.inventoryitem.sinks)
-
 
         inst:AddComponent("cassette")
         inst.components.cassette.mixtape_id = mixtape_id
