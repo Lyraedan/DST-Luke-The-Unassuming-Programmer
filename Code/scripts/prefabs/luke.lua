@@ -5,7 +5,7 @@ local assets = {
     Asset("SCRIPT", "scripts/prefabs/skilltree_luke.lua"),
 }
 
--- Custom starting inventory
+-- Custom stats
 TUNING.LUKE_HEALTH = 150
 TUNING.LUKE_HUNGER = 150
 TUNING.LUKE_SANITY = 120
