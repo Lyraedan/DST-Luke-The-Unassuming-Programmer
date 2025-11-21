@@ -106,7 +106,7 @@ local sounds = {
     "dontstarve/characters/luke/yawn"
 }
 for _, s in ipairs(sounds) do
-    RemapSoundEvent(s, "luke/" .. s:match("[^/]+$"))
+    RemapSoundEvent(s, "luke/luke/" .. s:match("[^/]+$"))
 end
 
 AddMinimapAtlas("images/map_icons/luke.xml")
