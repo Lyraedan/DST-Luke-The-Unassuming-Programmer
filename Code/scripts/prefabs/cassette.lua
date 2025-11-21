@@ -1,11 +1,7 @@
-local assets = {
-    Asset("ANIM", "anim/cassette.zip"),
-    Asset("ATLAS", "images/inventoryimages/cassette.xml"),
-    Asset("IMAGE", "images/inventoryimages/cassette.tex"),
-}
-
 local function MakeCassettePrefab(mixtape_id)
     local function fn()
+        local cassette_data = TUNING.LUKE.Mixtapes[mixtape_id]
+
         local inst = CreateEntity()
 
         inst.entity:AddTransform()
@@ -14,38 +10,42 @@ local function MakeCassettePrefab(mixtape_id)
         MakeInventoryPhysics(inst)
 
 
-        inst.AnimState:SetBank("cassette")
-        inst.AnimState:SetBuild("cassette")
-        inst.AnimState:PlayAnimation("idle")
-        inst.AnimState:SetScale(2, 2)
-
+        inst.AnimState:SetBank(cassette_data.prefab.animstate.bank)
+        inst.AnimState:SetBuild(cassette_data.prefab.animstate.build)
+        inst.AnimState:PlayAnimation(cassette_data.prefab.animstate.animation)
+        inst.AnimState:SetScale(cassette_data.prefab.animstate.scale.x, cassette_data.prefab.animstate.scale.y)
 
         inst:AddTag("cassette")
         inst:AddTag("enabled")
         MakeInventoryFloatable(inst, "med", 0.07, 0.72)
 
-
         inst.entity:SetPristine()
         if not TheWorld.ismastersim then
-        return inst
+            return inst
         end
-
 
         inst:AddComponent("inspectable")
         inst:AddComponent("inventoryitem")
-        inst.components.inventoryitem.imagename = "cassette"
-        inst.components.inventoryitem.atlasname = "images/inventoryimages/cassette.xml"
-        inst.components.inventoryitem:SetSinks(true)
+        inst.components.inventoryitem.imagename = cassette_data.prefab.inventoryitem.imagename
+        inst.components.inventoryitem.atlasname = cassette_data.prefab.inventoryitem.atlasname
+        inst.components.inventoryitem:SetSinks(cassette_data.prefab.inventoryitem.sinks)
 
 
         inst:AddComponent("cassette")
         inst.components.cassette.mixtape_id = mixtape_id
-        inst.components.cassette.mixtape_data = TUNING.LUKE.Mixtapes[mixtape_id]
+        inst.components.cassette.mixtape_data = cassette_data
         inst.mixtape_id = mixtape_id
-        inst.mixtape_data = TUNING.LUKE.Mixtapes[mixtape_id]
+        inst.mixtape_data = cassette_data
 
         return inst
     end
+
+    local data = TUNING.LUKE.Mixtapes[mixtape_id]
+    local assets = {
+        Asset("ANIM", data.prefab.asset.anim),
+        Asset("ATLAS", data.prefab.asset.atlas),
+        Asset("IMAGE", data.prefab.asset.image),
+    }
 
     return Prefab("common/inventory/cassette_" .. mixtape_id, fn, assets)
 end

@@ -14,8 +14,8 @@ end
 
 local function GenerateMixTapeRecipes(tab)
 	for i, tape in ipairs(TUNING.LUKE.Mixtapes) do
-		if tape.craftable then
-			local cassette = AddRecipe("cassette_" .. i, tape.recipe.ingredients, tab, tape.recipe.tech_type, nil, nil, nil, nil, "frisk_builder", tape.recipe.inventory.xml, tape.recipe.inventory.tex)
+		if tape.crafting.craftable then
+			local cassette = AddRecipe("cassette_" .. i, tape.crafting.recipe.ingredients, tab, tape.crafting.recipe.tech_type, nil, nil, nil, nil, "frisk_builder", tape.crafting.recipe.crafting_icon.atlas, tape.crafting.recipe.crafting_icon.image)
 		end
 	end
 end
