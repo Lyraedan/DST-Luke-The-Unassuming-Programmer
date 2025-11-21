@@ -59,25 +59,29 @@ local function OnEntityKilledFearGained(inst)
     end
 end
 
-local function CassetteFearUpdate(inst)
+local function CassetteEffectsUpdate(inst)
     if inst.currentCassette then
         local title = inst.currentCassette.mixtape_data.title
-        if title == "Nightmare mixtape" then
-            inst.components.fear:AddFear(-1)
-        elseif title == "Spooky mixtape" then
-            inst.components.fear:AddFear(1)
+
+        local switch = {
+            ["Nightmare mixtape"] = function() inst.components.fear:AddFear(-1) end,
+            ["Spooky mixtape"]   = function() inst.components.fear:AddFear(1) end,
+        }
+
+        if switch[title] then
+            switch[title]()
         end
     end
 end
 
 local function OnCassettePlayed(inst)
-    inst._cassette_fear_update_task = inst:DoPeriodicTask(1, CassetteFearUpdate, 1)
+    inst._cassette_effect_update_task = inst:DoPeriodicTask(1, CassetteEffectsUpdate, 1)
 end
 
 local function OnCassetteStopped(inst)
-    if inst._cassette_fear_update_task then
-        inst._cassette_fear_update_task:Cancel()
-        inst._cassette_fear_update_task = nil
+    if inst._cassette_effect_update_task then
+        inst._cassette_effect_update_task:Cancel()
+        inst._cassette_effect_update_task = nil
     end
 end
 
