@@ -32,8 +32,8 @@ TUNING.ENTITY_FEAR = {
     crawlinghorror = { name="crawlinghorror", fearGain=6 },
     terrorbeak = { name="terrorbeak", fearGain=8 },
 
-    deerclops = { name="deepclops", fearGain=12 },     -- very dangerous boss :contentReference[oaicite:0]{index=0}  
-    dragonfly = { name="dragonfly", fearGain=15 },     -- raid boss, huge threat :contentReference[oaicite:1]{index=1}  
+    deerclops = { name="deepclops", fearGain=12 },     -- very dangerous boss
+    dragonfly = { name="dragonfly", fearGain=15 },     -- raid boss 
     moose = { name="moose", fearGain=10 },
     bearger = { name="bearger", fearGain=12 },
     reanimatedskeleton = { name="stalker", fearGain=10 },
@@ -124,6 +124,7 @@ function Fear:AddFear(amount)
     self:ApplyFearTags()
 
     self.inst:PushEvent("luke_fearupdate", {})
+    self.timesincelastkill = 0
 end
 
 function Fear:ApplyFearTags()
@@ -151,7 +152,6 @@ function Fear:OnCooldownTick()
 
     if self.timesincelastkill >= self.cooldownPeriod then
         self:AddFear(-1)
-        self.timesincelastkill = 0
     end
 
     self:DriveNearbyPlayersInsane()
@@ -179,12 +179,12 @@ function Fear:DriveNearbyPlayersInsane()
     local x, y, z = self.inst.Transform:GetWorldPosition()
     local players = TheSim:FindEntities(
         x, y, z, 25,
-        { "player" },
+        { "player", "character" },
         { "playerghost", "INLIMBO" }
     )
 
     for _, player in ipairs(players) do
-        if player ~= self.inst and player.components.sanity then
+        if player.components.sanity then
             player.components.sanity:DoDelta(-0.1, true)
         end
     end

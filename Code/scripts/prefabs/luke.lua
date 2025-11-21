@@ -246,7 +246,6 @@ local master_postinit = function(inst)
 
 	inst:AddTag("spoiler")
 
-
 	inst.OnLoad = onload
     inst.OnNewSpawn = onload
 end
