@@ -110,316 +110,11 @@ local bugsData = {
 	}
 }
 
-local entityFearData = {
-	hound = {
-		name = "hound",
-		fearGain = 4
-	},
-	firehound = {
-		name = "firehound",
-		fearGain = 4
-	},
-	icehound = {
-		name = "icehound",
-		fearGain = 4
-	},
-	clayhound = {
-		name = "clayhound",
-		fearGain = 4
-	},
-	mutatedHound = {
-		name = "mutatedhound",
-		fearGain = 4
-	},
-	bee = {
-		name = "bee",
-		fearGain = 1
-	},
-	killerbee = {
-		name = "killerbee",
-		fearGain = 2
-	},
-	beehive = {
-		name = "beehive",
-		fearGain = 3
-	},
-	cavespider = {
-		name = "spider_hider",
-		fearGain = 4
-	},
-	spitter = {
-		name = "spider_spitter",
-		fearGain = 5
-	},
-	deerclops = {
-		name = "deepclops",
-		fearGain = 10
-	},
-	ghost = {
-		name = "ghost",
-		fearGain = 3
-	},
-	houndfire = {
-		name = "houndfire",
-		fearGain = 4
-	},
-	houndbone = {
-		name = "houndbone",
-		fearGain = 4
-	},
-	houndmound = {
-		name = "houndmound",
-		fearGain = 4
-	},
-	krampus = {
-		name = "krampus",
-		fearGain = 7
-	},
-	mosquito = {
-		name = "mosquito",
-		fearGain = 1
-	},
-	crawlinghorror = {
-		name = "crawlinghorror",
-		fearGain = 6
-	},
-	terrorbeak = {
-		name = "terrorbeak",
-		fearGain = 8
-	},
-	spider = {
-		name = "spider",
-		fearGain = 3
-	},
-	spiderwarrior = {
-		name = "spider_warrior",
-		fearGain = 4
-	},
-	spiderden = {
-		name = "spiderden",
-		fearGain = 3
-	},
-	spiderden_2 = {
-		name = "spiderden_2",
-		fearGain = 4
-	},
-	spiderden_3 = {
-		name = "spiderden_3",
-		fearGain = 5
-	},
-	spiderqueen = {
-		name = "spiderqueen",
-		fearGain = 9
-	},
-	tallbird = {
-		name = "tallbird",
-		fearGain = 5
-	},
-	treeguard = {
-		name = "leif",
-		fearGain = 7
-	},
-	tentacle = {
-		name = "tentacle",
-		fearGain = 5
-	},
-	tentapillar = {
-		name = "tentacle_piller",
-		fearGain = 3
-	},
-	killerbeehive = {
-		name = "wasphive",
-		fearGain = 4
-	},
-	moose = {
-		name = "moose",
-		fearGain = 7
-	},
-	dragonfly = {
-		name = "dragonfly",
-		fearGain = 10
-	},
-	klaus = {
-		name = "klaus",
-		fearGain = 10
-	},
-	bearger = {
-		name = "bearger",
-		fearGain = 10
-	},
-	reanimatedskeleton = {
-		name = "stalker",
-		fearGain = 10
-	},
-	antlion = {
-		name = "antlion",
-		fearGain = 10
-	},
-	bunnyman = {
-		name = "bunnyman",
-		fearGain = 4
-	},
-	rocklobster = {
-		name = "rocky",
-		fearGain = 4
-	},
-	pigman = {
-		name = "pigman",
-		fearGain = 4
-	},
-	babybeefalo = {
-		name = "babybeefalo",
-		fearGain = 4
-	},
-	beefalo = {
-		name = "beefalo",
-		fearGain = 6
-	},
-	beefalohard = {
-		name = "beefalohard",
-		fearGain = 10
-	},
-	crow = {
-		name = "crow",
-		fearGain = 2
-	},
-	redbird = {
-		name = "robin",
-		fearGain = 2
-	},
-	snowbird = {
-		name = "robin_winter",
-		fearGain = 2
-	},
-	frog = {
-		name = "frog",
-		fearGain = 2
-	},
-	koalefantsummer = {
-		name = "koalefant_summer",
-		fearGain = 6
-	},
-	koalefantwinter = {
-		name = "koalefant_winter",
-		fearGain = 6
-	},
-	merm = {
-		name = "merm",
-		fearGain = 4
-	},
-	pengull = {
-		name = "penguin",
-		fearGain = 3
-	},
-	gobbler = {
-		name = "perd",
-		fearGain = 3
-	},
-	rabbit = {
-		name = "rabbit",
-		fearGain = 2
-	},
-	mactusk = {
-		name = "walrus",
-		fearGain = 5
-	},
-	weemactusk = {
-		name = "little_walrus",
-		fearGain = 3
-	},
-	chester = {
-		name = "chester",
-		fearGain = 100 -- you monster
-	},
-	treeguardsparce = {
-		name = "leif_sparse",
-		fearGain = 7
-	},
-	mandrake = {
-		name = "mandrake",
-		fearGain = 2
-	},
-	pigguard = {
-		name = "pigguard",
-		fearGain = 6
-	},
-	smallbird = {
-		name = "smallbird",
-		fearGain = 3
-	},
-	teenbird = {
-		name = "teenbird",
-		fearGain = 4
-	},
-	butterfly = {
-		name = "butterfly",
-		fearGain = 1
-	},
-	bat = {
-		name = "bat",
-		fearGain = 2
-	},
-	slurtle = {
-		name = "slurtle",
-		fearGain = 4
-	},
-	snurtle = {
-		name = "snurtle",
-		fearGain = 4
-	},
-	depthsworm = {
-		name = "worm",
-		fearGain = 7
-	},
-	clockworkbishop = {
-		name = "bishop",
-		fearGain = 4
-	},
-	clockworkknight = {
-		name = "knight",
-		fearGain = 4
-	},
-	pigeon = {
-		name = "pigeon",
-		fearGain = 2
-	}
-}
-
 local function Ternary(condition, whenTrue, whenFalse)
 	if condition == true then
 		return whenTrue
 	else
 		return whenFalse
-	end
-end
-
-local function ApplyFearTags(inst)
-	if inst.components.fear.fearfactor <= inst.components.fear.scaresmall then -- luke old functionality (nothing attacks)
-		-- Remove other tags
-		if inst:HasTag("scarytopray") then
-			inst:RemoveTag("scarytoprey")
-		end
-		if inst:HasTag("Monster") then
-			inst:RemoveTag("Monster")
-		end
-
-		inst:AddTag("notarget")
-	else
-		-- Make luke a target again
-		if inst:HasTag("notarget") then
-			inst:RemoveTag("notarget")
-		end
-
-		-- Not a monster yet
-		if inst:HasTag("Monster") then
-			inst:RemoveTag("Monster")
-		end
-
-		inst:AddTag("scarytoprey")
-
-		if inst.components.fear.fearfactor > inst.components.fear.scareregular then
-			inst:AddTag("Monster")
-		end
 	end
 end
 
@@ -464,7 +159,7 @@ local function onload(inst)
 end
 
 local function tagGiver(inst)
-	ApplyFearTags(inst)
+	inst.components.fear:ApplyFearTags()
 end
 
 local function CalculateBugSanityDrainAt(inst, x, y, z)
@@ -505,80 +200,9 @@ local function sanityfn(inst)--, dt)
     return CalculateBugSanityDrainAt(inst, x, y, z)
 end
 
-local function UpdateFearFactor(inst, amt)
-	inst.components.fear.fearfactor = inst.components.fear.fearfactor + amt
-	local wasZeroOrMaxAtUpdate = inst.components.fear.fearfactor == 0 or inst.components.fear.fearfactor == inst.components.fear.maxfear;
-
-	local fearNormalized = (inst.components.fear.fearfactor * 1) / inst.components.fear.maxfear -- Fear factor in a value of 0 - 1
-    inst.components.combat.damagemultiplier = 0.75 + (fearNormalized * 0.75)
-
-	-- Cap fear factor
-	if inst.components.fear.fearfactor < 0 then
-		inst.components.fear.fearfactor = 0
-	elseif inst.components.fear.fearfactor >= inst.components.fear.maxfear then
-		inst.components.fear.fearfactor = inst.components.fear.maxfear
-	end
-
-	ApplyFearTags(inst)
-	if(wasZeroOrMaxAtUpdate == false) then
-		inst:PushEvent("luke_fearupdate", { currenttick = 0 })
-	end
-end
-
-local function FearCheck(inst)
-	-- Increment time delay
-	inst.components.fear.timesincelastkill = inst.components.fear.timesincelastkill + 1
-
-	if inst.components.fear.timesincelastkill >= inst.components.fear.cooldownPeriod then
-		-- UpdateFearFactor(inst, -1)
-	end
-end
-
-local function DrivePlayersInsane(inst)
-	if inst.components.fear
-    and inst.components.fear.fearfactor >= inst.components.fear.scareplayers
-    and inst.Transform ~= nil then
-
-        local x, y, z = inst.Transform:GetWorldPosition()
-        local generalVicinity = 25
-
-        local players = TheSim:FindEntities(
-            x, y, z,
-            generalVicinity,
-            { "player" },                -- must HAVE tag: real players only
-            { "playerghost", "INLIMBO" }    -- must NOT have
-        )
-
-        for _, player in ipairs(players) do
-            if player ~= inst and player.components.sanity then
-                player.components.sanity:DoDelta(-0.1, true)
-            end
-        end
-    end
-end
-
-local function ApplyFear(inst, data)
-	if data and data.inst then
-		local victim = data.inst
-		local cause = data.cause
-		local afflicter = data.afflicter
-		if victim ~= inst and afflicter == inst then
-			-- Get data for victim
-			local amt = 1 -- default value for missed entities is 1
-			for key, value in pairs(entityFearData) do
-				if value.name == victim.prefab then
-					amt = value.fearGain
-					break
-				end
-			end
-
-			inst.components.fear.timesincelastkill = 0
-			if(STRINGS.CHARACTERS.LUKE.playFearGainSfx == "on") then
-				inst.SoundEmitter:PlaySound("dontstarve/characters/wortox/soul/spawn")
-			end
-			--inst.SoundEmitter:PlaySound("dontstarve/sanity/gonecrazy_stinger")
-			UpdateFearFactor(inst, amt)
-		end
+local function OnEntityKilledFearGained(inst)
+	if(STRINGS.CHARACTERS.LUKE.playFearGainSfx == "on") then
+		inst.SoundEmitter:PlaySound("dontstarve/characters/wortox/soul/spawn")
 	end
 end
 
@@ -586,10 +210,10 @@ local function CassetteFearUpdate(inst)
 	if inst.currentCassette then
 		if inst.currentCassette.mixtape_data.title == "Nightmare mixtape" then
 			-- reduce fear
-			UpdateFearFactor(inst, -1)
+			inst.components.fear:AddFear(-1)
 		elseif inst.currentCassette.mixtape_data.title == "Spooky mixtape" then
 			-- increase fear
-			UpdateFearFactor(inst, 1)
+			inst.components.fear:AddFear(1)
 		end
 	end
 end
@@ -737,7 +361,10 @@ local master_postinit = function(inst)
     inst.starting_inventory = start_inv[TheNet:GetServerGameMode()] or start_inv.default
 
 	inst:AddComponent("fear")
-	inst.components.fear:Setup()
+
+	inst:ListenForEvent("killed", function(inst, data)
+		inst.components.fear:OnEntityKilled(data)	
+	end)
 
 	inst:AddComponent("pigeonspawner")
 	inst.components.pigeonspawner:SetRadius(15)
@@ -788,15 +415,10 @@ local master_postinit = function(inst)
 	]]
 	
 	inst._update_boat_check = inst:DoPeriodicTask(0.5, BoatCheck)
-	inst._update_fear_check = inst:DoPeriodicTask(1, FearCheck)
-	inst:DoPeriodicTask(0.5, DrivePlayersInsane)
 	inst:DoPeriodicTask(10, Mutter)
 	inst:DoPeriodicTask(0.5, OnFireCheck)
 	inst:DoPeriodicTask(0.5, IsFrozenCheck)
 	inst:DoPeriodicTask(5, tagGiver)
-	inst:DoPeriodicTask(30, function(inst)
-		UpdateFearFactor(inst, -1)
-	end)
 
 	local function WithHat(inst, data)
 		if data.item.prefab == "beehat" then
@@ -812,9 +434,7 @@ local master_postinit = function(inst)
 		end
 	end
 
-	inst._onentitydeathfn = function(src, data) ApplyFear(inst, data) end
-	inst:ListenForEvent("entity_death", inst._onentitydeathfn, TheWorld)
-
+	
 	inst:ListenForEvent("equip", WithHat)
 	inst:ListenForEvent("unequip", WithoutHat)
 	inst:ListenForEvent("firedamage", OnFire)
@@ -823,9 +443,10 @@ local master_postinit = function(inst)
 	inst:ListenForEvent("on_cassette_played", function() return OnCassettePlayed(inst) end)
 	inst:ListenForEvent("on_cassette_stopped", function() return OnCassetteStopped(inst) end)
 
+	inst:ListenForEvent("entitykilled_feargained", function() return OnEntityKilledFearGained(inst) end)
+
 	inst._onrespawnfromghost = function(inst, data)
-		inst.components.fear.timesincelastkill = 0
-		UpdateFearFactor(inst, -100)
+		inst.components.fear:Respawn()
 	end
 	inst:ListenForEvent("respawnfromghost", inst._onrespawnfromghost)
 
