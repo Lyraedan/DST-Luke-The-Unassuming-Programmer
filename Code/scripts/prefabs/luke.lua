@@ -19,14 +19,10 @@ end
 
 local prefabs = FlattenTree(start_inv, true)
 
--- Globals for temporary status
 local ONFIRE = false
 local ISFROZEN = false
 
---====================
 -- Event Handlers
---====================
-
 local function onbecamehuman(inst)
     inst.components.locomotor:SetExternalSpeedMultiplier(inst, "luke_speed_mod", 1)
     inst:AddTag("notarget")
@@ -110,10 +106,7 @@ end
 local function OnFire(inst) ONFIRE = true end
 local function OnFrozen(inst) ISFROZEN = true end
 
---====================
 -- Character Initialization
---====================
-
 local common_postinit = function(inst)
     inst.MiniMapEntity:SetIcon("luke.tex")
     inst:AddTag("insomniac")
@@ -218,7 +211,7 @@ local master_postinit = function(inst)
     inst:ListenForEvent("embarkboat", function() inst.components.seasick:OnEmbarked() end)
     inst:ListenForEvent("disembarkboat", function() inst.components.seasick:OnDisembarked() end)
 
-    -- Tags
+	-- Mark luke as a spoiler (Food rots faster)
     inst:AddTag("spoiler")
 
     -- Load handlers
