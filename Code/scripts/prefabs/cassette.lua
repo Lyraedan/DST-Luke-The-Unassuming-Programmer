@@ -52,13 +52,11 @@ end
 
 for i, tape in ipairs(TUNING.LUKE.Mixtapes) do
     local name = "cassette_" .. i
-    local pretty = "Cassette \"" .. tape.title .. "\"" or ("Cassette " .. i)
-
     local key = string.upper(name)
-    STRINGS.NAMES[key] = pretty
-    STRINGS.RECIPE_DESC[key] = "A mysterious cassette.\nIt's labelled \"" .. tape.title .. "\""
-    STRINGS.CHARACTERS.GENERIC.DESCRIBE[key] = "A cassette labeled \"" .. tape.title .. "\"."
-    STRINGS.CHARACTERS.LUKE.DESCRIBE[key] = "It reads \"" .. tape.title .. "\". Now where's my cassette player?"
+    STRINGS.NAMES[key] = tape.strings.name
+    STRINGS.RECIPE_DESC[key] = tape.strings.recipe_description
+    STRINGS.CHARACTERS.GENERIC.DESCRIBE[key] = tape.strings.generic_describe
+    STRINGS.CHARACTERS.LUKE.DESCRIBE[key] = tape.strings.luke_describe
 end
 
 -- Create prefabs for each mixtape

@@ -1,7 +1,8 @@
 local function GetMixtape()
     return {
-        title = "My cool mixtape",
+        title = "Luke's cool mixtape",
 
+        craftable = true,
         recipe = {
             ingredients = {
                 GLOBAL.Ingredient("silk", 3),
@@ -15,6 +16,13 @@ local function GetMixtape()
 
         songs = {
             "dontstarve/music/gramaphone_ragtime"
+        },
+
+        strings = {
+            name = "Cassette: \"Luke's cool mixtape\"",
+            recipe_description = "A cool mixtape made by Luke.",
+            generic_describe = "It doesn't look all too fancy.", -- Generic character description
+            luke_describe = "This is one of my cool mixtapes." -- Lukes unique description
         }
     }
 end
