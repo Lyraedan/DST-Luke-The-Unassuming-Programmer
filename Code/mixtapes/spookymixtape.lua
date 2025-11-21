@@ -1,6 +1,6 @@
 local function GetMixtape()
     return {
-        mixtape_name = "My cool mixtape",
+        title = "Spooky mixtape",
 
         recipe = {
             ingredients = {
@@ -14,9 +14,8 @@ local function GetMixtape()
         },
 
         songs = {
-            "dontstarve/music/gramaphone_hallowednights",
-            "dontstarve/music/gramaphone_creepyforest"
-        },
+            "dontstarve/music/gramaphone_hallowednights"
+        }
     }
 end
 

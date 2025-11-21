@@ -1,6 +1,6 @@
 local function GetMixtape()
     return {
-        mixtape_name = "My cool mixtape",
+        title = "My cool mixtape",
 
         recipe = {
             ingredients = {
@@ -15,9 +15,7 @@ local function GetMixtape()
 
         songs = {
             "dontstarve/music/gramaphone_ragtime"
-        },
-
-        id = 0
+        }
     }
 end
 

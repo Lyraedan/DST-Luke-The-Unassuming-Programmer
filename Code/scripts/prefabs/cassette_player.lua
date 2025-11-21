@@ -35,6 +35,7 @@ end
 
 local function PlayCassette(cassette, emitter, tape)
     if emitter:HasTag(CASSETTE_PLAYER_ISPLAYING_TAG) then
+        -- Stop previous cassette
         StopCassette(emitter.currentCassette, emitter)
     end
     
@@ -108,6 +109,7 @@ local function fn()
 end
 
 STRINGS.NAMES.CASSETTE_PLAYER = "Cassette Player"
+STRINGS.RECIPE_DESC.CASSETTE_PLAYER = "A cassette player."
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.CASSETTE_PLAYER = "Looks like a cassette player to me."
 STRINGS.CHARACTERS.LUKE.DESCRIBE.CASSETTE_PLAYER = "A bangin stereo for me tunes!"
 

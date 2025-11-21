@@ -38,7 +38,7 @@ end
 function Cassette:OnLoad(data)
     if data and data.mixtape_id then
         self.mixtape_id = data.mixtape_id
-        self.mixtape_data = GLOBAL.LUKE.Mixtapes[self.mixtape_id]
+        self.mixtape_data = TUNING.LUKE.Mixtapes[self.mixtape_id]
         self.inst.mixtape_id = data.mixtape_id
         self.inst.mixtape_data = self.mixtape_data
     end
