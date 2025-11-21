@@ -211,9 +211,6 @@ local master_postinit = function(inst)
     inst:ListenForEvent("embarkboat", function() inst.components.seasick:OnEmbarked() end)
     inst:ListenForEvent("disembarkboat", function() inst.components.seasick:OnDisembarked() end)
 
-	-- Mark luke as a spoiler (Food rots faster)
-    inst:AddTag("spoiler")
-
     -- Load handlers
     inst.OnLoad = onload
     inst.OnNewSpawn = onload
