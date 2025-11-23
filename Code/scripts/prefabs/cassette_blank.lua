@@ -37,6 +37,7 @@ local function fn()
     inst.components.inventoryitem.atlasname = "images/inventoryimages/cassette_blank.xml"
 	inst.components.inventoryitem:SetSinks(true)
 	 
+    MakeHauntable(inst)
     return inst
 end
 

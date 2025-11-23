@@ -35,6 +35,8 @@ local function MakeCassettePrefab(mixtape_id)
         inst.mixtape_id = mixtape_id
         inst.mixtape_data = cassette_data
 
+        MakeHauntable(inst)
+
         return inst
     end
 

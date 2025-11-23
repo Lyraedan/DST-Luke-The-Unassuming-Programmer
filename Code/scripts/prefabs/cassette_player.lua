@@ -280,7 +280,8 @@ local function fn()
     inst:ListenForEvent("itemlose", OnItemLose)
     
     inst:ListenForEvent("ms_playerusedcassette", function(world, data) OnPlayerUsedCassette(inst, data) end, TheWorld)
-			 
+
+    MakeHauntable(inst)
     return inst
 end
 
