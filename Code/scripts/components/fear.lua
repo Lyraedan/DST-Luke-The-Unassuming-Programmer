@@ -202,6 +202,7 @@ end
 function Fear:OnLoad(data)
     if data.fearfactor then
         self.fearfactor = data.fearfactor
+        self:ApplyFearTags()
     end
 end
 

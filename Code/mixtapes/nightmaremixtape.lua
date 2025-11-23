@@ -1,6 +1,7 @@
 local function GetMixtape()
     return {
-        title = "Nightmare mixtape",
+        title = "Ragtime mixtape",
+        id = "cassette_nightmare",
 
         prefab = {
             asset = {
@@ -31,8 +32,7 @@ local function GetMixtape()
             recipe = {
                 ingredients = {
                     GLOBAL.Ingredient("cassette_blank", 1),
-                    GLOBAL.Ingredient("nightmarefuel", 4),
-                    GLOBAL.Ingredient("phonograph", 1),
+                    GLOBAL.Ingredient("nightmarefuel", 1),
                     GLOBAL.Ingredient("silk", 1)
                 },
                 tech_type = GLOBAL.TECH.NONE
@@ -44,25 +44,17 @@ local function GetMixtape()
         },
 
         songs = {
-            "dontstarve/music/gramaphone_ragtime",
-            "dontstarve/music/gramaphone_drstyle",
-            "dontstarve/music/gramaphone_efs",
-            "dontstarve/music/gramaphone_creepyforest"
+            "dontstarve/music/gramaphone_ragtime"
         },
 
-        effects = {
-            farming = {
-                tends_to_plants = true,
-                tend_radius = 8
-            }
-        },
+        effects = { },
 
         strings = {
-            name = "Cassette: \"Nightmare mixtape\"",
-            recipe_description = "A mixtape of nightmares!",
+            name = "Cassette: \"Ragtime mixtape\"",
+            recipe_description = "A mixtape of raggest of times!",
             describe = {
                 generic = "It has a picture of a Gramophone on it.",
-                luke = "Ahhh the mixtape of nightmares."
+                luke = "Poor Wilson."
             }
         }
     }

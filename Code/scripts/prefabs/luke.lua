@@ -12,6 +12,9 @@ TUNING.LUKE_SANITY = 120
 
 TUNING.GAMEMODE_STARTING_ITEMS.DEFAULT.LUKE = { "knife" }
 
+STRINGS.CHARACTERS.LUKE.HOLD_CASSETTE = "I need to hold the cassette player."
+STRINGS.CHARACTERS.LUKE.NEED_CASSETTE = "I should probably make a cassette player."
+
 local start_inv = {}
 for k, v in pairs(TUNING.GAMEMODE_STARTING_ITEMS) do
     start_inv[string.lower(k)] = v.LUKE
@@ -61,15 +64,16 @@ end
 
 local function CassetteEffectsUpdate(inst)
     if inst.currentCassette then
-        local title = inst.currentCassette.mixtape_data.title
+        local id = inst.currentCassette.mixtape_data.id
 
         local switch = {
-            ["Nightmare mixtape"] = function() inst.components.fear:AddFear(-1) end,
-            ["Spooky mixtape"]   = function() inst.components.fear:AddFear(1) end,
+            ["cassette_nightmare"] = function() inst.components.fear:AddFear(-1) end,
+            ["cassette_spooky"]   = function() inst.components.fear:AddFear(1) end,
+            ["cassette_boss"]   = function() inst.components.fear:AddFear(3) end,
         }
 
-        if switch[title] then
-            switch[title]()
+        if switch[id] then
+            switch[id]()
         end
     end
 end

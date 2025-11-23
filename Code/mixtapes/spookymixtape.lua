@@ -1,6 +1,7 @@
 local function GetMixtape()
     return {
         title = "Spooky mixtape",
+        id = "cassette_spooky",
 
         prefab = {
             asset = {
@@ -31,7 +32,7 @@ local function GetMixtape()
             recipe = {
                 ingredients = {
                     GLOBAL.Ingredient("cassette_blank", 1),
-                    GLOBAL.Ingredient("nightmarefuel", 1),
+                    GLOBAL.Ingredient("spider", 1),
                     GLOBAL.Ingredient("silk", 1)
                 },
                 tech_type = GLOBAL.TECH.NONE
@@ -46,12 +47,7 @@ local function GetMixtape()
             "dontstarve/music/gramaphone_hallowednights"
         },
 
-        effects = {
-            farming = {
-                tends_to_plants = true,
-                tend_radius = 8
-            }
-        },
+        effects = { },
 
         strings = {
             name = "Cassette: \"Spooky mixtape\"",
