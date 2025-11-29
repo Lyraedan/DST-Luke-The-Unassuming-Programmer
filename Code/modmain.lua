@@ -122,6 +122,8 @@ local inventory_items = {
     {atlas="images/inventoryimages/survival_knife.xml", image="survival_knife.tex"},
     {atlas="images/inventoryimages/shadow_knife.xml", image="shadow_knife.tex"},
     {atlas="images/inventoryimages/cassette_player.xml", image="cassette_player.tex"},
+    {atlas="images/inventoryimages/cassette_player_empty.xml", image="cassette_player_empty.tex"},
+    {atlas="images/inventoryimages/cassette_player_inuse.xml", image="cassette_player_inuse.tex"},
     {atlas="images/inventoryimages/cassette_blank.xml", image="cassette_blank.tex"}
 }
 for _, item in ipairs(inventory_items) do

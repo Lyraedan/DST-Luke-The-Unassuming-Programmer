@@ -50,11 +50,12 @@ local function GetMixtape()
         },
 
         effects = {
+            -- 10% increase
             worker = {
                 makes_listener_worker = true,
-                chop = 2,
-                mine = 2,
-                hammer = 2
+                chop = 1.1,
+                mine = 1.1,
+                hammer = 1.1
             }
         },
 

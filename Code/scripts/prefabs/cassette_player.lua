@@ -1,8 +1,10 @@
 local assets=
 {
     Asset("ANIM", "anim/cassette_player.zip"),
-    Asset("ATLAS", "images/inventoryimages/cassette_player.xml"),
-    Asset("IMAGE", "images/inventoryimages/cassette_player.tex"),
+    Asset("ATLAS", "images/inventoryimages/cassette_player_empty.xml"),
+    Asset("IMAGE", "images/inventoryimages/cassette_player_empty.tex"),
+    Asset("ATLAS", "images/inventoryimages/cassette_player_inuse.xml"),
+    Asset("IMAGE", "images/inventoryimages/cassette_player_inuse.tex")
 }
 
 local prefabs = 
@@ -37,6 +39,25 @@ local function HasItem(container, prefab)
     end
   end
   return false
+end
+
+local function ForceInventoryIconRefresh(inst)
+    if inst.components.inventoryitem and inst.components.inventoryitem.owner then
+        local owner = inst.components.inventoryitem.owner
+        owner:PushEvent("refreshinventory")
+    end
+end
+
+local function SetIconEmpty(inst)
+    inst.components.inventoryitem:ChangeImageName("cassette_player_empty")
+    inst.components.inventoryitem.atlasname = "images/inventoryimages/cassette_player_empty.xml"
+    ForceInventoryIconRefresh(inst)
+end
+
+local function SetIconInUse(inst)
+    inst.components.inventoryitem:ChangeImageName("cassette_player_inuse")
+    inst.components.inventoryitem.atlasname = "images/inventoryimages/cassette_player_inuse.xml"
+    ForceInventoryIconRefresh(inst)
 end
 
 local function ApplyCassetteEffects(listener_inst)
@@ -137,6 +158,8 @@ local function StopCassette(inst, cassette, emitter)
     CURRENT_CASSETTE = nil
     CURRENT_USER = nil
 
+    SetIconEmpty(inst)
+
     emitter:RemoveTag(CASSETTE_PLAYER_ISPLAYING_TAG)
     
 end
@@ -165,6 +188,8 @@ local function PlayCassette(inst, cassette, emitter, tape)
     emitter.currentCassette = cassette
     CURRENT_CASSETTE = cassette
     CURRENT_USER = emitter
+
+    SetIconInUse(inst)
 
     ApplyCassetteEffects(emitter)
 
@@ -256,6 +281,7 @@ local function fn()
     if not TheWorld.ismastersim then
         inst.OnEntityReplicated = function(inst)
             inst.replica.container:WidgetSetup("cassette_player") 
+            --inst.replica.inventoryitem:SerializeForClient()
         end
         return inst
     end
@@ -264,8 +290,8 @@ local function fn()
     inst:AddComponent("inspectable")
       
     inst:AddComponent("inventoryitem")
-    inst.components.inventoryitem.imagename = "cassette_player"
-    inst.components.inventoryitem.atlasname = "images/inventoryimages/cassette_player.xml"
+    inst.components.inventoryitem.imagename = "cassette_player_empty"
+    inst.components.inventoryitem.atlasname = "images/inventoryimages/cassette_player_empty.xml"
 	inst.components.inventoryitem:SetSinks(true)
 
     inst.components.inventoryitem:SetOnDroppedFn(OnDroppedCassettePlayer)
