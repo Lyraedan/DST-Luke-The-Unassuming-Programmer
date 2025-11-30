@@ -41,10 +41,51 @@ local function HasItem(container, prefab)
   return false
 end
 
+local StopCassette = nil
+
+local function OnItemGet(inst, data)
+    --if data.item and data.item:HasTag(CASSETTE_ISPLAYING_TAG) then
+    --    data.item is the cassette
+    --end
+end
+
+local function OnItemLose(inst, data)
+    -- Stop playing the cassette if it is removed from the cassette player
+    if data.prev_item and data.prev_item:HasTag(CASSETTE_ISPLAYING_TAG) then
+        StopCassette(inst, data.prev_item, CURRENT_USER)
+    end
+end
+
 local function ForceInventoryIconRefresh(inst)
     if inst.components.inventoryitem and inst.components.inventoryitem.owner then
         local owner = inst.components.inventoryitem.owner
-        owner:PushEvent("refreshinventory")
+
+        if owner.components.inventory then
+            -- Only continue if this is the local player
+            if owner ~= ThePlayer then
+                return
+            end
+
+            -- Save slot and item data
+            local slot = owner.components.inventory:GetItemSlot(inst)
+            if not slot then
+                -- Item might be inside a container, or not actually in player's main inv
+                return
+            end
+
+            inst:RemoveEventCallback("itemget", OnItemGet, inst)
+            inst:RemoveEventCallback("itemlose", OnItemLose, inst)
+
+            -- Remove and re‑add the item
+            owner.components.inventory:RemoveItem(inst, true, true)
+            owner.components.inventory:GiveItem(inst, slot)
+
+            inst:ListenForEvent("itemget", OnItemGet, inst)
+            inst:ListenForEvent("itemlose", OnItemLose, inst)
+
+            print("ForceInventoryIconRefresh: removed & re‑added item in slot " .. tostring(slot))
+            owner.components.talker:Say("Refreshed")
+        end
     end
 end
 
@@ -136,7 +177,7 @@ local function RemoveCassetteEffect(listener_inst)
 
 end
 
-local function StopCassette(inst, cassette, emitter)
+StopCassette = function(inst, cassette, emitter)
     if not emitter then
         return
     end
@@ -195,19 +236,6 @@ local function PlayCassette(inst, cassette, emitter, tape)
 
     emitter:AddTag(CASSETTE_PLAYER_ISPLAYING_TAG)
     emitter:PushEvent("on_cassette_played", { })
-end
-
-local function OnItemGet(inst, data)
-    --if data.item and data.item:HasTag(CASSETTE_ISPLAYING_TAG) then
-    --    data.item is the cassette
-    --end
-end
-
-local function OnItemLose(inst, data)
-    -- Stop playing the cassette if it is removed from the cassette player
-    if data.prev_item and data.prev_item:HasTag(CASSETTE_ISPLAYING_TAG) then
-        StopCassette(inst, data.prev_item, CURRENT_USER)
-    end
 end
 
 local function OnDroppedCassettePlayer(inst)
