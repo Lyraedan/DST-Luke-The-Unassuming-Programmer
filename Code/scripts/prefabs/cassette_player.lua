@@ -33,12 +33,12 @@ local function song_tend_update(inst)
 end
 
 local function HasItem(container, prefab)
-  for _, item in pairs(container.slots) do
-    if item and item == prefab then
-      return true
+    for _, item in pairs(container.slots) do
+        if item and item == prefab then
+            return true
+        end
     end
-  end
-  return false
+    return false
 end
 
 local StopCassette = nil
@@ -61,30 +61,23 @@ local function ForceInventoryIconRefresh(inst)
         local owner = inst.components.inventoryitem.owner
 
         if owner.components.inventory then
-            -- Only continue if this is the local player
             if owner ~= ThePlayer then
                 return
             end
 
-            -- Save slot and item data
             local slot = owner.components.inventory:GetItemSlot(inst)
             if not slot then
-                -- Item might be inside a container, or not actually in player's main inv
                 return
             end
 
             inst:RemoveEventCallback("itemget", OnItemGet, inst)
             inst:RemoveEventCallback("itemlose", OnItemLose, inst)
 
-            -- Remove and re‑add the item
             owner.components.inventory:RemoveItem(inst, true, true)
             owner.components.inventory:GiveItem(inst, slot)
 
             inst:ListenForEvent("itemget", OnItemGet, inst)
             inst:ListenForEvent("itemlose", OnItemLose, inst)
-
-            print("ForceInventoryIconRefresh: removed & re‑added item in slot " .. tostring(slot))
-            owner.components.talker:Say("Refreshed")
         end
     end
 end
