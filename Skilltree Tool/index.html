@@ -21,22 +21,41 @@
         <input type="file" id="loadFile" accept=".lua,.txt" style="margin-bottom:1em;" />
         <div id="skills" class="skill-list"></div>
         <button type="button" id="addSkillBtn">Add Skill</button>
+        <button type="button" id="saveLuaBtn">Save Lua</button>
     </form>
     <div class="output">
         <h2>Generated Lua</h2>
         <pre id="luaOutput"></pre>
     </div>
     <script>
+                // Save Lua to file
+                function saveLuaToFile() {
+                    const skills = collectSkills();
+                    const lua = generateLua(skills);
+                    const blob = new Blob([lua], { type: 'text/plain' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'skills.lua';
+                    document.body.appendChild(a);
+                    a.click();
+                    setTimeout(() => {
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                    }, 0);
+                }
         let skillCount = 0;
         function addSkill(skill = {}) {
             const skillsDiv = document.getElementById('skills');
             const div = document.createElement('div');
             div.className = 'skill';
             div.innerHTML = `
-                <label>Title: <input name="title" value="${skill.title||''}" required></label>
-                <label>Description: <input name="desc" value="${skill.desc||''}" required></label>
-                <label>Icon: <input name="icon" value="${skill.icon||''}" required oninput="updateIconPreview(this)"></label>
-                <img class="icon-preview" src="assets/${skill.icon||'placeholder.png'}.png" alt="icon" style="width:32px;height:32px;vertical-align:middle;margin-left:8px;" onerror="this.style.display='none'">
+                <div class="not-lock-fields" style="display:${skill.is_lock ? 'none' : 'block'}">
+                    <label>Title: <input name="title" value="${skill.title||''}" required></label>
+                    <label>Description: <input name="desc" value="${skill.desc||''}" required></label>
+                    <label>Icon: <input name="icon" value="${skill.icon||''}" required oninput="updateIconPreview(this)"></label>
+                    <img class="icon-preview" src="assets/${skill.icon||'placeholder.png'}.png" alt="icon" style="width:32px;height:32px;vertical-align:middle;margin-left:8px;" onerror="this.style.display='none'">
+                </div>
                 <label>Group: <input name="group" value="${skill.group||''}" required></label>
                 <label>Tags (comma): <input name="tags" value="${skill.tags||''}"></label>
                 <label>Position X: <input name="posx" type="number" value="${skill.posx||0}"></label>
@@ -53,6 +72,14 @@
                 input.addEventListener('input', updateLuaOutput);
                 if (input.type === 'checkbox') {
                     input.addEventListener('change', updateLuaOutput);
+                    if (input.name === 'is_lock') {
+                        input.addEventListener('change', function() {
+                            const notLockFields = div.querySelector('.not-lock-fields');
+                            if (notLockFields) {
+                                notLockFields.style.display = input.checked ? 'none' : 'block';
+                            }
+                        });
+                    }
                 }
             });
             // Remove button
@@ -82,9 +109,11 @@
             let lua = 'local skills = \n{\n';
             skills.forEach((s, i) => {
                 lua += `    skill_${i+1} = {\n`;
-                lua += `        title = "${s.title}",\n`;
-                lua += `        desc = "${s.desc}",\n`;
-                lua += `        icon = "${s.icon}",\n`;
+                if (!s.is_lock) {
+                    lua += `        title = "${s.title}",\n`;
+                    lua += `        desc = "${s.desc}",\n`;
+                    lua += `        icon = "${s.icon}",\n`;
+                }
                 lua += `        group = "${s.group}",\n`;
                 lua += `        tags = {${s.tags.split(',').map(t=>t.trim()).filter(t=>t).map(t=>`"${t}"`).join(', ')}},\n`;
                 lua += `        pos = {${s.posx}, ${s.posy}},\n`;
@@ -115,6 +144,8 @@
         document.getElementById('addSkillBtn').addEventListener('click', function() {
             addSkill();
         });
+        // Add event listener to Save Lua button
+        document.getElementById('saveLuaBtn').addEventListener('click', saveLuaToFile);
 
         // Listen for changes to all inputs (for initial skill)
         document.querySelectorAll('.skill input').forEach(input => {
@@ -139,33 +170,49 @@
                     let m, loadedSkills = [];
                     while ((m = skillRegex.exec(table)) !== null) {
                         const skillBlock = m[2];
+                        // Helper to get string value (handles whitespace, trailing comma, and both quote types)
                         const get = (key) => {
-                            // Match both single and double quoted strings, ignore whitespace
-                            const r = new RegExp(key+"\\s*=\\s*(['\"])(.*?)\\1", 'm').exec(skillBlock);
-                            return r ? r[2] : '';
+                            // Try quoted string
+                            let r = new RegExp(key+"\\s*=\\s*(['\"])(.*?)\\1", 'm').exec(skillBlock);
+                            if (r) return r[2];
+                            // Try unquoted (e.g. group = intimidating, group = intimidating_x)
+                            r = new RegExp(key+"\\s*=\\s*([^,\n]+)", 'm').exec(skillBlock);
+                            if (r) return r[1].replace(/^[{\s]+|[}\s]+$/g, '').replace(/,$/, '').trim();
+                            return '';
                         };
+                        // Helper to get array value as string (comma separated, robust, allows variables)
                         const getArr = (key) => {
                             const r = new RegExp(key+"\\s*=\\s*{([^}]*)}", 'm').exec(skillBlock);
-                            return r ? r[1].split(',').map(x=>x.replace(/['\"\s]/g,'')).filter(Boolean).join(',') : '';
+                            if (!r) return '';
+                            return r[1].split(',').map(x=>x.replace(/['\"]/g,'').trim()).filter(Boolean).join(',');
                         };
-                        const getPos = () => {
+                        // Helper to get pos as raw text (for variables or numbers)
+                        const getPosRaw = () => {
                             const r = /pos\s*=\s*{([^}]*)}/.exec(skillBlock);
-                            if (!r) return [0,0];
-                            const [x,y] = r[1].split(',').map(Number);
-                            return [x||0, y||0];
+                            if (!r) return ['', ''];
+                            const parts = r[1].split(',').map(x => x.trim());
+                            return [parts[0] || '', parts[1] || ''];
                         };
                         // Check for onactivate and lock_open at the top level of the skill block
                         const has_onactivate = /^\s*onactivate\s*=\s*function\s*\(/m.test(skillBlock);
                         const is_lock = /^\s*lock_open\s*=\s*function\s*\(/m.test(skillBlock);
+                        // Group (raw, can be variable)
+                        const group = get('group');
+                        // Tags (as comma string, can be variable)
+                        const tags = getArr('tags');
+                        // Connects (as comma string, can be variable)
+                        const connects = getArr('connects');
+                        // Position (raw, can be variable)
+                        const [posx, posy] = getPosRaw();
                         const skillObj = {
                             title: get('title'),
                             desc: get('desc'),
                             icon: get('icon'),
-                            group: get('group'),
-                            tags: getArr('tags'),
-                            posx: getPos()[0],
-                            posy: getPos()[1],
-                            connects: getArr('connects'),
+                            group: group,
+                            tags: tags,
+                            posx: posx,
+                            posy: posy,
+                            connects: connects,
                             has_onactivate,
                             is_lock
                         };
@@ -180,7 +227,19 @@
                     }
                     // Clear current skills
                     document.getElementById('skills').innerHTML = '';
-                    loadedSkills.forEach(addSkill);
+                    loadedSkills.forEach(function(skill) {
+                        addSkill(skill);
+                        // After adding, update the UI for lock fields
+                        const skillsDiv = document.getElementById('skills');
+                        const lastSkillDiv = skillsDiv.lastElementChild;
+                        if (lastSkillDiv) {
+                            const isLockInput = lastSkillDiv.querySelector('input[name="is_lock"]');
+                            const notLockFields = lastSkillDiv.querySelector('.not-lock-fields');
+                            if (isLockInput && notLockFields) {
+                                notLockFields.style.display = isLockInput.checked ? 'none' : 'block';
+                            }
+                        }
+                    });
                 } catch (err) {
                     alert('Failed to load: ' + err);
                 }
