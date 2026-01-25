@@ -4,14 +4,15 @@ local unintimidating_x = -120
 local unintimidating_y = 176
 local affinity_x = 225
 local affinity_y = 176
-local affinity_x = 0
-local affinity_y = 0
+local grime_x = 0
+local grime_y = 0
 
 local ORDERS =
 {
-    {"intimidating",           { -215+18   , 176 + 30 }},
-    {"unintimidating",         { -62       , 176 + 30 }},
-    -- {"grime",                  { -62       , 176 + 30 }},
+    {"intimidating",           { intimidating_x+18   , intimidating_y + 30 }},
+    {"unintimidating",         { unintimidating_x       , unintimidating_y + 30 }},
+    {"grime",                  { -142       , 176 + 30 }},
+    {"affinity",               { -182       , 176 + 30 }}
 }
 
 --------------------------------------------------------------------------------------------------
@@ -68,7 +69,8 @@ local function BuildSkillsData(SkillTreeFns)
             group = "intimidating",
             tags = {"intimidating"},
             lock_open = function(prefabname, activatedskills, readonly)
-                return SkillTreeFns.CountTags(prefabname, "unintimidating", activatedskills) < 4 and SkillTreeFns.CountTags(prefabname, "intimidating", activatedskills) == 3
+                -- Less then 4 unintimidating and at least 3 intimidating
+                return SkillTreeFns.CountTags(prefabname, "unintimidating", activatedskills) < 4 and SkillTreeFns.CountTags(prefabname, "intimidating", activatedskills) >= 3
             end,
             connects = {
                 "luke_intimidating_4"
@@ -152,11 +154,12 @@ local function BuildSkillsData(SkillTreeFns)
 
         -- Unintimidating
         luke_unintimidating_lock = {
-            pos = {unintimidating_x, unintimidating_y},
+            pos = {unintimidating_x+70, unintimidating_y-40},
             group = "unintimidating",
             tags = {"unintimidating"},
             lock_open = function(prefabname, activatedskills, readonly)
-                return SkillTreeFns.CountTags(prefabname, "intimidating", activatedskills) < 4
+                -- Less then 4 intimidating skills and at least 3 unintimidating
+                return SkillTreeFns.CountTags(prefabname, "intimidating", activatedskills) < 4 and SkillTreeFns.CountTags(prefabname, "unintimidating", activatedskills) >= 3
             end,
             root = true,
             connects = {
@@ -169,7 +172,7 @@ local function BuildSkillsData(SkillTreeFns)
             title = "Unintimidating",
             desc = "Makes Luke even less intimidating",
             icon = "wilson_torch_time_1",
-            pos = {unintimidating_x, unintimidating_y-52},
+            pos = {unintimidating_x+80, unintimidating_y},
             group = "unintimidating",
             tags = {"unintimidating"},
             onactivate = function(inst, fromload)
@@ -184,7 +187,19 @@ local function BuildSkillsData(SkillTreeFns)
             title = "Safe Aura",
             desc = "Luke gains reduced fear from kills",
             icon = "wilson_torch_time_2",
-            pos = {unintimidating_x, unintimidating_y-104},
+            pos = {unintimidating_x+20, unintimidating_y},
+            group = "unintimidating",
+            tags = {"unintimidating"},
+            onactivate = function(inst, fromload)
+                
+            end,
+        },
+
+        luke_unintimidating_3 = {
+            title = "Unintimidating III",
+            desc = "Idk yet",
+            icon = "wilson_torch_time_2",
+            pos = {unintimidating_x+20, unintimidating_y-40},
             group = "unintimidating",
             tags = {"unintimidating"},
             onactivate = function(inst, fromload)

@@ -241,7 +241,7 @@ AddCustomRecipe("blowdart_yellowLuke", {Ingredient("goldnugget",1), Ingredient("
 AddCustomRecipe("birdcageLuke", {Ingredient("papyrus",1), Ingredient("goldnugget",3), Ingredient("seeds",1)}, "birdcage", TECH.SCIENCE_ONE)
 AddCustomRecipe("beehatLuke", {Ingredient("silk",2), Ingredient("cutgrass",2)}, "beehat", TECH.SCIENCE_ONE)
 AddCustomRecipe("polly_rogershatLuke", {Ingredient("strawhat",1), Ingredient("feather_crow",1), Ingredient("pigskin",1)}, "polly_rogershat", TECH.SCIENCE_TWO)
-AddCustomRecipe("cassette_player", {Ingredient("phonograph",1), Ingredient("nightmarefuel",4)}, "cassette_player", TECH.NONE)
+AddCustomRecipe("cassette_player", {Ingredient("gears",1), Ingredient("nightmarefuel",4)}, "cassette_player", TECH.NONE, "images/inventoryimages/cassette_player_empty.xml", "cassette_player_empty.tex")
 AddCustomRecipe("cassette_blank", {Ingredient("goldnugget",1), Ingredient("log",1)}, "cassette_blank", TECH.NONE, "images/inventoryimages/cassette_blank.xml", "cassette_blank.tex")
 
 GenerateMixTapeRecipes(frisktab)
