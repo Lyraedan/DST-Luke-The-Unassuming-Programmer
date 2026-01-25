@@ -1,92 +1,91 @@
 TUNING.ENTITY_FEAR = {
-    hound = { name="hound", fearGain=3 },
-    firehound = { name="firehound", fearGain=4 },
-    icehound = { name="icehound", fearGain=4 },
-    clayhound = { name="clayhound", fearGain=4 },
-    mutatedHound = { name="mutatedhound", fearGain=5 },
+    hound = 3,
+    firehound = 4,
+    icehound = 4,
+    clayhound = 4,
+    mutatedhound = 5,
 
-    bee = { name="bee", fearGain=1 },
-    killerbee = { name="killerbee", fearGain=2 },
-    beehive = { name="beehive", fearGain=3 },
+    bee = 1,
+    killerbee = 2,
+    beehive = 3,
 
-    cavespider = { name="spider_hider", fearGain=4 },
-    spitter = { name="spider_spitter", fearGain=5 },
-    spider = { name="spider", fearGain=3 },
-    spiderwarrior = { name="spider_warrior", fearGain=4 },
-    spiderden = { name="spiderden", fearGain=3 },
-    spiderden_2 = { name="spiderden_2", fearGain=4 },
-    spiderden_3 = { name="spiderden_3", fearGain=5 },
-    spiderqueen = { name="spiderqueen", fearGain=9 },
+    spider_hider = 4,
+    spider_spitter = 5,
+    spider = 3,
+    spider_warrior = 4,
+    spiderden = 3,
+    spiderden_2 = 4,
+    spiderden_3 = 5,
+    spiderqueen = 9,
 
-    tallbird = { name="tallbird", fearGain=5 },
+    tallbird = 5,
 
-    treeguard = { name="leif", fearGain=8 },
-    treeguardsparce = { name="leif_sparse", fearGain=6 },
+    leif = 8,
+    leif_sparse = 6,
 
-    tentacle = { name="tentacle", fearGain=4 },
-    tentapillar = { name="tentacle_piller", fearGain=3 },
+    tentacle = 4,
+    tentacle_pillar = 3,
 
-    krampus = { name="krampus", fearGain=7 },
+    krampus = 7,
 
-    mosquito = { name="mosquito", fearGain=1 },
-    crawlinghorror = { name="crawlinghorror", fearGain=6 },
-    terrorbeak = { name="terrorbeak", fearGain=8 },
+    mosquito = 1,
+    crawlinghorror = 6,
+    terrorbeak = 8,
 
-    deerclops = { name="deepclops", fearGain=12 },
-    dragonfly = { name="dragonfly", fearGain=15 },
-    moose = { name="moose", fearGain=10 }, 
-    bearger = { name="bearger", fearGain=12 },
-    reanimatedskeleton = { name="stalker", fearGain=10 },
-    antlion = { name="antlion", fearGain=12 },
+    deerclops = 12,
+    dragonfly = 15,
+    moose = 10,
+    bearger = 12,
+    stalker = 10,
+    antlion = 12,
 
-    klaus = { name="klaus", fearGain=14 },
+    klaus = 14,
 
-    bunnyman = { name="bunnyman", fearGain=4 },
-    rocklobster = { name="rocky", fearGain=4 },
-    pigman = { name="pigman", fearGain=3 },
-    babybeefalo = { name="babybeefalo", fearGain=2 },
-    beefalo = { name="beefalo", fearGain=6 },
-    beefalohard = { name="beefalohard", fearGain=12 },
+    bunnyman = 4,
+    rocky = 4,
+    pigman = 3,
+    babybeefalo = 2,
+    beefalo = 6,
+    beefalohard = 12,
 
-    crow = { name="crow", fearGain=1 },
-    redbird = { name="robin", fearGain=1 },
-    snowbird = { name="robin_winter", fearGain=1 },
-    smallbird = { name="smallbird", fearGain=1 },
-    teenbird = { name="teenbird", fearGain=2 },
+    crow = 1,
+    robin = 1,
+    robin_winter = 1,
+    smallbird = 1,
+    teenbird = 2,
 
-    frog = { name="frog", fearGain=1 },
+    frog = 1,
 
-    koalefantsummer = { name="koalefant_summer", fearGain=8 },
-    koalefantwinter = { name="koalefant_winter", fearGain=8 },
+    koalefant_summer = 8,
+    koalefant_winter = 8,
 
-    merm = { name="merm", fearGain=3 },
-    pengull = { name="penguin", fearGain=2 },
-    gobbler = { name="perd", fearGain=2 },
-    rabbit = { name="rabbit", fearGain=1 },
+    merm = 3,
+    penguin = 2,
+    perd = 2,
+    rabbit = 1,
 
-    mactusk = { name="walrus", fearGain=7 },
-    weemactusk = { name="little_walrus", fearGain=4 },
+    walrus = 7,
+    little_walrus = 4,
 
-    chester = { name="chester", fearGain=50 }, -- You monster
+    chester = 50, -- You monster
 
-    mandrake = { name="mandrake", fearGain=2 },
+    mandrake = 2,
 
-    pigguard = { name="pigguard", fearGain=8 },
+    pigguard = 8,
 
-    butterfly = { name="butterfly", fearGain=1 },
-    bat = { name="bat", fearGain=1 },
+    butterfly = 1,
+    bat = 1,
 
-    slurtle = { name="slurtle", fearGain=4 },
-    snurtle = { name="snurtle", fearGain=4 },
+    slurtle = 4,
+    snurtle = 4,
 
-    depthsworm = { name="worm", fearGain=8 },
+    worm = 8,
 
-    clockworkbishop = { name="bishop", fearGain=6 },
-    clockworkknight = { name="knight", fearGain=7 },
+    bishop = 6,
+    knight = 7,
 
-    pigeon = { name="pigeon", fearGain=1 }
+    pigeon = 1
 }
-
 
 local Fear = Class(function(self, inst)
     self.inst = inst
@@ -160,12 +159,12 @@ end
 function Fear:OnEntityKilled(data)
     if data and data.victim and data.attacker == self.inst then
         local prefab = data.victim.prefab
+        
         local entry = TUNING.ENTITY_FEAR[prefab]
-
-        local fearGain = entry and entry.fearGain or 1
+        local fearGain = TUNING.ENTITY_FEAR[prefab] or 1
 
         self.timesincelastkill = 0
-        self.inst:PushEvent("entitykilled_feargained", {})
+        self.inst:PushEvent("entitykilled_feargained", { })
         self:AddFear(fearGain)
     end
 end
