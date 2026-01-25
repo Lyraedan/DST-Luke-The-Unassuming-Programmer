@@ -160,12 +160,12 @@ end
 function Fear:OnEntityKilled(data)
     if data and data.victim and data.attacker == self.inst then
         local prefab = data.victim.prefab
+        local entry = TUNING.ENTITY_FEAR[prefab]
 
-        local fearGain = TUNING.ENTITY_FEAR[prefab].fearGain or 1
+        local fearGain = entry and entry.fearGain or 1
+
         self.timesincelastkill = 0
-
         self.inst:PushEvent("entitykilled_feargained", {})
-
         self:AddFear(fearGain)
     end
 end
