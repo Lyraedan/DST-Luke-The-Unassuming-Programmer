@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Tree Lua Generator</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2em; }
+        textarea { width: 100%; height: 200px; }
+        .skill-list { margin-bottom: 1em; }
+        .skill { margin-bottom: 0.5em; }
+        label { display: block; margin-bottom: 0.2em; }
+        input, select { margin-bottom: 0.5em; }
+        .output { margin-top: 2em; }
+        pre { background: #222; color: #fff; padding: 1em; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Skill Tree Lua Generator</h1>
+    <form id="skillForm">
+        <input type="file" id="loadFile" accept=".lua,.txt" style="margin-bottom:1em;" />
+        <div id="skills" class="skill-list"></div>
+        <button type="button" id="addSkillBtn">Add Skill</button>
+    </form>
+    <div class="output">
+        <h2>Generated Lua</h2>
+        <pre id="luaOutput"></pre>
+    </div>
+    <script>
+        let skillCount = 0;
+        function addSkill(skill = {}) {
+            const skillsDiv = document.getElementById('skills');
+            const div = document.createElement('div');
+            div.className = 'skill';
+            div.innerHTML = `
+                <label>Title: <input name="title" value="${skill.title||''}" required></label>
+                <label>Description: <input name="desc" value="${skill.desc||''}" required></label>
+                <label>Icon: <input name="icon" value="${skill.icon||''}" required oninput="updateIconPreview(this)"></label>
+                <img class="icon-preview" src="assets/${skill.icon||'placeholder.png'}.png" alt="icon" style="width:32px;height:32px;vertical-align:middle;margin-left:8px;" onerror="this.style.display='none'">
+                <label>Group: <input name="group" value="${skill.group||''}" required></label>
+                <label>Tags (comma): <input name="tags" value="${skill.tags||''}"></label>
+                <label>Position X: <input name="posx" type="number" value="${skill.posx||0}"></label>
+                <label>Position Y: <input name="posy" type="number" value="${skill.posy||0}"></label>
+                <label>Connects (comma): <input name="connects" value="${skill.connects||''}"></label>
+                <label><input type="checkbox" name="has_onactivate" ${skill.has_onactivate ? 'checked' : ''}> Has On Activate</label>
+                <label><input type="checkbox" name="is_lock" ${skill.is_lock ? 'checked' : ''}> Is Lock</label>
+                <button type="button" class="removeSkillBtn">Remove</button>
+                <hr>
+            `;
+            skillsDiv.appendChild(div);
+            // Add event listeners to all inputs and checkboxes in this skill
+            div.querySelectorAll('input').forEach(input => {
+                input.addEventListener('input', updateLuaOutput);
+                if (input.type === 'checkbox') {
+                    input.addEventListener('change', updateLuaOutput);
+                }
+            });
+            // Remove button
+            div.querySelector('.removeSkillBtn').addEventListener('click', function() {
+                div.remove();
+                updateLuaOutput();
+            });
+            updateLuaOutput();
+        }
+
+        function collectSkills() {
+            const skills = [];
+            document.querySelectorAll('.skill').forEach(div => {
+                const s = {};
+                div.querySelectorAll('input').forEach(input => {
+                    if (input.type === 'checkbox') {
+                        s[input.name] = input.checked;
+                    } else {
+                        s[input.name] = input.value;
+                    }
+                });
+                skills.push(s);
+            });
+            return skills;
+        }
+        function generateLua(skills) {
+            let lua = 'local skills = \n{\n';
+            skills.forEach((s, i) => {
+                lua += `    skill_${i+1} = {\n`;
+                lua += `        title = "${s.title}",\n`;
+                lua += `        desc = "${s.desc}",\n`;
+                lua += `        icon = "${s.icon}",\n`;
+                lua += `        group = "${s.group}",\n`;
+                lua += `        tags = {${s.tags.split(',').map(t=>t.trim()).filter(t=>t).map(t=>`"${t}"`).join(', ')}},\n`;
+                lua += `        pos = {${s.posx}, ${s.posy}},\n`;
+                if (s.connects && s.connects.trim()) lua += `        connects = {${s.connects.split(',').map(c=>c.trim()).filter(c=>c).map(c=>`"${c}"`).join(', ')}},\n`;
+                if (s.has_onactivate) {
+                    lua += `        onactivate = function(inst, fromload)\n            \n        end,\n`;
+                }
+                if (s.is_lock) {
+                    lua += `        lock_open = function(prefabname, activatedskills, readonly)\n            return true -- unlocked by default\n        end,\n`;
+                    lua += `        root = true,\n`;
+                }
+                lua += `    },\n`;
+            });
+            lua += '}\nreturn skills';
+            return lua;
+        }
+
+        function updateLuaOutput() {
+            const skills = collectSkills();
+            const lua = generateLua(skills);
+            document.getElementById('luaOutput').textContent = lua;
+        }
+
+        // Add one skill by default
+        addSkill();
+
+        // Add event listener to Add Skill button
+        document.getElementById('addSkillBtn').addEventListener('click', function() {
+            addSkill();
+        });
+
+        // Listen for changes to all inputs (for initial skill)
+        document.querySelectorAll('.skill input').forEach(input => {
+            input.addEventListener('input', updateLuaOutput);
+        });
+
+        // Load skilltree from file
+        document.getElementById('loadFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                try {
+                    // Try to extract the skills table from Lua file
+                    const text = evt.target.result;
+                    // Match table: local skills = { ... } or skills = { ... }
+                    const match = text.match(/skills\s*=\s*{([\s\S]*?)}\s*return/);
+                    if (!match) { alert('Could not find skills table in file.'); return; }
+                    const table = match[1];
+                    // Match each skill entry
+                    const skillRegex = /([\w_]+)\s*=\s*{([\s\S]*?)}\s*,/g;
+                    let m, loadedSkills = [];
+                    while ((m = skillRegex.exec(table)) !== null) {
+                        const skillBlock = m[2];
+                        const get = (key) => {
+                            // Match both single and double quoted strings, ignore whitespace
+                            const r = new RegExp(key+"\\s*=\\s*(['\"])(.*?)\\1", 'm').exec(skillBlock);
+                            return r ? r[2] : '';
+                        };
+                        const getArr = (key) => {
+                            const r = new RegExp(key+"\\s*=\\s*{([^}]*)}", 'm').exec(skillBlock);
+                            return r ? r[1].split(',').map(x=>x.replace(/['\"\s]/g,'')).filter(Boolean).join(',') : '';
+                        };
+                        const getPos = () => {
+                            const r = /pos\s*=\s*{([^}]*)}/.exec(skillBlock);
+                            if (!r) return [0,0];
+                            const [x,y] = r[1].split(',').map(Number);
+                            return [x||0, y||0];
+                        };
+                        // Check for onactivate and lock_open at the top level of the skill block
+                        const has_onactivate = /^\s*onactivate\s*=\s*function\s*\(/m.test(skillBlock);
+                        const is_lock = /^\s*lock_open\s*=\s*function\s*\(/m.test(skillBlock);
+                        const skillObj = {
+                            title: get('title'),
+                            desc: get('desc'),
+                            icon: get('icon'),
+                            group: get('group'),
+                            tags: getArr('tags'),
+                            posx: getPos()[0],
+                            posy: getPos()[1],
+                            connects: getArr('connects'),
+                            has_onactivate,
+                            is_lock
+                        };
+                        // Only add if at least one field is non-empty
+                        const hasData = Object.values(skillObj).some(v => {
+                            if (typeof v === 'string') return v.trim() !== '';
+                            if (Array.isArray(v)) return v.length > 0 && v.some(x => x.trim() !== '');
+                            if (typeof v === 'boolean') return v;
+                            return v !== 0;
+                        });
+                        if (hasData) loadedSkills.push(skillObj);
+                    }
+                    // Clear current skills
+                    document.getElementById('skills').innerHTML = '';
+                    loadedSkills.forEach(addSkill);
+                } catch (err) {
+                    alert('Failed to load: ' + err);
+                }
+            };
+            reader.readAsText(file);
+        });
+
+        // Initial output
+        updateLuaOutput();
+    </script>
+</body>
+</html>

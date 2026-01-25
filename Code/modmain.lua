@@ -142,11 +142,10 @@ modimport("main/componentactions")
 modimport("main/ui")
 
 -- Skilltree
---local SkillTreeDefs = require("prefabs/skilltree_defs")
+local SkillTreeDefs = require("prefabs/skilltree_defs")
 
 -- Replace "luke" with your character prefab name
 
---[[
 local OldGetSkilltreeBG = GLOBAL.GetSkilltreeBG
 function GLOBAL.GetSkilltreeBG(imagename, ...)
     if imagename == "luke_background.tex" then
@@ -172,7 +171,7 @@ local CreateSkillTree = function()
     end
 end
 CreateSkillTree();
-]]
+
 -- Skilltree end
 
 -- Fear Badge

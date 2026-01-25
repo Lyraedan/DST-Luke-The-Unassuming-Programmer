@@ -11,7 +11,8 @@ local ORDERS =
 {
     {"intimidating",           { -215+18   , 176 + 30 }},
     {"unintimidating",         { -62       , 176 + 30 }},
-    -- {"grime",                  { -62       , 176 + 30 }},
+    {"grime",                  { 80, 176 + 30 }},
+    {"affinity",               { 300, 176 + 30 }},
 }
 
 --------------------------------------------------------------------------------------------------
@@ -34,6 +35,69 @@ local function BuildSkillsData(SkillTreeFns)
             connects = {
                 "luke_intimidating_2",
             },
+        },
+        -- GRIME branch (middle column)
+        luke_grime_1 = {
+            title = "Grime I",
+            desc = "Your first grime skill.",
+            icon = "skill_grime_1",
+            atlas = "images/luke_skilltree_icons.xml",
+            pos = {80, 176},
+            group = "grime",
+            tags = {"grime"},
+            root = true,
+            connects = {"luke_grime_2"},
+        },
+        luke_grime_2 = {
+            title = "Grime II",
+            desc = "Your second grime skill.",
+            icon = "skill_grime_2",
+            atlas = "images/luke_skilltree_icons.xml",
+            pos = {80, 116},
+            group = "grime",
+            tags = {"grime"},
+            connects = {"luke_grime_3"},
+        },
+        luke_grime_3 = {
+            title = "Grime III",
+            desc = "Your third grime skill.",
+            icon = "skill_grime_3",
+            atlas = "images/luke_skilltree_icons.xml",
+            pos = {80, 56},
+            group = "grime",
+            tags = {"grime"},
+        },
+
+        -- AFFINITY branch (right column)
+        luke_affinity_1 = {
+            title = "Affinity I",
+            desc = "Your first affinity skill.",
+            icon = "skill_affinity_1",
+            atlas = "images/luke_skilltree_icons.xml",
+            pos = {300, 176},
+            group = "affinity",
+            tags = {"affinity"},
+            root = true,
+            connects = {"luke_affinity_2"},
+        },
+        luke_affinity_2 = {
+            title = "Affinity II",
+            desc = "Your second affinity skill.",
+            icon = "skill_affinity_2",
+            atlas = "images/luke_skilltree_icons.xml",
+            pos = {300, 116},
+            group = "affinity",
+            tags = {"affinity"},
+            connects = {"luke_affinity_3"},
+        },
+        luke_affinity_3 = {
+            title = "Affinity III",
+            desc = "Your third affinity skill.",
+            icon = "skill_affinity_3",
+            atlas = "images/luke_skilltree_icons.xml",
+            pos = {300, 56},
+            group = "affinity",
+            tags = {"affinity"},
         },
 
         luke_intimidating_2 = {
