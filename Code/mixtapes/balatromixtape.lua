@@ -32,7 +32,7 @@ local function GetMixtape()
             recipe = {
                 ingredients = {
                     GLOBAL.Ingredient("cassette_blank", 1),
-                    GLOBAL.Ingredient("playing_card", 1),
+                    GLOBAL.Ingredient("goldnugget", 1),
                     GLOBAL.Ingredient("silk", 1)
                 },
                 tech_type = GLOBAL.TECH.NONE

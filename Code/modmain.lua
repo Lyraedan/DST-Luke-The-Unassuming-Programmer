@@ -141,6 +141,7 @@ modimport("main/actions")
 modimport("main/componentactions")
 modimport("main/ui")
 
+--[[
 -- Skilltree
 local SkillTreeDefs = require("prefabs/skilltree_defs")
 
@@ -173,6 +174,7 @@ end
 CreateSkillTree();
 
 -- Skilltree end
+--]]
 
 -- Fear Badge
 local function OnFearUpdate(inst)
